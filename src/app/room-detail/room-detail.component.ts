@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { RoomService } from '../room.service';
+import { Location } from '@angular/common';
 
 import { Booking } from '../booking';
 
@@ -17,6 +18,7 @@ export class RoomDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private roomService: RoomService,
+    private location: Location,
   ) { }
 
   ngOnInit(): void {
@@ -26,5 +28,9 @@ export class RoomDetailComponent implements OnInit {
     let r = data.find(r => r.id === this.id);
     if (r)
       this.bookings = r.bookings;
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

@@ -22,6 +22,5 @@ export class RoomsComponent implements OnInit {
 
   getRoomsData() {
   this.rooms = this.roomService.getRoomData();
-    console.log(this.rooms);
   }
 }
