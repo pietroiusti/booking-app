@@ -1,6 +1,5 @@
 <nav>
-  <a routerLink="/room/1">Room 1</a>
-  <a routerLink="/room/2">Room 2</a>
-  <a routerLink="/room/3">Room 3</a>
-  <a routerLink="/room/4">Room 4</a>
+  <a *ngFor="let room of rooms" routerLink="/room/{{room.id}}">
+    Room {{room.id}}
+  </a>
 </nav>
