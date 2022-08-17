@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Room } from '../room';
+import { RoomService } from '../room.service';
+
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RoomsComponent implements OnInit {
 
-  constructor() { }
+  rooms: Room[] = [];
+
+  constructor(
+    private roomService: RoomService,
+  ) { }
 
   ngOnInit(): void {
+    this.getRoomsData();
   }
 
+  getRoomsData() {
+  this.rooms = this.roomService.getRoomData();
+    console.log(this.rooms);
+  }
 }
