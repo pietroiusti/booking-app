@@ -1,4 +1,8 @@
 <nav>
   <a routerLink="/rooms">Rooms</a>
-  <a routerLink="/foo">Other stuff...</a>
+  <a (click)="nothing=true">Other stuff...</a>
+</nav>
+
+<nav *ngIf="nothing">
+  <p>There is nothing here...</p>
 </nav>

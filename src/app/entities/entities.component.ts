@@ -6,10 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./entities.component.css']
 })
 export class EntitiesComponent implements OnInit {
+  nothing: boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }
