@@ -1,5 +1,15 @@
 <h3>Room {{id}}</h3>
 
 <p>Book...</p>
+
 <p>Availability...</p>
-<p>etc.</p>
+
+<p>Bookings:</p>
+
+<ul>
+  <li *ngFor="let b of bookings">
+    <p>Person: {{b.person}}</p>
+    <p>Start: {{b.start}}</p>
+    <p>End: {{b.end}}</p>
+  </li>
+</ul>
