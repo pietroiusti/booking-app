@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Room } from '../room';
 import { RoomService } from '../room.service';
 
+import { Location } from '@angular/common';
+
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -14,6 +16,7 @@ export class RoomsComponent implements OnInit {
 
   constructor(
     private roomService: RoomService,
+    private location: Location,
   ) { }
 
   ngOnInit(): void {
@@ -21,6 +24,10 @@ export class RoomsComponent implements OnInit {
   }
 
   getRoomsData() {
-  this.rooms = this.roomService.getRoomData();
+    this.rooms = this.roomService.getRoomData();
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }
