@@ -6,8 +6,8 @@ export const ROOMDATA: Room[] = [
     bookings: [
       {
         person: 'Matthew',
-        start: new Date(),
-        end: new Date(),
+        start: new Date(new Date('August 20, 2022 12:30:00')),
+        end: new Date(new Date('August 20, 2022 13:30:00')),
       },
     ]
   },
@@ -16,8 +16,8 @@ export const ROOMDATA: Room[] = [
     bookings: [
       {
         person: 'Matthew',
-        start: new Date(),
-        end: new Date(),
+        start: new Date(new Date('September 1, 2022 10:30:00')),
+        end: new Date(new Date('September 1, 2022 11:30:00')),
       },
       {
         person: 'John',

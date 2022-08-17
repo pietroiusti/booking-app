@@ -14,6 +14,9 @@ import { Booking } from '../booking';
 export class RoomDetailComponent implements OnInit {
   id: number | undefined;
   bookings: Booking[] = [];
+  selectedDate: string | undefined;
+  selectedTimeStart: string | undefined;
+  selectedTimeEnd: string | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,6 +31,14 @@ export class RoomDetailComponent implements OnInit {
     let r = data.find(r => r.id === this.id);
     if (r)
       this.bookings = r.bookings;
+  }
+
+  handleInput() {
+    console.log('hello world');
+  }
+
+  log() {
+    console.log(this.selectedDate);
   }
 
   goBack(): void {

@@ -2,16 +2,41 @@
 
 <h3>Room {{id}}</h3>
 
-<p>Book...</p>
+<div>
+  <span>Select a time frame:</span>
+  <div>
+    <input [(ngModel)]="selectedDate" type="date" name="selected-day">
+    <input [(ngModel)]="selectedTimeStart" type="time" name="selected-time-start">
+    <input [(ngModel)]="selectedTimeEnd" type="time" name="selected-time-end">
+  </div>
+</div>
 
-<p>Availability...</p>
+<div *ngIf="selectedDate && selectedTimeStart && selectedTimeEnd">
+  <div>
+    You have selected: {{selectedDate | date}} from {{selectedTimeStart}} to {{selectedTimeEnd}}
+  </div>
+  <div class="available">
+    The room is availabe at that time!
+  </div>
+  <div>
+    <button (click)=handleInput()>Send Request</button>
+  </div>
+</div>
 
-<p>Bookings:</p>
+<div *ngIf="bookings.length">
+  <h3>Bookings that have already been made:</h3>
+  <ul>
+    <li *ngFor="let b of bookings">
+      <p>Person: {{b.person}}</p>
+      <p>Start: {{b.start}}</p>
+      <p>End: {{b.end}}</p>
+    </li>
+  </ul>
+</div>
+<div *ngIf="!bookings.length">
+  <br>
+  No one has booked this room yet!
+</div>
 
-<ul>
-  <li *ngFor="let b of bookings">
-    <p>Person: {{b.person}}</p>
-    <p>Start: {{b.start}}</p>
-    <p>End: {{b.end}}</p>
-  </li>
-</ul>
+
+
