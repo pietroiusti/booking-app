@@ -1,5 +1,5 @@
 export interface Booking {
   person: string,
-  start: Date,
-  end: Date,
+  start: number,  // Unix timestamp
+  end: number,    // Unix timestamp
 }
