@@ -1,0 +1,28 @@
+<div>
+  <span>Select a time frame:</span>
+  <div>
+    <input [(ngModel)]="selectedDate" type="date" name="selected-day">
+    <input [(ngModel)]="selectedTimeStart" type="time" name="selected-time-start">
+    <input [(ngModel)]="selectedTimeEnd" type="time" name="selected-time-end">
+  </div>
+</div>
+
+<br>
+
+<div *ngIf="selectedDate && selectedTimeStart && selectedTimeEnd">
+  <div>
+    You have selected: {{selectedDate | date}} from {{selectedTimeStart}} to {{selectedTimeEnd}}
+  </div>
+
+  <br>
+
+  <div class="available">
+    The room is availabe at that time!
+  </div>
+
+  <br>
+
+  <div>
+    <button (click)=handleInput()>Send Request</button>
+  </div>
+</div>

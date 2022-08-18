@@ -10,6 +10,7 @@ import { RoomDetailComponent } from './room-detail/room-detail.component';
 
 import { FormsModule } from '@angular/forms';
 import { RoomCurrentBookingsComponent } from './room-current-bookings/room-current-bookings.component';
+import { SelectTimeFrameComponent } from './select-time-frame/select-time-frame.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { RoomCurrentBookingsComponent } from './room-current-bookings/room-curre
     ProfileComponent,
     RoomsComponent,
     RoomDetailComponent,
-    RoomCurrentBookingsComponent
+    RoomCurrentBookingsComponent,
+    SelectTimeFrameComponent
   ],
   imports: [
     BrowserModule,
