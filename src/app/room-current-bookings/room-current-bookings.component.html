@@ -1,0 +1,8 @@
+<h3>Current bookings:</h3>
+<ul>
+  <li *ngFor="let b of roomCurrentBookings">
+    <p>Person: {{b.person}}</p>
+    <p>Start: {{b.start}}</p>
+    <p>End: {{b.end}}</p>
+  </li>
+</ul>

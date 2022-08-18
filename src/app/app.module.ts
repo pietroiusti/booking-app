@@ -9,6 +9,7 @@ import { RoomsComponent } from './rooms/rooms.component';
 import { RoomDetailComponent } from './room-detail/room-detail.component';
 
 import { FormsModule } from '@angular/forms';
+import { RoomCurrentBookingsComponent } from './room-current-bookings/room-current-bookings.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { FormsModule } from '@angular/forms';
     EntitiesComponent,
     ProfileComponent,
     RoomsComponent,
-    RoomDetailComponent
+    RoomDetailComponent,
+    RoomCurrentBookingsComponent
   ],
   imports: [
     BrowserModule,

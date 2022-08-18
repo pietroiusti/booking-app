@@ -11,32 +11,32 @@
   </div>
 </div>
 
+<br>
+
 <div *ngIf="selectedDate && selectedTimeStart && selectedTimeEnd">
   <div>
     You have selected: {{selectedDate | date}} from {{selectedTimeStart}} to {{selectedTimeEnd}}
   </div>
+
+  <br>
+
   <div class="available">
     The room is availabe at that time!
   </div>
+
+  <br>
+
   <div>
     <button (click)=handleInput()>Send Request</button>
   </div>
 </div>
 
+<br>
+
 <div *ngIf="bookings.length">
-  <h3>Bookings that have already been made:</h3>
-  <ul>
-    <li *ngFor="let b of bookings">
-      <p>Person: {{b.person}}</p>
-      <p>Start: {{b.start}}</p>
-      <p>End: {{b.end}}</p>
-    </li>
-  </ul>
+  <app-room-current-bookings [roomCurrentBookings]="bookings"></app-room-current-bookings>
 </div>
 <div *ngIf="!bookings.length">
   <br>
   No one has booked this room yet!
 </div>
-
-
-
