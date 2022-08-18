@@ -1,3 +1,11 @@
 .available {
   background-color: greenyellow;
 }
+
+.accepted {
+  background-color: greenyellow;
+}
+
+.rejected {
+  background-color: red;
+}

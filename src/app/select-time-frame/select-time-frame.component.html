@@ -16,13 +16,17 @@
 
   <br>
 
-  <div class="available">
-    The room is availabe at that time!
-  </div>
-
-  <br>
-
   <div>
     <button (click)=handleInput()>Send Request</button>
+  </div>
+
+  <div *ngIf="booking===undefined">
+    <!-- nothing -->
+  </div>
+  <div *ngIf="booking?.result ==='accepted'">
+    <span class="accepted">Booking accepted!</span> {{booking?.msg}}
+  </div>
+  <div *ngIf="booking?.result ==='rejected'">
+    <span class="rejected">Booking rejected!</span> {{booking?.msg}}
   </div>
 </div>
