@@ -20,13 +20,13 @@
     <button (click)=handleInput()>Send Request</button>
   </div>
 
-  <div *ngIf="bookingAssessment===undefined">
+  <div *ngIf="bookingFinalResult===undefined">
     <!-- nothing -->
   </div>
-  <div *ngIf="bookingAssessment?.result ==='accepted'">
-    <span class="accepted">Booking accepted!</span> {{bookingAssessment?.msg}}
+  <div *ngIf="bookingFinalResult ==='accepted'">
+    <span class="accepted">Booking accepted!</span>
   </div>
-  <div *ngIf="bookingAssessment?.result ==='rejected'">
-    <span class="rejected">Booking rejected!</span> {{bookingAssessment?.msg}}
+  <div *ngIf="bookingFinalResult ==='rejected'">
+    <span class="rejected">Booking rejected!</span>
   </div>
 </div>

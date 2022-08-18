@@ -1,4 +1,4 @@
 export interface RoomBookingAssessment {
-  result: 'accepted' | 'rejected',
+  result: boolean,
   msg: string,
 }

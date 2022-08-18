@@ -10,17 +10,17 @@ export class AssessRoomBookingService {
 
   constructor() { }
 
-  assess(booking: Booking): RoomBookingAssessment {
+  assess(roomId: string | undefined, booking: Booking): RoomBookingAssessment {
     console.log('Assessing:')
     console.log(booking);
 
     //todo: logic
 
-    let result: 'accepted' | 'rejected';
+    let result: boolean;
     //result = 'rejected';
     //let msg = 'Are you sure no one has already booked the room at that time?';
 
-    result = 'accepted';
+    result = true;
     let msg = 'Yay!!!';
 
     return {result, msg};
