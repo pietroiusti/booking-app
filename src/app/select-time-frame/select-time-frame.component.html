@@ -10,23 +10,23 @@
 <br>
 
 <div *ngIf="selectedDate && selectedTimeStart && selectedTimeEnd">
-  <div>
-    You have selected: {{selectedDate | date}} from {{selectedTimeStart}} to {{selectedTimeEnd}}
-  </div>
-
-  <br>
+  <!-- 
+    <div>
+      You have selected: {{selectedDate | date}} from {{selectedTimeStart}} to {{selectedTimeEnd}}
+    </div> 
+  -->
 
   <div>
     <button (click)=handleInput()>Send Request</button>
+  </div>  
+
+  <br>
+    <div *ngIf="bookingAssessment?.result === true">
+    <span class="accepted">Your booking looks okay!</span> {{bookingAssessment?.msg}}    
+  </div>
+  
+  <div *ngIf="bookingAssessment?.result === false">
+    <span class="rejected">Something is wrong with your booking...</span> {{bookingAssessment?.msg}}
   </div>
 
-  <div *ngIf="bookingFinalResult===undefined">
-    <!-- nothing -->
-  </div>
-  <div *ngIf="bookingFinalResult ==='accepted'">
-    <span class="accepted">Booking accepted!</span>
-  </div>
-  <div *ngIf="bookingFinalResult ==='rejected'">
-    <span class="rejected">Booking rejected!</span>
-  </div>
 </div>
