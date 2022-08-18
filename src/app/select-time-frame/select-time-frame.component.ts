@@ -16,7 +16,14 @@ export class SelectTimeFrameComponent implements OnInit {
   }
 
   handleInput() {
-    console.log('hello world');
+    console.log('selectedDate: ' + this.selectedDate);
+    console.log('selectedTimeStart: ' + this.selectedTimeStart);
+    console.log('selectedTimeEnd: ' + this.selectedTimeEnd);
+
+    let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
+    let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
+    console.log('UnixTimestampStart: ' + Date.parse(UnixTimestampStartString));
+    console.log('UnixTimestampEnd: ' + Date.parse(UnixTimestampEndString));
   }
 
 }
