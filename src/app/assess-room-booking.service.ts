@@ -12,7 +12,7 @@ export class AssessRoomBookingService {
 
   endBeforeStart (booking: Booking): boolean {
     console.log('startBeforeEnd');
-    if ( booking.end < booking.start )
+    if ( booking.end <= booking.start )
       return true;
     else 
      return false;
@@ -28,7 +28,7 @@ export class AssessRoomBookingService {
     console.log('Assessing:')
 
     if (this.endBeforeStart(booking))
-      return { result: false, msg: "End time cannot be before start time... Are you awake?" };
+      return { result: false, msg: "End time cannot be before or the same as the start time... Are you awake?" };
 
     if (this.overlap()) {
       console.log('foobarbaz');
