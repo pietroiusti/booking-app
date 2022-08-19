@@ -12,4 +12,9 @@ export class RoomService {
   getRoomData(): Room[] {
     return ROOMDATA;
   }
+
+  getRoom(id: string | undefined): Room | undefined {
+    let room = ROOMDATA.find(obj => obj.id.toString() === id);
+    return room;
+  }
 }

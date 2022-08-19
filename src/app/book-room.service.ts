@@ -14,18 +14,8 @@ export class BookRoomService {
   ) { }
 
   book() {
-
-    // TODO:
-    // - use AssessRoomBookingService to check if it's okay
-    //
-    // - if booking it's okay g
-
-    console.log('assessing...');
-    console.log('booking?...');
-
-    // if (somethingWring with booking)
-    //   return false
-    // else
+    // TODO
+    console.log('booking... (TODO)');
     return true;
   }
 }
