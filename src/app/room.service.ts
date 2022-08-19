@@ -18,9 +18,13 @@ export class RoomService {
     return this.roomsData;
   }
 
-  getRoom(id: string | undefined): Room | undefined {
+  getRoom(id: string): Room | null {
     let room = ROOMDATA.find(obj => obj.id.toString() === id);
-    return room;
+
+    if (room)
+      return room;
+    else
+      return null;
   }
 
   book(id: string, booking: Booking): boolean {
