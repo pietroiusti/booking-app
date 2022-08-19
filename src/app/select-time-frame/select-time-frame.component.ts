@@ -13,7 +13,7 @@ import { RoomBookingAssessment } from '../room-booking-assessment';
   styleUrls: ['./select-time-frame.component.css']
 })
 export class SelectTimeFrameComponent implements OnInit {
-  @Input() roomId: string | null = null;
+  @Input() roomId: string | undefined;
 
   selectedDate: string | undefined;
   selectedTimeStart: string | undefined;
