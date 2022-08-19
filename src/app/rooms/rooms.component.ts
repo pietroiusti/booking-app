@@ -24,7 +24,7 @@ export class RoomsComponent implements OnInit {
   }
 
   getRoomsData() {
-    this.rooms = this.roomService.getRoomData();
+    this.rooms = this.roomService.getRoomsData();
   }
 
   goBack(): void {

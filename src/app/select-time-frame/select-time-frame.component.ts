@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 // services
 import { AssessRoomBookingService } from '../assess-room-booking.service';
-import { BookRoomService } from '../book-room.service';
+import { RoomService } from '../room.service';
 
 // types
 import { RoomBookingAssessment } from '../room-booking-assessment';
@@ -23,7 +23,7 @@ export class SelectTimeFrameComponent implements OnInit {
 
   constructor(
     private assessRoomBookingService: AssessRoomBookingService,
-    private bookRooomService: BookRoomService,
+    private roomService: RoomService,
   ) { }
 
   ngOnInit(): void {
@@ -43,7 +43,7 @@ export class SelectTimeFrameComponent implements OnInit {
       this.bookingAssessment = assessment;
 
       if (this.bookingAssessment.result === true) {
-        let result = this.bookRooomService.book();
+        let result = this.roomService.book(this.roomId, booking);
 
         if (result)
           this.bookingFinalResult = 'accepted';
