@@ -13,7 +13,7 @@ import { RoomBookingAssessment } from '../room-booking-assessment';
   styleUrls: ['./select-time-frame.component.css']
 })
 export class SelectTimeFrameComponent implements OnInit {
-  @Input() roomId: string | undefined;
+  @Input() roomId: string | null = null;
 
   selectedDate: string | undefined;
   selectedTimeStart: string | undefined;
@@ -38,14 +38,17 @@ export class SelectTimeFrameComponent implements OnInit {
       end: Date.parse(UnixTimestampEndString),
     };
 
-    let assessment = this.assessRoomBookingService.assess(this.roomId, booking);
-    this.bookingAssessment = assessment;
+    if (this.roomId) {
+      let assessment = this.assessRoomBookingService.assess(this.roomId, booking);
+      this.bookingAssessment = assessment;
 
-    if (this.bookingAssessment.result === true) {
-      let result = this.bookRooomService.book();
+      if (this.bookingAssessment.result === true) {
+        let result = this.bookRooomService.book();
 
-      if (result)
-        this.bookingFinalResult = 'accepted';
+        if (result)
+          this.bookingFinalResult = 'accepted';
+      }
     }
+
   }
 }
