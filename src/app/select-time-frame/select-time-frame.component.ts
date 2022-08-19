@@ -29,6 +29,8 @@ export class SelectTimeFrameComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Assess user input for booking a room
+  // and ask roomService to book room if assessment is positive.
   handleInput() {
     /* console.log('this.selectedDate: ' + this.selectedDate);
     console.log('this.selectedTimeStart: ' + this.selectedTimeStart);

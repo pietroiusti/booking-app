@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { Observable, of } from 'rxjs';
+
 import { ROOMDATA } from './mock-rooms-data';
 
 import { Booking } from './booking';
@@ -16,6 +18,11 @@ export class RoomService {
 
   getRoomsData(): Room[] {
     return this.roomsData;
+  }
+  //version with observable of the above function
+  getRoomsDataObsv(): Observable<Room[]> {
+    const rooms = of(ROOMDATA);
+    return rooms;
   }
 
   getRoom(id: string): Room | null {

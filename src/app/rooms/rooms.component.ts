@@ -23,8 +23,9 @@ export class RoomsComponent implements OnInit {
     this.getRoomsData();
   }
 
-  getRoomsData() {
-    this.rooms = this.roomService.getRoomsData();
+  getRoomsData(): void {
+    this.roomService.getRoomsDataObsv()
+      .subscribe(rooms => this.rooms = rooms);
   }
 
   goBack(): void {
