@@ -28,7 +28,7 @@ export class AssessRoomBookingService {
   }  
 
   // Check whether booking overalaps with another booking
-  overlap(roomId: string | undefined, b: Booking): boolean {
+  overlap(roomId: string, b: Booking): boolean {
     console.log('overlap() checking booking...');
 
     // Takes two time frames.
@@ -93,7 +93,7 @@ export class AssessRoomBookingService {
     return false;
   }
 
-  assess(roomId: string | undefined, booking: Booking): RoomBookingAssessment {
+  assess(roomId: string, booking: Booking): RoomBookingAssessment {
     console.log('Assessing:')
 
     if (!this.startBeforeEnd(booking))
