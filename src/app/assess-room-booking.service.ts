@@ -17,18 +17,17 @@ export class AssessRoomBookingService {
     private roomService: RoomService,
   ) { }
 
-  // TODO: CHECK IF IT'S OKAY
-  endBeforeStart (booking: Booking): boolean {
-
+  // Check if booking start time is before end time
+  startBeforeEnd (booking: Booking): boolean {
     console.log('startBeforeEnd() checking booking...');
-    if ( booking.end <= booking.start )
+
+    if ( booking.start < booking.end )
       return true;
     else 
      return false;
   }  
 
-  // TODO: FIX
-  // check whether booking overalaps with another booking
+  // Check whether booking overalaps with another booking
   overlap(roomId: string | undefined, b: Booking): boolean {
     console.log('overlap() checking booking...');
 
@@ -38,11 +37,13 @@ export class AssessRoomBookingService {
     // A time frame is a object with a start and and end time in unix timestamp format:
     // {start: TimeFrame, end: TimeFrame}
     function framesOverlap(tf1: TimeFrame, tf2: TimeFrame): boolean {
+      // Checking overlap:
       //      |----tf1----|
       // |---------tf2---------|
       if ( (tf2.start <= tf1.start) && (tf2.end >= tf1.end) )
         return true;
 
+      // Checking overlap:
       // |---------tf1---------|
       //      |----tf2----|
       if ( (tf2.start >= tf1.start) && (tf2.start < tf1.end)
@@ -50,16 +51,19 @@ export class AssessRoomBookingService {
            (tf2.end > tf1.start)    && (tf2.end <= tf1.end) )
            return true;
 
+      // Checking overlap:
       //       |----tf1----|
       // |----tf2----|
       if ( (tf2.start <= tf1.start) && (tf2.end > tf1.start) )
         return true;
 
+      // Checking overlap:
       // |----tf1----|
       //       |----tf2----|
       if ( (tf2.start < tf1.end) && (tf2.end >= tf1.end) )
         return true;
 
+      // Time frames do not overlap
       // |----tf1(2)----|     |----tf2(1)----|
       return false;
     }
@@ -70,8 +74,20 @@ export class AssessRoomBookingService {
       let roomBookings = room.bookings;
       roomBookings = room.bookings;
       for (let booking of roomBookings) {
-        if (framesOverlap(booking, b))
+        /*
+        console.log('');
+        console.log('###################')
+        console.log('BOOKING COMPARISON:')
+
+        console.log('b.start: ' + b.start + ' (' + new Date(b.start) + ')');
+        console.log('booking.start: ' + booking.start + ' (' + new Date(booking.start).toString() + ')');
+
+        console.log('b.end: ' + b.end + ' (' + new Date(b.end) + ')');
+        console.log('booking.end: ' + booking.end + ' (' + new Date(booking.end).toString() + ')');
+        */
+        if (framesOverlap(booking, b)) {
           return true;
+        }
       }
     }
     return false;
@@ -80,7 +96,7 @@ export class AssessRoomBookingService {
   assess(roomId: string | undefined, booking: Booking): RoomBookingAssessment {
     console.log('Assessing:')
 
-    if (this.endBeforeStart(booking))
+    if (!this.startBeforeEnd(booking))
       return { result: false, msg: "End time cannot be before or the same as the start time... Are you awake?" };
 
     if (this.overlap(roomId, booking)) {

@@ -30,8 +30,15 @@ export class SelectTimeFrameComponent implements OnInit {
   }
 
   handleInput() {
+    /* console.log('this.selectedDate: ' + this.selectedDate);
+    console.log('this.selectedTimeStart: ' + this.selectedTimeStart);
+    console.log('this.selectedTimeEnd: ' + this.selectedTimeEnd); */
+
     let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
     let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
+    /* console.log('UnixTimestampStartString: ' + UnixTimestampStartString);
+    console.log('UnixTimestampEndString: ' + UnixTimestampEndString); */
+
     let booking = {
       person: 'John',
       start: Date.parse(UnixTimestampStartString),
@@ -48,6 +55,8 @@ export class SelectTimeFrameComponent implements OnInit {
         if (result)
           this.bookingFinalResult = 'accepted';
       }
+    } else {
+      console.error('this.roomId is not truthy');
     }
 
   }
