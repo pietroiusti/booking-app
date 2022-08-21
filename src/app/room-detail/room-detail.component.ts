@@ -28,7 +28,7 @@ export class RoomDetailComponent implements OnInit {
   ngOnInit(): void {
     this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
 
-    this.roomService.getRoomsDataObsv()
+    this.roomService.getRoomsData()
       .subscribe(data => {
         let r = data.find(r => r.id === this.id);
         if (r)

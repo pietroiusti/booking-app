@@ -12,24 +12,19 @@ import { Room } from './room';
   providedIn: 'root'
 })
 export class RoomService {
-  roomsData = ROOMDATA;
-
   constructor() { }
 
-  getRoomsData(): Room[] {
-    return this.roomsData;
-  }
   //version with observable of the above function
-  getRoomsDataObsv(): Observable<Room[]> {
+  getRoomsData(): Observable<Room[]> {
     const rooms = of(ROOMDATA);
     return rooms;
   }
 
-  getRoom(id: string): Room | null {
+  getRoom(id: string): Observable<Room> | null {
     let room = ROOMDATA.find(obj => obj.id.toString() === id);
 
     if (room)
-      return room;
+      return of(room);
     else
       return null;
   }

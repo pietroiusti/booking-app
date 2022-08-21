@@ -1,11 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 // services
-import { AssessRoomBookingService } from '../assess-room-booking.service';
 import { RoomService } from '../room.service';
 
 // types
 import { RoomBookingAssessment } from '../room-booking-assessment';
+import { Booking } from '../booking';
+import { TimeFrame } from '../time-frame';
+import { Room } from '../room';
 
 @Component({
   selector: 'app-select-time-frame',
@@ -15,31 +17,83 @@ import { RoomBookingAssessment } from '../room-booking-assessment';
 export class SelectTimeFrameComponent implements OnInit {
   @Input() roomId: string | undefined;
 
+  room: Room | undefined;
+
   selectedDate: string | undefined;
   selectedTimeStart: string | undefined;
   selectedTimeEnd: string | undefined;
+
   bookingAssessment: RoomBookingAssessment | undefined;
   bookingFinalResult: 'accepted' | 'rejected' | undefined;
 
   constructor(
-    private assessRoomBookingService: AssessRoomBookingService,
     private roomService: RoomService,
   ) { }
 
   ngOnInit(): void {
+    if (this.roomId) {
+      this.roomService.getRoom(this.roomId)
+        ?.subscribe(r => this.room = r);
+    }
   }
 
-  // Assess user input for booking a room
-  // and ask roomService to book room if assessment is positive.
-  handleInput() {
-    /* console.log('this.selectedDate: ' + this.selectedDate);
-    console.log('this.selectedTimeStart: ' + this.selectedTimeStart);
-    console.log('this.selectedTimeEnd: ' + this.selectedTimeEnd); */
+  // Check if booking start time is before end time
+  startBeforeEnd (booking: Booking): boolean {
+    console.log('startBeforeEnd() checking booking...');
 
+    if ( booking.start < booking.end )
+      return true;
+    else
+     return false;
+  }
+
+  // Check whether booking overalaps with another booking
+  overlap(roomBookings: Booking[], b: Booking): boolean {
+    console.log('overlap() checking booking...');
+    function framesOverlap(tf1: TimeFrame, tf2: TimeFrame): boolean {
+      // Checking overlap:
+      //      |----tf1----|
+      // |---------tf2---------|
+      if ( (tf2.start <= tf1.start) && (tf2.end >= tf1.end) )
+        return true;
+
+      // Checking overlap:
+      // |---------tf1---------|
+      //      |----tf2----|
+      if ( (tf2.start >= tf1.start) && (tf2.start < tf1.end)
+                                    &&
+           (tf2.end > tf1.start)    && (tf2.end <= tf1.end) )
+           return true;
+
+      // Checking overlap:
+      //       |----tf1----|
+      // |----tf2----|
+      if ( (tf2.start <= tf1.start) && (tf2.end > tf1.start) )
+        return true;
+
+      // Checking overlap:
+      // |----tf1----|
+      //       |----tf2----|
+      if ( (tf2.start < tf1.end) && (tf2.end >= tf1.end) )
+        return true;
+
+      // Time frames do not overlap
+      // |----tf1(2)----|     |----tf2(1)----|
+      return false;
+    }
+
+    for (let booking of roomBookings) {
+      if (framesOverlap(booking, b)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  handleInput() {
     let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
     let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
-    /* console.log('UnixTimestampStartString: ' + UnixTimestampStartString);
-    console.log('UnixTimestampEndString: ' + UnixTimestampEndString); */
 
     let booking = {
       person: 'John',
@@ -47,19 +101,20 @@ export class SelectTimeFrameComponent implements OnInit {
       end: Date.parse(UnixTimestampEndString),
     };
 
-    if (this.roomId) {
-      let assessment = this.assessRoomBookingService.assess(this.roomId, booking);
-      this.bookingAssessment = assessment;
-
-      if (this.bookingAssessment.result === true) {
-        let result = this.roomService.book(this.roomId, booking);
-
-        if (result)
-          this.bookingFinalResult = 'accepted';
-      }
+    if (! this.startBeforeEnd(booking)) {
+      this.bookingAssessment = { result: false, msg: "start > end?" };
     } else {
-      console.error('this.roomId is not truthy');
-    }
 
+      if (this.room) {
+        if (this.overlap(this.room.bookings, booking)) {
+          this.bookingAssessment = { result: false, msg: "???" };
+        } else { // all okay, we can book
+          this.bookingAssessment = { result: true, msg: "Coooool" };
+
+          let result = this.roomService.book(this.room.id.toString(), booking);
+        }
+      }
+    }
   }
+
 }

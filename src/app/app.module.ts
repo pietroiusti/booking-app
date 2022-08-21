@@ -11,7 +11,6 @@ import { RoomDetailComponent } from './room-detail/room-detail.component';
 import { FormsModule } from '@angular/forms';
 import { RoomCurrentBookingsComponent } from './room-current-bookings/room-current-bookings.component';
 import { SelectTimeFrameComponent } from './select-time-frame/select-time-frame.component';
-import { AssessBookingPipe } from './assess-booking.pipe';
 
 @NgModule({
   declarations: [
@@ -22,7 +21,6 @@ import { AssessBookingPipe } from './assess-booking.pipe';
     RoomDetailComponent,
     RoomCurrentBookingsComponent,
     SelectTimeFrameComponent,
-    AssessBookingPipe
   ],
   imports: [
     BrowserModule,
