@@ -25,35 +25,23 @@ export class RoomDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+      this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
 
-    this.roomService.getRoomsData()
-      .subscribe(data => {
-        let r = data.find(r => r.id === this.id);
-        if (r)
-        this.bookings = r.bookings;
-      });
+      this.roomService.getRoom(this.id.toString())
+       .subscribe(room => this.bookings = room.bookings);
   }
 
-  handleNewBookingEvent(){
+  handleNewBookingEvent() {
     console.log('handleNewBookingEvent()');
 
     this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
 
-    this.roomService.getRoomsData()
-      .subscribe(data => {
-        let r = data.find(r => r.id === this.id);
-        if (r)
-        this.bookings = r.bookings;
-      });
+    this.roomService.getRoom(this.id.toString())
+      .subscribe(room => this.bookings = room.bookings);
   }
 
   handleInput() {
     console.log('hello world');
-  }
-
-  log() {
-    console.log(this.selectedDate);
   }
 
   goBack(): void {

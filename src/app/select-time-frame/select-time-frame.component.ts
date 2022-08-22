@@ -21,7 +21,9 @@ export class SelectTimeFrameComponent implements OnInit {
 
   @Input() roomId: string | undefined;
 
-  room: Room | undefined;
+  @Input() room: Room | undefined;
+
+  roomOLD: Room | undefined;
 
   selectedDate: string | undefined;
   selectedTimeStart: string | undefined;
@@ -35,10 +37,6 @@ export class SelectTimeFrameComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.roomId) {
-      this.roomService.getRoom(this.roomId)
-        ?.subscribe(r => this.room = r);
-    }
   }
 
   // Check if booking start time is before end time

@@ -4,7 +4,6 @@ import { Observable, of } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Booking } from './booking';
 import { Room } from './room';
 
 import { catchError, map, tap } from 'rxjs/operators';
@@ -24,7 +23,7 @@ export class RoomService {
   ) { }
 
   getRoomsData(): Observable<Room[]> {
-    console.log(`getRoomsData()`);
+    //console.log(`getRoomsData()`);
     return this.http.get<Room[]>(this.roomsUrl)
       .pipe(
         tap(_ => console.log('fetched rooms')),
@@ -32,8 +31,9 @@ export class RoomService {
       );
   }
 
-  /** GET room by id. Will 404 if id not found */
+  /** GET room by id. */
   getRoom(id: string): Observable<Room> {
+    console.log(`getRoom(): ${this.roomsUrl}/${id}}`);
     const url = `${this.roomsUrl}/${id}}`;
     return this.http.get<Room>(url).pipe(
       tap(_ => console.log(`fetched room ${id}`)),
@@ -42,7 +42,7 @@ export class RoomService {
   }
 
   book(r: Room): Observable<any> {
-    console.log('booking room?');
+    console.log('book()');
     return this.http.put(this.roomsUrl, r, this.httpOptions)
       .pipe(
         tap(_ => console.log(`New booking for room ${r.id}`)),
