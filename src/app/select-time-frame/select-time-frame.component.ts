@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 // services
 import { RoomService } from '../room.service';
@@ -15,6 +15,10 @@ import { Room } from '../room';
   styleUrls: ['./select-time-frame.component.css']
 })
 export class SelectTimeFrameComponent implements OnInit {
+  // ####################################
+  @Output() newBookingEvent = new EventEmitter();
+  // ####################################
+
   @Input() roomId: string | undefined;
 
   room: Room | undefined;
@@ -118,6 +122,7 @@ export class SelectTimeFrameComponent implements OnInit {
           this.roomService.book(this.room)
             .subscribe( () => {
               console.log('Booked!');
+              this.newBookingEvent.emit(); // tell parent
             });
         }
       }

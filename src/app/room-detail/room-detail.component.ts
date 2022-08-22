@@ -33,7 +33,19 @@ export class RoomDetailComponent implements OnInit {
         if (r)
         this.bookings = r.bookings;
       });
+  }
 
+  handleNewBookingEvent(){
+    console.log('handleNewBookingEvent()');
+
+    this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+
+    this.roomService.getRoomsData()
+      .subscribe(data => {
+        let r = data.find(r => r.id === this.id);
+        if (r)
+        this.bookings = r.bookings;
+      });
   }
 
   handleInput() {
