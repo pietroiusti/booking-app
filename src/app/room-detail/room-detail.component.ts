@@ -5,7 +5,6 @@ import { RoomService } from '../room.service';
 import { Location } from '@angular/common';
 
 import { Booking } from '../booking';
-//import { RoomCurrentBookingsComponent } from '../room-current-bookings/room-current-bookings.component';
 
 @Component({
   selector: 'app-room-detail',

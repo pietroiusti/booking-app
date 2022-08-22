@@ -111,7 +111,14 @@ export class SelectTimeFrameComponent implements OnInit {
         } else { // all okay, we can book
           this.bookingAssessment = { result: true, msg: "Coooool" };
 
-          let result = this.roomService.book(this.room.id.toString(), booking);
+
+          this.room.bookings.push(booking);
+
+
+          this.roomService.book(this.room)
+            .subscribe( () => {
+              console.log('Booked!');
+            });
         }
       }
     }

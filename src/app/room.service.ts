@@ -2,40 +2,68 @@ import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 
-import { ROOMDATA } from './mock-rooms-data';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Booking } from './booking';
 import { Room } from './room';
 
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomService {
-  constructor() { }
+  private roomsUrl = 'api/rooms'; // URL to web api
 
-  //version with observable of the above function
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-type': 'application/json' }),
+  };
+
+  constructor(
+    private http: HttpClient,
+  ) { }
+
   getRoomsData(): Observable<Room[]> {
-    const rooms = of(ROOMDATA);
-    return rooms;
+    console.log(`getRoomsData()`);
+    return this.http.get<Room[]>(this.roomsUrl)
+      .pipe(
+        tap(_ => console.log('fetched rooms')),
+        catchError(this.handleError<Room[]>('getRoomsData', [])),
+      );
   }
 
-  getRoom(id: string): Observable<Room> | null {
-    let room = ROOMDATA.find(obj => obj.id.toString() === id);
-
-    if (room)
-      return of(room);
-    else
-      return null;
+  /** GET room by id. Will 404 if id not found */
+  getRoom(id: string): Observable<Room> {
+    const url = `${this.roomsUrl}/${id}}`;
+    return this.http.get<Room>(url).pipe(
+      tap(_ => console.log(`fetched room ${id}`)),
+      catchError(this.handleError<Room>(`getRoom id=${id}`)),
+    );
   }
 
-  book(id: string, booking: Booking): boolean {
-    let room = ROOMDATA.find(obj => obj.id.toString() === id);
-    if (room) {
-      room.bookings.push(booking);
-      return false;
-    } else {
-      return false;
-    }
+  book(r: Room): Observable<any> {
+    console.log('booking room?');
+    return this.http.put(this.roomsUrl, r, this.httpOptions)
+      .pipe(
+        tap(_ => console.log(`New booking for room ${r.id}`)),
+        catchError(this.handleError<any>('book function')),
+      );
+  }
+
+  /**
+ * Handle Http operation that failed.
+ * Let the app continue.
+ *
+ * @param operation - name of the operation that failed
+ * @param result - optional value to return as the observable result
+ */
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      // TODO: send the error to remote logging infrastructure
+      console.log(error); // log to console instead
+
+      // Let the app keep running by return an empty result
+      return of (result as T);
+    };
   }
 }
