@@ -5,15 +5,19 @@ import { RoomService } from '../room.service';
 import { Location } from '@angular/common';
 
 import { Booking } from '../booking';
+import { Room } from '../room';
 
 @Component({
   selector: 'app-room-detail',
   templateUrl: './room-detail.component.html',
   styleUrls: ['./room-detail.component.css']
 })
-export class RoomDetailComponent implements OnInit {
+export class
+RoomDetailComponent implements OnInit {
   id: number | undefined;
   bookings: Booking[] = [];
+  room: Room | undefined;
+
   selectedDate: string | undefined;
   selectedTimeStart: string | undefined;
   selectedTimeEnd: string | undefined;
@@ -28,7 +32,10 @@ export class RoomDetailComponent implements OnInit {
       this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
 
       this.roomService.getRoom(this.id.toString())
-       .subscribe(room => this.bookings = room.bookings);
+       .subscribe(room => {
+        this.room = room;
+        this.bookings = room.bookings
+      });
   }
 
   handleNewBookingEvent() {
@@ -37,7 +44,10 @@ export class RoomDetailComponent implements OnInit {
     this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
 
     this.roomService.getRoom(this.id.toString())
-      .subscribe(room => this.bookings = room.bookings);
+      .subscribe(room => {
+        this.room = room;
+        this.bookings = room.bookings;
+      });
   }
 
   handleInput() {

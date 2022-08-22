@@ -37,16 +37,23 @@ export class SelectTimeFrameComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.roomId);
+    console.log(this.room);
   }
 
   // Check if booking start time is before end time
   startBeforeEnd (booking: Booking): boolean {
     console.log('startBeforeEnd() checking booking...');
 
-    if ( booking.start < booking.end )
+    console.log(booking);
+
+    if ( booking.start < booking.end ) {
+      console.log('startBeforeEnd(): true');
       return true;
-    else
-     return false;
+    } else {
+      console.log('startBeforeEnd(): false');
+      return false;
+    }
   }
 
   // Check whether booking overalaps with another booking
@@ -104,9 +111,12 @@ export class SelectTimeFrameComponent implements OnInit {
     };
 
     if (! this.startBeforeEnd(booking)) {
+      console.log(`! this.startBeforeEnd(booking)`);
       this.bookingAssessment = { result: false, msg: "start > end?" };
+      console.log('foobarbaz');
     } else {
-
+      console.log('hello world');
+      console.log(this.room);
       if (this.room) {
         if (this.overlap(this.room.bookings, booking)) {
           this.bookingAssessment = { result: false, msg: "???" };

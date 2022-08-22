@@ -33,7 +33,7 @@ export class RoomService {
 
   /** GET room by id. */
   getRoom(id: string): Observable<Room> {
-    console.log(`getRoom(): ${this.roomsUrl}/${id}}`);
+    console.log(`getRoom(): ${this.roomsUrl}/${id}`);
     const url = `${this.roomsUrl}/${id}}`;
     return this.http.get<Room>(url).pipe(
       tap(_ => console.log(`fetched room ${id}`)),
