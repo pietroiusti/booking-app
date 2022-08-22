@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { RoomService } from '../room.service';
 import { Location } from '@angular/common';
 
-import { Booking } from '../booking';
 import { Room } from '../room';
 
 @Component({
@@ -15,7 +14,6 @@ import { Room } from '../room';
 export class
 RoomDetailComponent implements OnInit {
   id: number | undefined;
-  bookings: Booking[] = [];
   room: Room | undefined;
 
   selectedDate: string | undefined;
@@ -30,28 +28,21 @@ RoomDetailComponent implements OnInit {
 
   ngOnInit(): void {
       this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-
-      this.roomService.getRoom(this.id.toString())
-       .subscribe(room => {
-        this.room = room;
-        this.bookings = room.bookings
-      });
+      this.getRoom();
   }
 
   handleNewBookingEvent() {
     console.log('handleNewBookingEvent()');
-
-    this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-
-    this.roomService.getRoom(this.id.toString())
-      .subscribe(room => {
-        this.room = room;
-        this.bookings = room.bookings;
-      });
+    this.getRoom();
   }
 
-  handleInput() {
-    console.log('hello world');
+  getRoom() {
+    if (this.id){
+      this.roomService.getRoom(this.id.toString())
+        .subscribe(room => {
+          this.room = room;
+        });
+    }
   }
 
   goBack(): void {
