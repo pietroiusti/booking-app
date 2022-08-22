@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'entities', component: EntitiesComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'rooms', component: RoomsComponent },
-  { path: 'room/:id', component: RoomDetailComponent },
+  { path: 'rooms/:id', component: RoomDetailComponent },
 ];
 
 @NgModule({
