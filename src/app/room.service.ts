@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Room } from './room';
+import { Room } from './models/room';
 
 import { catchError, map, tap } from 'rxjs/operators';
 

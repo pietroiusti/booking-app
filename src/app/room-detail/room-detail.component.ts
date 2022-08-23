@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RoomService } from '../room.service';
 import { Location } from '@angular/common';
 
-import { Room } from '../room';
+import { Room } from '../models/room';
 
 @Component({
   selector: 'app-room-detail',

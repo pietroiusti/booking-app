@@ -4,10 +4,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { RoomService } from '../room.service';
 
 // types
-import { RoomBookingAssessment } from '../room-booking-assessment';
-import { Booking } from '../booking';
-import { TimeFrame } from '../time-frame';
-import { Room } from '../room';
+import { RoomBookingAssessment } from '../models/room-booking-assessment';
+import { Booking } from '../models/booking';
+import { TimeFrame } from '../models/time-frame';
+import { Room } from '../models/room';
 
 @Component({
   selector: 'app-select-time-frame',

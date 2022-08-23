@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Booking } from '../booking';
+import { Booking } from '../models/booking';
 
 @Component({
   selector: 'app-room-current-bookings',
