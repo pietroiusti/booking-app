@@ -12,7 +12,8 @@ import { Location } from '@angular/common';
 })
 export class RoomsComponent implements OnInit {
 
-  rooms: Room[] = [];
+  //rooms: Room[] = [];
+  roomsKeys: number[] = [];
 
   constructor(
     private roomService: RoomService,
@@ -20,12 +21,18 @@ export class RoomsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getRoomsData();
+    //this.getRoomsData();
+    this.getRoomsKeys();
   }
 
-  getRoomsData(): void {
+  /* getRoomsData(): void {
     this.roomService.getRoomsData()
       .subscribe(rooms => this.rooms = rooms);
+  } */
+
+  getRoomsKeys(): void {
+    this.roomService.getRoomsIds()
+        .subscribe(v => this.roomsKeys = v);
   }
 
   goBack(): void {

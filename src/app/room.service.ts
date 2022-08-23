@@ -22,6 +22,11 @@ export class RoomService {
     private http: HttpClient,
   ) { }
 
+  getRoomsIds(): Observable<number[]> { //<<< MOCK
+    console.log('getting room ids... (MOCK)');
+    return of([1, 2, 3, 4]);
+  }
+
   getRoomsData(): Observable<Room[]> {
     //console.log(`getRoomsData()`);
     return this.http.get<Room[]>(this.roomsUrl)

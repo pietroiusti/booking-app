@@ -1,7 +1,7 @@
 <p class="backLink" (click)="goBack()">← go back to bookable items</p>
 
 <nav>
-  <a *ngFor="let room of rooms" routerLink="/rooms/{{room.id}}">
-    Room {{room.id}}
+  <a *ngFor="let n of roomsKeys" routerLink="/rooms/{{n}}">
+    Room {{n}}
   </a>
 </nav>
