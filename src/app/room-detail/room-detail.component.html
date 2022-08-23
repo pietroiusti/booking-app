@@ -6,10 +6,15 @@
 
 <br>
 
-<div *ngIf="room">
-  <app-room-current-bookings [roomCurrentBookings]="room.bookings"></app-room-current-bookings>
+<div *ngIf="room && room.bookings.length">
+  <app-room-current-bookings [roomCurrentBookings]="room ? room.bookings : []"></app-room-current-bookings>
 </div>
-<div *ngIf="!room">
+
+<div *ngIf="room && room.bookings.length===0">
   <br>
   No one has booked this room yet!
+</div>
+
+<div *ngIf="!room">
+  loading...
 </div>
