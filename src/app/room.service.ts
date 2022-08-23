@@ -7,6 +7,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Room } from './models/room';
 
 import { catchError, map, tap } from 'rxjs/operators';
+import { Booking } from './models/booking';
+import { TimeFrame } from './models/time-frame';
 
 @Injectable({
   providedIn: 'root'
@@ -71,5 +73,73 @@ export class RoomService {
       // Let the app keep running by return an empty result
       return of (result as T);
     };
+  }
+
+  assessBooking(roomBookings: Booking[], newBooking: Booking): boolean {
+    // Check if booking start time is before end time
+    function startBeforeEnd (booking: Booking): boolean {
+      if ( booking.timeFrame.start < booking.timeFrame.end ) {
+        console.log('startBeforeEnd(): true');
+        return true;
+      } else {
+        console.log('startBeforeEnd(): false');
+        return false;
+      }
+    }
+
+    // Check whether booking overalaps with another booking
+    function overlap(roomBookings: Booking[], b: Booking): boolean {
+      function framesOverlap(tf1: TimeFrame, tf2: TimeFrame): boolean {
+        // Checking overlap:
+        //      |----tf1----|
+        // |---------tf2---------|
+        if ( (tf2.start <= tf1.start) && (tf2.end >= tf1.end) )
+          return true;
+
+        // Checking overlap:
+        // |---------tf1---------|
+        //      |----tf2----|
+        if ( (tf2.start >= tf1.start) && (tf2.start < tf1.end)
+                                      &&
+            (tf2.end > tf1.start)    && (tf2.end <= tf1.end) )
+            return true;
+
+        // Checking overlap:
+        //       |----tf1----|
+        // |----tf2----|
+        if ( (tf2.start <= tf1.start) && (tf2.end > tf1.start) )
+          return true;
+
+        // Checking overlap:
+        // |----tf1----|
+        //       |----tf2----|
+        if ( (tf2.start < tf1.end) && (tf2.end >= tf1.end) )
+          return true;
+
+        // Time frames do not overlap
+        // |----tf1(2)----|     |----tf2(1)----|
+        return false;
+      }
+
+      for (let booking of roomBookings) {
+        if (framesOverlap(booking.timeFrame, b.timeFrame)) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    if (! startBeforeEnd(newBooking)) {
+      return false;
+    }
+
+    if ( overlap(roomBookings, newBooking) ) {
+      return false;
+    }
+
+    // todo: add more tests (e.g., forbid booking for past times)
+
+    return true;
   }
 }

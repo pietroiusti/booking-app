@@ -6,7 +6,6 @@ import { RoomService } from '../room.service';
 // types
 import { RoomBookingAssessment } from '../models/room-booking-assessment';
 import { Booking } from '../models/booking';
-import { TimeFrame } from '../models/time-frame';
 import { Room } from '../models/room';
 
 @Component({
@@ -16,12 +15,10 @@ import { Room } from '../models/room';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectTimeFrameComponent implements OnInit {
-  // ####################################
+
   @Output() newBookingEvent = new EventEmitter();
-  // ####################################
 
   @Input() roomId: string | undefined;
-
   @Input() room: Room | undefined;
 
   selectedDate: string | undefined;
@@ -36,60 +33,6 @@ export class SelectTimeFrameComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  }
-
-  // Check if booking start time is before end time
-  startBeforeEnd (booking: Booking): boolean {
-    if ( booking.timeFrame.start < booking.timeFrame.end ) {
-      console.log('startBeforeEnd(): true');
-      return true;
-    } else {
-      console.log('startBeforeEnd(): false');
-      return false;
-    }
-  }
-
-  // Check whether booking overalaps with another booking
-  overlap(roomBookings: Booking[], b: Booking): boolean {
-    function framesOverlap(tf1: TimeFrame, tf2: TimeFrame): boolean {
-      // Checking overlap:
-      //      |----tf1----|
-      // |---------tf2---------|
-      if ( (tf2.start <= tf1.start) && (tf2.end >= tf1.end) )
-        return true;
-
-      // Checking overlap:
-      // |---------tf1---------|
-      //      |----tf2----|
-      if ( (tf2.start >= tf1.start) && (tf2.start < tf1.end)
-                                    &&
-           (tf2.end > tf1.start)    && (tf2.end <= tf1.end) )
-           return true;
-
-      // Checking overlap:
-      //       |----tf1----|
-      // |----tf2----|
-      if ( (tf2.start <= tf1.start) && (tf2.end > tf1.start) )
-        return true;
-
-      // Checking overlap:
-      // |----tf1----|
-      //       |----tf2----|
-      if ( (tf2.start < tf1.end) && (tf2.end >= tf1.end) )
-        return true;
-
-      // Time frames do not overlap
-      // |----tf1(2)----|     |----tf2(1)----|
-      return false;
-    }
-
-    for (let booking of roomBookings) {
-      if (framesOverlap(booking.timeFrame, b.timeFrame)) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   handleInput() {
@@ -108,29 +51,20 @@ export class SelectTimeFrameComponent implements OnInit {
       }
     };
 
-    if (! this.startBeforeEnd(booking)) {
-      this.bookingAssessment = { result: false, msg: "start > end?" };
-    } else {
-      if (this.room) {
-        if (this.overlap(this.room.bookings, booking)) {
-          this.bookingAssessment = { result: false, msg: "???" };
-        } else { // all okay, we can book
-          this.bookingAssessment = { result: true, msg: "Coooool" };
-
-          let thisRoomCopy = structuredClone(this.room);
+    if (this.room) {
+      let assessment = this.roomService.assessBooking(this.room.bookings, booking);
+      if (assessment) {
+        this.bookingAssessment = { result: true, msg: "Coooool" };
+        let thisRoomCopy = structuredClone(this.room);
           thisRoomCopy.bookings.push(booking);
-
           this.roomService.book(thisRoomCopy)
             .subscribe( () => {
               console.log('Booked!');
               this.newBookingEvent.emit(); // tell parent
             });
-
-          this.roomService.getRoomsData()
-            .subscribe(d => console.log(d));
-        }
+      } else {
+        this.bookingAssessment = { result: false, msg: "???" }; // todo: pass a string with a hint about what's wrong
       }
     }
   }
-
 }
