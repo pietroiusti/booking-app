@@ -95,7 +95,7 @@ export class SelectTimeFrameComponent implements OnInit {
     let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
     let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
 
-    let booking = {
+    let booking: Booking = {
       person: 'John',
       start: Date.parse(UnixTimestampStartString),
       end: Date.parse(UnixTimestampEndString),
@@ -110,13 +110,17 @@ export class SelectTimeFrameComponent implements OnInit {
         } else { // all okay, we can book
           this.bookingAssessment = { result: true, msg: "Coooool" };
 
-          this.room.bookings.push(booking);
+          let thisRoomCopy = structuredClone(this.room);
+          thisRoomCopy.bookings.push(booking);
 
-          this.roomService.book(this.room)
+          this.roomService.book(thisRoomCopy)
             .subscribe( () => {
               console.log('Booked!');
               this.newBookingEvent.emit(); // tell parent
             });
+
+          this.roomService.getRoomsData()
+            .subscribe(d => console.log(d));
         }
       }
     }
