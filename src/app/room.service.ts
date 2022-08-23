@@ -46,6 +46,7 @@ export class RoomService {
     );
   }
 
+  // The mock web API knows which room to update by looking at the room's id
   book(r: Room): Observable<any> {
     console.log('book()');
     return this.http.put(this.roomsUrl, r, this.httpOptions)
