@@ -1,8 +1,8 @@
 <h3>Current bookings:</h3>
 <ul>
-  <li *ngFor="let b of roomCurrentBookings">
-    <p>Person: {{ b.person }}</p>
-    <p>Start: {{ b.start | date:'medium' }}</p>
-    <p>End: {{ b.end | date:'medium' }}</p>
+  <li *ngFor="let booking of roomCurrentBookings">
+    <p>Person: {{ booking.person }}</p>
+    <p>Start: {{ booking.timeFrame.start | date:'medium' }}</p>
+    <p>End: {{ booking.timeFrame.end | date:'medium' }}</p>
   </li>
 </ul>

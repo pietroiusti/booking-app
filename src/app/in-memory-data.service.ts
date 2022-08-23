@@ -13,8 +13,10 @@ export class InMemoryDataService implements InMemoryDbService {
         bookings: [
           {
             person: 'Matthew',
-            start: 1661331600000,
-            end: 1661337000000,
+            timeFrame: {
+              start: 1661331600000,
+              end: 1661337000000,
+            }
           },
         ]
       },
@@ -23,13 +25,17 @@ export class InMemoryDataService implements InMemoryDbService {
         bookings: [
           {
             person: 'Matthew',
-            start: 1661175000000,
-            end: 1661178600000,
+            timeFrame: {
+              start: 1661175000000,
+              end: 1661178600000,
+            }
           },
           {
             person: 'John',
-            start: 1661183100000,
-            end: 1661187600000,
+            timeFrame: {
+              start: 1661183100000,
+              end: 1661187600000,
+            }
           },
         ]
       },

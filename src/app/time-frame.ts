@@ -1,4 +1,4 @@
 export interface TimeFrame {
-  start: number,
-  end: number,
+  start: number, // Unix timestamp
+  end: number,   // Unix timestamp
 }

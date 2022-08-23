@@ -16,6 +16,7 @@ export class RoomCurrentBookingsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.roomCurrentBookings);
   }
 
 }

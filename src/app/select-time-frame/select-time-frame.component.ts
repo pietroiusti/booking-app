@@ -39,7 +39,7 @@ export class SelectTimeFrameComponent implements OnInit {
 
   // Check if booking start time is before end time
   startBeforeEnd (booking: Booking): boolean {
-    if ( booking.start < booking.end ) {
+    if ( booking.timeFrame.start < booking.timeFrame.end ) {
       console.log('startBeforeEnd(): true');
       return true;
     } else {
@@ -83,7 +83,7 @@ export class SelectTimeFrameComponent implements OnInit {
     }
 
     for (let booking of roomBookings) {
-      if (framesOverlap(booking, b)) {
+      if (framesOverlap(booking.timeFrame, b.timeFrame)) {
         return true;
       }
     }
@@ -97,8 +97,10 @@ export class SelectTimeFrameComponent implements OnInit {
 
     let booking: Booking = {
       person: 'John',
-      start: Date.parse(UnixTimestampStartString),
-      end: Date.parse(UnixTimestampEndString),
+      timeFrame: {
+        start: Date.parse(UnixTimestampStartString),
+        end: Date.parse(UnixTimestampEndString),
+      }
     };
 
     if (! this.startBeforeEnd(booking)) {
