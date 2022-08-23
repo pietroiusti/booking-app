@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 // services
 import { RoomService } from '../room.service';
@@ -12,7 +12,8 @@ import { Room } from '../models/room';
 @Component({
   selector: 'app-select-time-frame',
   templateUrl: './select-time-frame.component.html',
-  styleUrls: ['./select-time-frame.component.css']
+  styleUrls: ['./select-time-frame.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectTimeFrameComponent implements OnInit {
   // ####################################
