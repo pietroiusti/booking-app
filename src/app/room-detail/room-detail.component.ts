@@ -16,10 +16,6 @@ RoomDetailComponent implements OnInit {
   id: number | undefined;
   room: Room | undefined;
 
-  selectedDate: string | undefined;
-  selectedTimeStart: string | undefined;
-  selectedTimeEnd: string | undefined;
-
   constructor(
     private route: ActivatedRoute,
     private roomService: RoomService,
