@@ -96,7 +96,11 @@ export class SelectTimeFrameComponent implements OnInit {
     let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
 
     let booking: Booking = {
-      person: 'John',
+      person: {
+        name: 'John',
+        surname: 'McBar',
+        role: 'Software Developer',
+      },
       timeFrame: {
         start: Date.parse(UnixTimestampStartString),
         end: Date.parse(UnixTimestampEndString),
