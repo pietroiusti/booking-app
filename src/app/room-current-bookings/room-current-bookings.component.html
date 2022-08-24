@@ -1,8 +1,13 @@
 <h3>Current bookings:</h3>
-<ul>
+
+<ul *ngIf="roomCurrentBookings!='loading'">
   <li *ngFor="let booking of roomCurrentBookings">
     <p>Person: {{ booking.person.name }} {{ booking.person.surname }} ({{ booking.person.role }})</p>
     <p>Start: {{ booking.timeFrame.start | date:'medium' }}</p>
     <p>End: {{ booking.timeFrame.end | date:'medium' }}</p>
   </li>
 </ul>
+
+<div *ngIf="roomCurrentBookings==='loading'">
+  loading...
+</div>

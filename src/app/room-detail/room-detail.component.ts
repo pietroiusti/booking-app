@@ -29,6 +29,9 @@ RoomDetailComponent implements OnInit {
 
   handleNewBookingEvent() {
     console.log('handleNewBookingEvent()');
+
+    this.room = undefined;//-> show loading message in room-current-bookings component
+
     this.getRoom();
   }
 

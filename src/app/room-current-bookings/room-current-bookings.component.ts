@@ -10,14 +10,12 @@ import { Booking } from '../models/booking';
 })
 export class RoomCurrentBookingsComponent implements OnInit {
 
-  @Input() roomCurrentBookings: Booking[] = [];
+  @Input() roomCurrentBookings: Booking[] | 'loading' = 'loading';
 
   constructor(
 
   ) { }
 
-  ngOnInit(): void {
-    console.log(this.roomCurrentBookings);
-  }
+  ngOnInit(): void {}
 
 }
