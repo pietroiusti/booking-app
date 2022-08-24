@@ -24,9 +24,12 @@ export class RoomService {
     private http: HttpClient,
   ) { }
 
-  getRoomsIds(): Observable<number[]> { //<<< MOCK
-    console.log('getting room ids... (MOCK)');
-    return of([1, 2, 3, 4]);
+  getRoomsIds(): Observable<number[]> {
+    //console.log('getRoomsIds');
+    return this.http.get<Room[]>(this.roomsUrl)
+      .pipe(
+        map(arrOfRooms => arrOfRooms.map(r => r.id)),//<-- assess acceptability
+      );
   }
 
   getRoomsData(): Observable<Room[]> {

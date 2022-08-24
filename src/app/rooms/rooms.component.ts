@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Room } from '../models/room';
 import { RoomService } from '../room.service';
 
 import { Location } from '@angular/common';
@@ -11,8 +10,6 @@ import { Location } from '@angular/common';
   styleUrls: ['./rooms.component.css']
 })
 export class RoomsComponent implements OnInit {
-
-  //rooms: Room[] = [];
   roomsKeys: number[] = [];
 
   constructor(
@@ -21,14 +18,8 @@ export class RoomsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //this.getRoomsData();
     this.getRoomsKeys();
   }
-
-  /* getRoomsData(): void {
-    this.roomService.getRoomsData()
-      .subscribe(rooms => this.rooms = rooms);
-  } */
 
   getRoomsKeys(): void {
     this.roomService.getRoomsIds()
