@@ -31,7 +31,11 @@ export class RoomsComponent implements OnInit, OnDestroy {
     this.getRoomsKeys();
 
     // store related
-    this.rooms$ = this.store.select<Room[]>('rooms');
+    this.rooms$ = this.store.select<Room[]>('rooms'); // Alternatively one can remove the async pipe
+                                                      // from the template and do:
+                                                      // this.store.select<Room[]>('rooms')
+                                                      //     .subscribe(rooms => this.rooms$ = rooms);
+
     this.subscription = this.roomService.getRooms$.subscribe();//<-- initiate the data flow
   }
 
