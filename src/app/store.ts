@@ -2,7 +2,9 @@ import { Observable, BehaviorSubject, distinctUntilChanged, map} from 'rxjs';
 
 import { State } from "./models/state";
 
-const state: State = {};
+const state: State = {
+  rooms: [],
+};
 
 export class Store {
 

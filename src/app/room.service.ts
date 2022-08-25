@@ -4,6 +4,8 @@ import { Observable, of } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { Store } from './store';
+
 import { Room } from './models/room';
 
 import { catchError, map, tap } from 'rxjs/operators';
@@ -22,7 +24,14 @@ export class RoomService {
 
   constructor(
     private http: HttpClient,
+    private store: Store,
   ) { }
+
+  // store related
+  getRooms$ = this.http.get(this.roomsUrl)
+    .pipe(
+      tap(next => this.store.set('rooms', next))
+    );
 
   getRoomsIds(): Observable<number[]> {
     //console.log('getRoomsIds');

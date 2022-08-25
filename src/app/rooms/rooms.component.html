@@ -9,3 +9,13 @@
     Room {{n}}
   </a>
 </nav>
+
+<br>
+<br>
+<br>
+<div>
+  Store test 2:
+  <div *ngFor="let r of rooms$ | async">
+    Room {{ r.id }} has {{ r.bookings.length }} bookings
+  </div>
+</div>
