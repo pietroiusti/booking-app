@@ -7,6 +7,7 @@ import { RoomService } from '../room.service';
 import { RoomBookingAssessment } from '../models/room-booking-assessment';
 import { Booking } from '../models/booking';
 import { Room } from '../models/room';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-select-time-frame',
@@ -20,6 +21,9 @@ export class SelectTimeFrameComponent implements OnInit {
 
   @Input() roomId: string | undefined;
   @Input() room: Room | undefined;
+
+  // store related
+  @Input() rooms$!: Observable<Room[]>;
 
   selectedDate: string | undefined;
   selectedTimeStart: string | undefined;

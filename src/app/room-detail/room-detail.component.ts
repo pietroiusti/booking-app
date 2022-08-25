@@ -5,6 +5,9 @@ import { RoomService } from '../room.service';
 import { Location } from '@angular/common';
 
 import { Room } from '../models/room';
+import { Observable, Subscription } from 'rxjs';
+
+import { Store } from '../store';
 
 @Component({
   selector: 'app-room-detail',
@@ -16,15 +19,24 @@ RoomDetailComponent implements OnInit {
   id: number | undefined;
   room: Room | undefined;
 
+  // store related
+  rooms$!: Observable<Room[]>;
+  subscription!: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private roomService: RoomService,
     private location: Location,
+    private store: Store,
   ) { }
 
   ngOnInit(): void {
       this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
       this.getRoom();
+
+      // store related
+      this.rooms$ = this.store.select<Room[]>('rooms');
+      this.subscription = this.roomService.getRooms$.subscribe();
   }
 
   handleNewBookingEvent() {
