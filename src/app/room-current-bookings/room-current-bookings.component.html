@@ -11,3 +11,13 @@
 <div *ngIf="roomCurrentBookings==='loading'">
   loading...
 </div>
+
+<br>
+<br>
+<br>
+<div>
+  Store test 4:
+  <div *ngFor="let r of rooms$ | async">
+    {{ r.id }}, {{ r.bookings.length }}
+  </div>
+</div>

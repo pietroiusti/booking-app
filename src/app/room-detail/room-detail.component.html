@@ -7,7 +7,7 @@
 <br>
 
 <div *ngIf="room && room.bookings.length">
-  <app-room-current-bookings [roomCurrentBookings]="room ? room.bookings : 'loading'"></app-room-current-bookings>
+  <app-room-current-bookings [rooms$]="rooms$" [roomCurrentBookings]="room ? room.bookings : 'loading'"></app-room-current-bookings>
 </div>
 
 <div *ngIf="room && room.bookings.length===0">
