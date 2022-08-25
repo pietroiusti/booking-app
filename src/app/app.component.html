@@ -7,3 +7,14 @@
 
  
 <router-outlet></router-outlet>
+
+<br>
+<br>
+<br>
+<br>
+<div>
+  <span>Store test:</span>
+  <div *ngFor="let todo of todos$ | async">
+    {{ todo.name }}
+  </div>
+</div>

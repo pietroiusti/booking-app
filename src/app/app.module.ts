@@ -9,6 +9,8 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 // services
 import { InMemoryDataService } from './in-memory-data.service';
 
+import { Store } from './store';
+
 // components
 import { AppComponent } from './app.component';
 import { EntitiesComponent } from './entities/entities.component';
@@ -40,7 +42,9 @@ import { SelectTimeFrameComponent } from './select-time-frame/select-time-frame.
       InMemoryDataService, { dataEncapsulation: false }
     ),
   ],
-  providers: [],
+  providers: [
+    Store,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
