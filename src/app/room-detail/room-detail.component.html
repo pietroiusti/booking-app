@@ -7,12 +7,12 @@
 
 <br>
 
-<div *ngIf="room && room.bookings.length">
-  <app-room-current-bookings [rooms$]="rooms$"
-                             [id]="id"
-                             [rooms2]="rooms$ | async"
-                             [roomCurrentBookings]="room ? room.bookings : 'loading'"></app-room-current-bookings>
-</div>
+
+<app-room-current-bookings [rooms$]="rooms$"
+                           [id]="id"
+                           [rooms2]="rooms$ | async"
+                           [roomCurrentBookings]="room ? room.bookings : 'loading'"></app-room-current-bookings>
+
 
 <div *ngIf="room && room.bookings.length===0">
   <br>

@@ -25,20 +25,13 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
   @Input() room: Room | undefined;
 
 
-
   // store related #####################################################
   @Output() newBookingEvent2 = new EventEmitter();
 
   rooms!: Room[]; // <-- value from Observable input
   @Input() rooms$!: Observable<Room[]>;
 
-  rooms2!: Room[];// <-- from the store directly; no input from parent.
-                   // I'll deal with implementing input/output, parent/children,
-                   // relationships later on.
   subscription!: Subscription;
-
-  //@Input() room$!: Observable<Room>; // the room we are dealing with
-  @Input() room$!: Observable<Room>; // temporary
   //               #####################################################
 
 
@@ -57,10 +50,10 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.store.select<Room[]>('rooms')
-      .subscribe(rooms => this.rooms2 = rooms)
-    this.subscription = this.roomService.getRooms$.subscribe();//<-- initiate the data flow
+    //this.store.select<Room[]>('rooms')
+      //.subscribe(rooms => this.rooms2 = rooms)
 
+    this.subscription = this.roomService.getRooms$.subscribe();//<-- initiate the data flow
     this.rooms$.subscribe(
       rooms => this.rooms = rooms
     )
@@ -72,12 +65,10 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
 
   // store related
   handleInput2(event: MouseEvent) {
-    console.log('handleInput2()');
-    console.log(event);
-
-    console.log('this room:');
-    console.log(this.room$);
-
+    //console.log('handleInput2()');
+    //console.log(event);
+    //console.log('this room:');
+    //console.log(this.room$);
     let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
     let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
     let booking: Booking = {
@@ -92,8 +83,9 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
       }
     };
 
-    // I have got the data about the rooms from as an input from the parent (from subscribing to the Observable input)
-    // (in `this.rooms`); the logic about the acceptability of a booking proposal can then be based on that data.
+    // I have got the data about the rooms (in `this.rooms`) as an input from the parent
+    // (from subscribing to the Observable input).
+    // The logic about the acceptability of a booking proposal can then be based on that data.
     let room = this.rooms.filter(r => r.id === Number(this.roomId))[0];
     let roomBookings = room.bookings;
 
@@ -108,60 +100,13 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
         else                  return r;
       });
 
-      console.log('UPDATED ROOMS:');
-      console.log(updatedRooms);
+      //console.log('UPDATED ROOMS:');
+      //console.log(updatedRooms);
 
       this.newBookingEvent2.emit( { updatedRooms });
     } else {
-
-    }
-
-    //let logic = true;
-    // logic:
-    // check internal consistency of booking
-    //if (logic) {
-      // this.newBookingEvent2.emit({id: this.roomId, booking: booking});
-      // TODO: pass a relevant value. a value that can be use to update the store.
-      // I guess the right thing to to is making a copy of the actual state,
-      // update it, and pass it along.
-    // }
-
-  }
-
-  handleInput() {
-    let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
-    let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
-
-    let booking: Booking = {
-      person: {
-        name: 'John',
-        surname: 'McBar',
-        role: 'Software Developer',
-      },
-      timeFrame: {
-        start: Date.parse(UnixTimestampStartString),
-        end: Date.parse(UnixTimestampEndString),
-      }
-    };
-
-    if (this.room) {
-      let assessment = this.roomService.assessBooking(this.room.bookings, booking);
-      if (assessment) {
-        this.bookingAssessment = { result: true, msg: "Coooool" };
-        let thisRoomCopy = structuredClone(this.room);
-          thisRoomCopy.bookings.push(booking);
-
-          // do nothing: trying to do all through the store related functions
-          /*
-          this.roomService.book(thisRoomCopy)
-            .subscribe( () => {
-              console.log('Booked!');
-              this.newBookingEvent.emit(); // tell parent
-            });
-           */
-      } else {
-        this.bookingAssessment = { result: false, msg: "???" }; // todo: pass a string with a hint about what's wrong
-      }
+      console.log("Cannot make booking...");
     }
   }
+
 }
