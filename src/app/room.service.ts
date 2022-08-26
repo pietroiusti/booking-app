@@ -34,26 +34,26 @@ export class RoomService {
     );
 
   // store related
-  updateRooms(event: any) {
-    if (event.room) { //<-- TODO why undefined sometimes?
-      console.log('roomService.updateRooms');
-      console.log(event);
-      console.log(event.id);
-      // 1. TODO send req to server to change data
+  updateRooms(updatedRoom: Room): void {
+    console.log('hola');
 
-      // 2. When successful, update local store
-      let value = this.store.value.rooms;
-
-      let rooms = value.map((room: Room) => {
-        if (room.id === event.room.id) {
-          return { ...room, ...event.room };
-        } else {
-          return room;
-        }
-      });
-
-      this.store.set('rooms', rooms);
-    }
+    // 1. TODO send req to server to change data
+    this.http.put(this.roomsUrl, updatedRoom, this.httpOptions)
+      .pipe(
+        tap(_ => console.log(`New booking for room ${updatedRoom.id}`)),
+        catchError(this.handleError<any>('book function')),
+      ).subscribe(v => {
+                // 2. When successful, update local store
+                let value = this.store.value.rooms;
+                let rooms = value.map((room: Room) => {
+                  if (room.id === updatedRoom.id) {
+                    return { ...room, ...updatedRoom };
+                  } else {
+                    return room;
+                  }
+                });
+                this.store.set('rooms', rooms);
+      })
   }
 
   getRoomsIds(): Observable<number[]> {

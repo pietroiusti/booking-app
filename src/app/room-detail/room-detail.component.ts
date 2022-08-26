@@ -46,21 +46,24 @@ RoomDetailComponent implements OnInit, OnDestroy {
   handleNewBookingEvent() {
     console.log('handleNewBookingEvent()');
 
-    this.room = undefined;//-> show loading message in room-current-bookings component
+    //this.room = undefined;//-> show loading message in room-current-bookings component
 
-    this.getRoom();
+    //this.getRoom();
   }
 
   // store related
-  handleNewBookingEvent2(event: any) {
+  handleNewBookingEvent2(obj: any) {
     console.log('handleNewBookingEvent2()');
-    console.log('event.foo:');
-    console.log(event.foo);
+    console.log('obj');
+    console.log(obj);
 
     // todo: update store, that is, say something to the service
+    let updatedRooms = obj.updatedRooms;
+
+    let updatedRoom = updatedRooms.find((r: Room) => r.id === this.id);
 
     console.log('Trying to update store through room service');
-    this.roomService.updateRooms(event);
+    this.roomService.updateRooms(updatedRoom);
   }
 
   getRoom() {

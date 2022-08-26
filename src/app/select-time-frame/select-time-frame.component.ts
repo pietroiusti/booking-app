@@ -70,8 +70,9 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  // store related
   handleInput2(event: MouseEvent) {
-    console.log('hello world');
+    console.log('handleInput2()');
     console.log(event);
 
     console.log('this room:');
@@ -110,20 +111,20 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
       console.log('UPDATED ROOMS:');
       console.log(updatedRooms);
 
-      this.newBookingEvent2.emit(updatedRooms);
+      this.newBookingEvent2.emit( { updatedRooms });
     } else {
 
     }
 
-    let logic = true;
+    //let logic = true;
     // logic:
     // check internal consistency of booking
-    if (logic) {
-      this.newBookingEvent2.emit({id: this.roomId, booking: booking});
+    //if (logic) {
+      // this.newBookingEvent2.emit({id: this.roomId, booking: booking});
       // TODO: pass a relevant value. a value that can be use to update the store.
       // I guess the right thing to to is making a copy of the actual state,
       // update it, and pass it along.
-    }
+    // }
 
   }
 
@@ -149,11 +150,15 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
         this.bookingAssessment = { result: true, msg: "Coooool" };
         let thisRoomCopy = structuredClone(this.room);
           thisRoomCopy.bookings.push(booking);
+
+          // do nothing: trying to do all through the store related functions
+          /*
           this.roomService.book(thisRoomCopy)
             .subscribe( () => {
               console.log('Booked!');
               this.newBookingEvent.emit(); // tell parent
             });
+           */
       } else {
         this.bookingAssessment = { result: false, msg: "???" }; // todo: pass a string with a hint about what's wrong
       }
