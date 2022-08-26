@@ -17,7 +17,7 @@
   -->
 
   <div>
-    <button (click)=handleInput()>Send Request</button>
+    <button (click)="handleInput()" (click)="handleInput2($event)">Send Request</button>
   </div>  
 
   <br>
@@ -35,6 +35,14 @@
 <div>
   Store test 3:
   <div *ngFor="let r of rooms$ | async">
-    {{ r.id }}
+    room id: {{ r.id }}, bookings num: {{ r.bookings.length }}
+  </div>
+  Store test 3b:
+  <div *ngFor="let r of rooms2">
+    room id: {{ r.id }}, bookings num: {{ r.bookings.length }}
+  </div>
+  Store test 3c:
+  <div *ngFor="let r of rooms">
+    room id: {{ r.id }}, bookings num: {{ r.bookings.length }}
   </div>
 </div>

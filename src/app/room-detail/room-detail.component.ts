@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { RoomService } from '../room.service';
 import { Location } from '@angular/common';
 
 import { Room } from '../models/room';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, map, tap, reduce, filter } from 'rxjs';
 
 import { Store } from '../store';
 
@@ -15,7 +15,7 @@ import { Store } from '../store';
   styleUrls: ['./room-detail.component.css']
 })
 export class
-RoomDetailComponent implements OnInit {
+RoomDetailComponent implements OnInit, OnDestroy {
   id: number | undefined;
   room: Room | undefined;
 
@@ -39,12 +39,28 @@ RoomDetailComponent implements OnInit {
       this.subscription = this.roomService.getRooms$.subscribe();
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   handleNewBookingEvent() {
     console.log('handleNewBookingEvent()');
 
     this.room = undefined;//-> show loading message in room-current-bookings component
 
     this.getRoom();
+  }
+
+  // store related
+  handleNewBookingEvent2(event: any) {
+    console.log('handleNewBookingEvent2()');
+    console.log('event.foo:');
+    console.log(event.foo);
+
+    // todo: update store, that is, say something to the service
+
+    console.log('Trying to update store through room service');
+    this.roomService.updateRooms(event);
   }
 
   getRoom() {

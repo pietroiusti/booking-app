@@ -39,6 +39,10 @@ export class RoomsComponent implements OnInit, OnDestroy {
     this.subscription = this.roomService.getRooms$.subscribe();//<-- initiate the data flow
   }
 
+  logStore() {
+    console.log(this.store);
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
