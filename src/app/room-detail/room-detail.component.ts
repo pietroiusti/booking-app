@@ -16,7 +16,7 @@ import { Store } from '../store';
 })
 export class
 RoomDetailComponent implements OnInit, OnDestroy {
-  id: number | undefined;
+  id!: number;
   room: Room | undefined;
 
   // store related
@@ -36,11 +36,11 @@ RoomDetailComponent implements OnInit, OnDestroy {
 
       // store related
       this.rooms$ = this.store.select<Room[]>('rooms');
-      this.subscription = this.roomService.getRooms$.subscribe();
+      //this.subscription = this.roomService.getRooms$.subscribe();
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    //this.subscription.unsubscribe();
   }
 
   handleNewBookingEvent() {
