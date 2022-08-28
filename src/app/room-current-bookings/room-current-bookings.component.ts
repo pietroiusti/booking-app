@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Observable, Subscription, filter, map, tap } from 'rxjs';
 
 import { Booking } from '../models/booking';
 import { Room } from '../models/room';
@@ -12,7 +12,7 @@ import { Store } from '../store';
   templateUrl: './room-current-bookings.component.html',
   styleUrls: ['./room-current-bookings.component.css'],
 
-  //changeDetection: ChangeDetectionStrategy.OnPush, // <==================================
+  changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
 export class RoomCurrentBookingsComponent implements OnInit, OnDestroy {
@@ -31,6 +31,7 @@ export class RoomCurrentBookingsComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private roomService: RoomService,
+    private cd: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +42,10 @@ export class RoomCurrentBookingsComponent implements OnInit, OnDestroy {
       let bookings = rooms.find(r => r.id === this.roomId)?.bookings;
       if (bookings)
         this.roomCurrentBookings = bookings;
+
+      this.cd.markForCheck();  
     });
+    
   }
 
   ngOnDestroy(): void {
