@@ -17,12 +17,16 @@ import { Store } from '../store';
 })
 export class RoomCurrentBookingsComponent implements OnInit, OnDestroy {
 
-  @Input() id!: number;
+  @Input() roomId!: number;
 
-  // store related
+  // store related #######################
   rooms!: Room[];
-  roomCurrentBookings2!: Booking[];
+
+  roomCurrentBookings!: Booking[];
   subscription!: Subscription;
+
+  rooms$!: Observable<Room[]>;
+  //               #######################
 
   constructor(
     private store: Store,
@@ -30,18 +34,14 @@ export class RoomCurrentBookingsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store.select<Room[]>('rooms')
-      .subscribe(rooms => {
-          this.rooms = rooms;
+    this.rooms$ = this.store.select<Room[]>('rooms');
+    this.subscription = this.roomService.getRooms$.subscribe();
 
-          let filtered = rooms.filter(r => r.id === this.id);
-
-          if (filtered.length) // <-- TODO why is sometimes empty? fix?
-            this.roomCurrentBookings2 = filtered[0].bookings;
-      });
-    this.subscription = this.roomService.getRooms$.subscribe(); //<-- unnecessary?
-
-    console.log('id: '+ this.id);
+    this.rooms$.subscribe( rooms => {
+      let bookings = rooms.find(r => r.id === this.roomId)?.bookings;
+      if (bookings)
+        this.roomCurrentBookings = bookings;
+    });
   }
 
   ngOnDestroy(): void {

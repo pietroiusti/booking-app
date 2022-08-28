@@ -32,7 +32,6 @@ RoomDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
       this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-      this.getRoom();
 
       // store related
       this.rooms$ = this.store.select<Room[]>('rooms');
@@ -45,6 +44,7 @@ RoomDetailComponent implements OnInit, OnDestroy {
 
   // store related
   handleNewBookingEvent2(obj: any) {
+
     console.log('handleNewBookingEvent2()');
     console.log('obj');
     console.log(obj);
@@ -52,19 +52,12 @@ RoomDetailComponent implements OnInit, OnDestroy {
     // todo: update store, that is, say something to the service
     let updatedRooms = obj.updatedRooms;
 
+    updatedRooms = structuredClone(updatedRooms); //<========================
+
     let updatedRoom = updatedRooms.find((r: Room) => r.id === this.id);
 
     console.log('Trying to update store through room service');
     this.roomService.updateRooms(updatedRoom);
-  }
-
-  getRoom() {
-    if (this.id){
-      this.roomService.getRoom(this.id.toString())
-        .subscribe(room => {
-          this.room = room;
-        });
-    }
   }
 
   goBack(): void {

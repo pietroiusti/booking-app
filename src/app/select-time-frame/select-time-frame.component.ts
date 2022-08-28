@@ -9,7 +9,7 @@ import { Store } from '../store';
 import { RoomBookingAssessment } from '../models/room-booking-assessment';
 import { Booking } from '../models/booking';
 import { Room } from '../models/room';
-import { Observable, Subscription } from 'rxjs';
+import { filter, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-select-time-frame',
@@ -19,16 +19,13 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class SelectTimeFrameComponent implements OnInit, OnDestroy {
 
-  @Output() newBookingEvent = new EventEmitter();
-
   @Input() roomId: string | undefined;
-
 
   // store related #####################################################
   @Output() newBookingEvent2 = new EventEmitter();
 
   rooms!: Room[]; // <-- value from Observable input
-  @Input() rooms$!: Observable<Room[]>;
+  rooms$!: Observable<Room[]>;
 
   subscription!: Subscription;
   //               #####################################################
@@ -49,13 +46,11 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    //this.store.select<Room[]>('rooms')
-      //.subscribe(rooms => this.rooms2 = rooms)
+    // store related
+    this.rooms$ = this.store.select<Room[]>('rooms');
+    this.subscription = this.roomService.getRooms$.subscribe();
 
-    this.subscription = this.roomService.getRooms$.subscribe(); //<-- unnecessary?
-    this.rooms$.subscribe(
-      rooms => this.rooms = rooms
-    )
+    this.rooms$.subscribe( rooms => this.rooms = rooms )
   }
 
   ngOnDestroy(): void {
@@ -71,7 +66,7 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
     let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
     let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
     let booking: Booking = {
-      person: {
+      person: { // <<<<< logged person (TODO)
         name: 'John',
         surname: 'McBar',
         role: 'Software Developer',
@@ -82,12 +77,15 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
       }
     };
 
-    // I have got the data about the rooms (in `this.rooms`) as an input from the parent
     // (from subscribing to the Observable input).
     // The logic about the acceptability of a booking proposal can then be based on that data.
-    let room = this.rooms.filter(r => r.id === Number(this.roomId))[0];
+    let filtered = this.rooms.filter(r => r.id === Number(this.roomId));
 
-    room = structuredClone(room); // <==========================================================
+    console.log(this.rooms === filtered);
+
+    let room = filtered[0];
+
+    room = structuredClone(room); // <=========================
 
     let roomBookings = room.bookings;
 

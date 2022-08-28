@@ -2,16 +2,16 @@
 
 <h3>Room {{id}}</h3>
 
-<app-select-time-frame [rooms$]="rooms$" [roomId]="id.toString()"
+<app-select-time-frame [roomId]="id.toString()"
                        (newBookingEvent2)="handleNewBookingEvent2($event)"></app-select-time-frame>
 
 <br>
 
+<app-room-current-bookings [roomId]="id"></app-room-current-bookings>
 
-<app-room-current-bookings [id]="id"></app-room-current-bookings>
-
-
+<!--
 <div *ngIf="room && room.bookings.length===0">
   <br>
   No one has booked this room yet!
 </div>
+ -->
