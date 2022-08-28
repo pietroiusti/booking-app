@@ -1,22 +1,7 @@
 <p class="backLink" (click)="goBack()">← go back to bookable items</p>
 
-<div *ngIf="!roomsKeys.length">
-  loading...
-</div>
-
 <nav>
   <a *ngFor="let n of roomsKeys" routerLink="/rooms/{{n}}">
     Room {{n}}
   </a>
 </nav>
-
-<br>
-<br>
-<br>
-<div>
-  Store test 2:
-  <div *ngFor="let r of rooms$ | async">
-    Room {{ r.id }} has {{ r.bookings.length }} bookings
-  </div>
-  <button (click)="logStore()">log store</button>
-</div>

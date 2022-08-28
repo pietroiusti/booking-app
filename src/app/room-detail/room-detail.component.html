@@ -2,23 +2,16 @@
 
 <h3>Room {{id}}</h3>
 
-<app-select-time-frame [rooms$]="rooms$" [roomId]="id.toString()" [room]="room"
-                      (newBookingEvent)="handleNewBookingEvent()" (newBookingEvent2)="handleNewBookingEvent2($event)"></app-select-time-frame>
+<app-select-time-frame [rooms$]="rooms$" [roomId]="id.toString()"
+                       (newBookingEvent2)="handleNewBookingEvent2($event)"></app-select-time-frame>
 
 <br>
 
 
-<app-room-current-bookings [rooms$]="rooms$"
-                           [id]="id"
-                           [rooms2]="rooms$ | async"
-                           [roomCurrentBookings]="room ? room.bookings : 'loading'"></app-room-current-bookings>
+<app-room-current-bookings [id]="id"></app-room-current-bookings>
 
 
 <div *ngIf="room && room.bookings.length===0">
   <br>
   No one has booked this room yet!
-</div>
-
-<div *ngIf="!room">
-  loading...
 </div>

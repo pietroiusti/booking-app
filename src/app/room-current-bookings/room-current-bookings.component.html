@@ -1,13 +1,3 @@
-<h3>Current bookings:</h3>
-
-<ul *ngIf="roomCurrentBookings!='loading'">
-  <li *ngFor="let booking of roomCurrentBookings">
-    <p>Person: {{ booking.person.name }} {{ booking.person.surname }} ({{ booking.person.role }})</p>
-    <p>Start: {{ booking.timeFrame.start | date:'medium' }}</p>
-    <p>End: {{ booking.timeFrame.end | date:'medium' }}</p>
-  </li>
-</ul>
-
 <h3>Current bookings reading from store:</h3>
 <ul *ngIf="roomCurrentBookings2">
   <li *ngFor="let booking of roomCurrentBookings2">
@@ -16,17 +6,3 @@
     <p>End: {{ booking.timeFrame.end | date:'medium' }}</p>
   </li>
 </ul>
-
-<div *ngIf="roomCurrentBookings==='loading'">
-  loading...
-</div>
-
-<br>
-<br>
-<br>
-<div>
-  Store test 4:
-  <div *ngFor="let r of rooms$ | async">
-    {{ r.id }}, {{ r.bookings.length }}
-  </div>
-</div>

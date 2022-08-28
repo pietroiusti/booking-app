@@ -36,19 +36,11 @@ RoomDetailComponent implements OnInit, OnDestroy {
 
       // store related
       this.rooms$ = this.store.select<Room[]>('rooms');
-      //this.subscription = this.roomService.getRooms$.subscribe();
+      this.subscription = this.roomService.getRooms$.subscribe();
   }
 
   ngOnDestroy(): void {
-    //this.subscription.unsubscribe();
-  }
-
-  handleNewBookingEvent() {
-    console.log('handleNewBookingEvent()');
-
-    //this.room = undefined;//-> show loading message in room-current-bookings component
-
-    //this.getRoom();
+    this.subscription.unsubscribe();
   }
 
   // store related

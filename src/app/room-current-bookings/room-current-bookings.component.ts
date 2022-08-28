@@ -11,19 +11,18 @@ import { Store } from '../store';
   selector: 'app-room-current-bookings',
   templateUrl: './room-current-bookings.component.html',
   styleUrls: ['./room-current-bookings.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
+  //changeDetection: ChangeDetectionStrategy.OnPush, // <==================================
+
 })
 export class RoomCurrentBookingsComponent implements OnInit, OnDestroy {
 
-  @Input() roomCurrentBookings: Booking[] | 'loading' = 'loading';
   @Input() id!: number;
 
   // store related
   rooms!: Room[];
   roomCurrentBookings2!: Booking[];
   subscription!: Subscription;
-  @Input() rooms$!: Observable<Room[]>;
-  @Input() rooms2: Room[] | null = null;
 
   constructor(
     private store: Store,
@@ -40,12 +39,12 @@ export class RoomCurrentBookingsComponent implements OnInit, OnDestroy {
           if (filtered.length) // <-- TODO why is sometimes empty? fix?
             this.roomCurrentBookings2 = filtered[0].bookings;
       });
-    //this.subscription = this.roomService.getRooms$.subscribe();//<-- initiate the data flow
+    this.subscription = this.roomService.getRooms$.subscribe(); //<-- unnecessary?
 
     console.log('id: '+ this.id);
   }
 
   ngOnDestroy(): void {
-    //this.subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

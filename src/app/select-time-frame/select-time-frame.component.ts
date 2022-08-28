@@ -15,14 +15,13 @@ import { Observable, Subscription } from 'rxjs';
   selector: 'app-select-time-frame',
   templateUrl: './select-time-frame.component.html',
   styleUrls: ['./select-time-frame.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush, // <======================================================
 })
 export class SelectTimeFrameComponent implements OnInit, OnDestroy {
 
   @Output() newBookingEvent = new EventEmitter();
 
   @Input() roomId: string | undefined;
-  @Input() room: Room | undefined;
 
 
   // store related #####################################################
@@ -53,7 +52,7 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
     //this.store.select<Room[]>('rooms')
       //.subscribe(rooms => this.rooms2 = rooms)
 
-    this.subscription = this.roomService.getRooms$.subscribe();//<-- initiate the data flow
+    this.subscription = this.roomService.getRooms$.subscribe(); //<-- unnecessary?
     this.rooms$.subscribe(
       rooms => this.rooms = rooms
     )
@@ -87,6 +86,9 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
     // (from subscribing to the Observable input).
     // The logic about the acceptability of a booking proposal can then be based on that data.
     let room = this.rooms.filter(r => r.id === Number(this.roomId))[0];
+
+    room = structuredClone(room); // <==========================================================
+
     let roomBookings = room.bookings;
 
     let assessment = this.roomService.assessBooking(roomBookings, booking);
