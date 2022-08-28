@@ -28,8 +28,6 @@ export class RoomsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.getRoomsKeys();
-
     // store related
     this.rooms$ = this.store.select<Room[]>('rooms'); // Alternatively one can remove the async pipe
                                                       // from the template and do:
@@ -37,6 +35,10 @@ export class RoomsComponent implements OnInit, OnDestroy {
                                                       //     .subscribe(rooms => this.rooms$ = rooms);
 
     this.subscription = this.roomService.getRooms$.subscribe();//<-- initiate the data flow
+
+    this.rooms$.subscribe(rooms => {
+      this.roomsKeys = rooms.map(r => r.id);
+    });
   }
 
   logStore() {
@@ -45,11 +47,6 @@ export class RoomsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  getRoomsKeys(): void {
-    this.roomService.getRoomsIds()
-        .subscribe(v => this.roomsKeys = v);
   }
 
   goBack(): void {

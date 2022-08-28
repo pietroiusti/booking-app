@@ -56,43 +56,6 @@ export class RoomService {
       })
   }
 
-  getRoomsIds(): Observable<number[]> {
-    //console.log('getRoomsIds');
-    return this.http.get<Room[]>(this.roomsUrl)
-      .pipe(
-        map(arrOfRooms => arrOfRooms.map(r => r.id)),//<-- assess acceptability
-      );
-  }
-
-  getRoomsData(): Observable<Room[]> {
-    //console.log(`getRoomsData()`);
-    return this.http.get<Room[]>(this.roomsUrl)
-      .pipe(
-        tap(_ => console.log('fetched rooms')),
-        catchError(this.handleError<Room[]>('getRoomsData', [])),
-      );
-  }
-
-  /** GET room by id. */
-  getRoom(id: string): Observable<Room> {
-    console.log(`getRoom(): ${this.roomsUrl}/${id}`);
-    const url = `${this.roomsUrl}/${id}}`;
-    return this.http.get<Room>(url).pipe(
-      tap(_ => console.log(`fetched room ${id}`)),
-      catchError(this.handleError<Room>(`getRoom id=${id}`)),
-    );
-  }
-
-  // The mock web API knows which room to update by looking at the room's id
-  book(r: Room): Observable<any> {
-    console.log('book()');
-    return this.http.put(this.roomsUrl, r, this.httpOptions)
-      .pipe(
-        tap(_ => console.log(`New booking for room ${r.id}`)),
-        catchError(this.handleError<any>('book function')),
-      );
-  }
-
   /**
  * Handle Http operation that failed.
  * Let the app continue.
