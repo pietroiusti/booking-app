@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { RoomService } from '../room.service';
 
@@ -12,7 +12,8 @@ import { Room } from '../models/room';
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
-  styleUrls: ['./rooms.component.css']
+  styleUrls: ['./rooms.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomsComponent implements OnInit, OnDestroy {
   roomsKeys: number[] = [];
@@ -25,6 +26,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
     private roomService: RoomService,
     private location: Location,
     private store: Store,
+    private cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -38,6 +40,8 @@ export class RoomsComponent implements OnInit, OnDestroy {
 
     this.rooms$.subscribe(rooms => {
       this.roomsKeys = rooms.map(r => r.id);
+
+      this.cd.markForCheck();
     });
   }
 

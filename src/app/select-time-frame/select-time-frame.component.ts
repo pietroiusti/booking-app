@@ -6,7 +6,6 @@ import { RoomService } from '../room.service';
 import { Store } from '../store';
 
 // types
-import { RoomBookingAssessment } from '../models/room-booking-assessment';
 import { Booking } from '../models/booking';
 import { Room } from '../models/room';
 import { filter, Observable, Subscription } from 'rxjs';
@@ -30,9 +29,6 @@ export class SelectTimeFrameComponent implements OnInit {
   selectedTimeStart: string | undefined;
   selectedTimeEnd: string | undefined;
 
-  bookingAssessment: RoomBookingAssessment | undefined;
-  bookingFinalResult: 'accepted' | 'rejected' | undefined;
-
   constructor(
     private roomService: RoomService,
     private store: Store,
@@ -45,16 +41,13 @@ export class SelectTimeFrameComponent implements OnInit {
   // store related
   handleInput2(event: MouseEvent) {
     //console.log('handleInput2()');
-    //console.log(event);
-    //console.log('this room:');
-    //console.log(this.room$);
     let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
     let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
     let booking: Booking = {
       person: { // <<<<< logged person (TODO)
         name: 'John',
         surname: 'McBar',
-        role: 'Software Developer',
+        role: 'Software Engineer',
       },
       timeFrame: {
         start: Date.parse(UnixTimestampStartString),
@@ -62,16 +55,8 @@ export class SelectTimeFrameComponent implements OnInit {
       }
     };
 
-    // (from subscribing to the Observable input).
-    // The logic about the acceptability of a booking proposal can then be based on that data.
     let filtered = this.rooms.filter(r => r.id === Number(this.roomId));
-
-    console.log(this.rooms === filtered);
-
     let room = filtered[0];
-
-    room = structuredClone(room); // <=========================
-
     let roomBookings = room.bookings;
 
     let assessment = this.roomService.assessBooking(roomBookings, booking);
@@ -85,13 +70,9 @@ export class SelectTimeFrameComponent implements OnInit {
         else                  return r;
       });
 
-      //console.log('UPDATED ROOMS:');
-      //console.log(updatedRooms);
-
-      this.newBookingEvent2.emit( { updatedRooms });
+      this.newBookingEvent2.emit( { updatedRooms } );
     } else {
       console.log("Cannot make booking...");
     }
   }
-
 }
