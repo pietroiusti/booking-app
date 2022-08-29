@@ -1,0 +1,9 @@
+#+title: booking app
+#+language: en
+#+select_tags: export
+#+exclude_tags: noexport
+#+creator: Emacs 28.1 (Org mode 9.5.2)
+
+App for booking rooms...
+
+Back-end: https://github.com/pietroiusti/booking-api
