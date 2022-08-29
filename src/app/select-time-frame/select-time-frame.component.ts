@@ -8,7 +8,7 @@ import { Store } from '../store';
 // types
 import { Booking } from '../models/booking';
 import { Room } from '../models/room';
-import { filter, Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-select-time-frame',
@@ -20,14 +20,14 @@ export class SelectTimeFrameComponent implements OnInit {
 
   @Input() roomId: string | undefined;
 
-  rooms!: Room[];
+  rooms: Room[] = [];
   @Input() rooms$!: Observable<Room[]>;
 
-  @Output() newBookingEvent2 = new EventEmitter();
+  @Output() newBookingEvent2: EventEmitter<any> = new EventEmitter();
 
-  selectedDate: string | undefined;
-  selectedTimeStart: string | undefined;
-  selectedTimeEnd: string | undefined;
+  selectedDate: string | null = null;
+  selectedTimeStart: string | null = null;
+  selectedTimeEnd: string | null = null;
 
   constructor(
     private roomService: RoomService,
@@ -39,7 +39,7 @@ export class SelectTimeFrameComponent implements OnInit {
   }
 
   // store related
-  handleInput2(event: MouseEvent) {
+  handleInput2(event: MouseEvent): void {
     //console.log('handleInput2()');
     let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
     let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
@@ -67,10 +67,10 @@ export class SelectTimeFrameComponent implements OnInit {
 
       let updatedRooms = this.rooms.map(r => {
         if (r.id === room.id) return room;
-        else                  return r;
+        else return r;
       });
 
-      this.newBookingEvent2.emit( { updatedRooms } );
+      this.newBookingEvent2.emit({ updatedRooms });
     } else {
       console.log("Cannot make booking...");
     }
