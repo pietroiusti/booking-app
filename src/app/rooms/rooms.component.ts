@@ -18,7 +18,6 @@ import { Room } from '../models/room';
 export class RoomsComponent implements OnInit, OnDestroy {
   roomsKeys: number[] = [];
 
-  // store related
   rooms$!: Observable<Room[]>;
   subscription!: Subscription;
 
@@ -30,7 +29,6 @@ export class RoomsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    // store related
     this.rooms$ = this.store.select<Room[]>('rooms'); // Alternatively one can remove the async pipe
                                                       // from the template and do:
                                                       // this.store.select<Room[]>('rooms')

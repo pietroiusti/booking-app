@@ -18,7 +18,7 @@ export class Store {
   private store = this.subject.asObservable().pipe(distinctUntilChanged());
 
 
-  get value() {
+  get value() { // return type?
     return this.subject.value;
   }
 
@@ -29,7 +29,7 @@ export class Store {
   }
 
   // ex: store.set('todos', [{...}, {...}])
-  set(name: string, state: any) {
+  set(name: string, state: any): void {
     this.subject.next({
     // notify the behaviour subj that something changed
       ...this.value, [name]: state

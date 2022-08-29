@@ -21,7 +21,7 @@ export class SelectTimeFrameComponent implements OnInit {
   @Input() roomId: string | undefined;
 
   rooms: Room[] = [];
-  @Input() rooms$!: Observable<Room[]>;
+  @Input() rooms$: Observable<Room[]> | null = null;
 
   @Output() newBookingEvent2: EventEmitter<any> = new EventEmitter();
 
@@ -35,10 +35,11 @@ export class SelectTimeFrameComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.rooms$.subscribe( rooms => this.rooms = rooms );
+    if (this.rooms$) {
+      this.rooms$.subscribe( rooms => this.rooms = rooms );
+    }
   }
 
-  // store related
   handleInput2(event: MouseEvent): void {
     //console.log('handleInput2()');
     let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';

@@ -17,10 +17,10 @@ import { Observable, Subscription } from 'rxjs';
 export class
 RoomDetailComponent implements OnInit, OnDestroy {
   id!: number;
-  room: Room | undefined;
+  room: Room | null = null;
 
-  rooms$!: Observable<Room[]>;
-  subscription!: Subscription;
+  rooms$: Observable<Room[]> | null = null;
+  subscription: Subscription | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,27 +34,15 @@ RoomDetailComponent implements OnInit, OnDestroy {
 
       this.rooms$ = this.store.select<Room[]>('rooms');
       this.subscription = this.roomService.getRooms$.subscribe();
-
-      //this.rooms$.subscribe( rooms => this.rooms = rooms )
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    //unsubscribe?
+  }
 
-  // store related
   handleNewBookingEvent2(obj: any) {
-
-    console.log('handleNewBookingEvent2()');
-    console.log('obj');
-    console.log(obj);
-
-    // todo: update store, that is, say something to the service
     let updatedRooms = obj.updatedRooms;
-
-    updatedRooms = structuredClone(updatedRooms); //<========================
-
     let updatedRoom = updatedRooms.find((r: Room) => r.id === this.id);
-
-    console.log('Trying to update store through room service');
     this.roomService.updateRooms(updatedRoom);
   }
 

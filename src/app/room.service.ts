@@ -28,13 +28,11 @@ export class RoomService {
     private store: Store,
   ) { }
 
-  // store related
-  getRooms$ = this.http.get(this.roomsUrl)
+  getRooms$: Observable<Room[]> = this.http.get<Room[]>(this.roomsUrl)
     .pipe(
       tap(next => this.store.set('rooms', next))
     );
 
-  // store related
   updateRooms(updatedRoom: Room): void {
     console.log('updateRooms()');
 
