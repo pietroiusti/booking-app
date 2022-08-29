@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 // services
 import { RoomService } from '../room.service';
@@ -17,20 +17,14 @@ import { filter, Observable, Subscription } from 'rxjs';
   styleUrls: ['./select-time-frame.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush, // <======================================================
 })
-export class SelectTimeFrameComponent implements OnInit, OnDestroy {
+export class SelectTimeFrameComponent implements OnInit {
 
   @Input() roomId: string | undefined;
 
-  // store related #####################################################
+  rooms!: Room[];
+  @Input() rooms$!: Observable<Room[]>;
+
   @Output() newBookingEvent2 = new EventEmitter();
-
-  rooms!: Room[]; // <-- value from Observable input
-  rooms$!: Observable<Room[]>;
-
-  subscription!: Subscription;
-  //               #####################################################
-
-
 
   selectedDate: string | undefined;
   selectedTimeStart: string | undefined;
@@ -45,16 +39,7 @@ export class SelectTimeFrameComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-
-    // store related
-    this.rooms$ = this.store.select<Room[]>('rooms');
-    this.subscription = this.roomService.getRooms$.subscribe();
-
-    this.rooms$.subscribe( rooms => this.rooms = rooms )
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.rooms$.subscribe( rooms => this.rooms = rooms );
   }
 
   // store related

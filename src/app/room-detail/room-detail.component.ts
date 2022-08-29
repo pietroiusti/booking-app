@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { Room } from '../models/room';
 
 import { Store } from '../store';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-room-detail',
@@ -18,6 +19,9 @@ RoomDetailComponent implements OnInit, OnDestroy {
   id!: number;
   room: Room | undefined;
 
+  rooms$!: Observable<Room[]>;
+  subscription!: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private roomService: RoomService,
@@ -27,6 +31,11 @@ RoomDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
       this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+
+      this.rooms$ = this.store.select<Room[]>('rooms');
+      this.subscription = this.roomService.getRooms$.subscribe();
+
+      //this.rooms$.subscribe( rooms => this.rooms = rooms )
   }
 
   ngOnDestroy(): void {}
