@@ -1,11 +1,8 @@
-import { Component, OnInit, OnDestroy, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Observable, Subscription, filter, map, tap } from 'rxjs';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { Booking } from '../models/booking';
 import { Room } from '../models/room';
-import { RoomService } from '../room.service';
-
-import { Store } from '../store';
 
 @Component({
   selector: 'app-room-current-bookings',
@@ -16,25 +13,27 @@ import { Store } from '../store';
 })
 export class RoomCurrentBookingsComponent implements OnInit {
 
-  @Input() roomId!: number;
+  @Input() roomId: number | undefined;
 
-  rooms!: Room[];
-  @Input() rooms$!: Observable<Room[]>;
-  roomCurrentBookings!: Booking[];
+  rooms: Room[] = [];
+  @Input() rooms$: Observable<Room[]> | null = null;
+  roomCurrentBookings: Booking[] = [];
 
   constructor(
-    private store: Store,
-    private roomService: RoomService,
     private cd: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
-    this.rooms$.subscribe( rooms => {
-      let bookings = rooms.find(r => r.id === this.roomId)?.bookings;
-      if (bookings)
-        this.roomCurrentBookings = bookings;
+    if (this.rooms$) {
+      this.rooms$.subscribe(rooms => {
+        if (this.roomId !== undefined) {
+          let bookings = rooms.find(r => r.id === this.roomId)?.bookings;
+          if (bookings)
+            this.roomCurrentBookings = bookings;
 
-      this.cd.markForCheck();
-    });
+          this.cd.markForCheck();
+        }
+      });
+    }
   }
 }
