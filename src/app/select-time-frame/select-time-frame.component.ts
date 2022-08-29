@@ -15,7 +15,7 @@ import { filter, Observable, Subscription } from 'rxjs';
   selector: 'app-select-time-frame',
   templateUrl: './select-time-frame.component.html',
   styleUrls: ['./select-time-frame.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush, // <======================================================
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectTimeFrameComponent implements OnInit {
 

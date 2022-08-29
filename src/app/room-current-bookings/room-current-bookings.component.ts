@@ -13,20 +13,14 @@ import { Store } from '../store';
   styleUrls: ['./room-current-bookings.component.css'],
 
   changeDetection: ChangeDetectionStrategy.OnPush,
-
 })
-export class RoomCurrentBookingsComponent implements OnInit, OnDestroy {
+export class RoomCurrentBookingsComponent implements OnInit {
 
   @Input() roomId!: number;
 
-  // store related #######################
   rooms!: Room[];
-
+  @Input() rooms$!: Observable<Room[]>;
   roomCurrentBookings!: Booking[];
-  subscription!: Subscription;
-
-  rooms$!: Observable<Room[]>;
-  //               #######################
 
   constructor(
     private store: Store,
@@ -35,20 +29,12 @@ export class RoomCurrentBookingsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.rooms$ = this.store.select<Room[]>('rooms');
-    this.subscription = this.roomService.getRooms$.subscribe();
-
     this.rooms$.subscribe( rooms => {
       let bookings = rooms.find(r => r.id === this.roomId)?.bookings;
       if (bookings)
         this.roomCurrentBookings = bookings;
 
-      this.cd.markForCheck();  
+      this.cd.markForCheck();
     });
-    
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }
