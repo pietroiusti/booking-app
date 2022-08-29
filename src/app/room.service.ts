@@ -16,7 +16,8 @@ import { TimeFrame } from './models/time-frame';
   providedIn: 'root'
 })
 export class RoomService {
-  private roomsUrl = 'api/rooms'; // URL to web api
+  //private roomsUrl = 'api/rooms'; // URL to web api
+  private roomsUrl = 'http://localhost:3000/rooms';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-type': 'application/json' }),
@@ -35,10 +36,18 @@ export class RoomService {
 
   // store related
   updateRooms(updatedRoom: Room): void {
-    console.log('hola');
+    console.log('updateRooms()');
+
+    let httpOptions2 = {
+      headers : new HttpHeaders ({
+        'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+    })};
+    //https://stackoverflow.com/questions/25727306/request-header-field-access-control-allow-headers-is-not-allowed-by-access-contr
+
 
     // 1. TODO send req to server to change data
-    this.http.put(this.roomsUrl, updatedRoom, this.httpOptions)
+    //this.http.put(this.roomsUrl, updatedRoom, this.httpOptions)
+    this.http.put(this.roomsUrl, updatedRoom, httpOptions2)
       .pipe(
         tap(_ => console.log(`New booking for room ${updatedRoom.id}`)),
         catchError(this.handleError<any>('book function')),
