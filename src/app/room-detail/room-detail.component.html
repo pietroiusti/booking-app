@@ -2,9 +2,8 @@
 
 <h3>Room {{id}}</h3>
 
-<app-select-time-frame [room$]="room$" [roomId]="id.toString()" [rooms$]="rooms$"
-                       (newBookingEvent3)="handleNewBookingEvent3($event)"
-                       (newBookingEvent2)="handleNewBookingEvent2($event)"></app-select-time-frame>
+<app-select-time-frame [room$]="room$"
+                       (newBookingEvent)="handleNewBookingEvent($event)"></app-select-time-frame>
 
 <br>
 

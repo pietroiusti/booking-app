@@ -18,16 +18,10 @@ import { Observable } from 'rxjs';
 })
 export class SelectTimeFrameComponent implements OnInit {
 
-  @Input() roomId: string | undefined;
-
   room: Room | null = null;
   @Input() room$: Observable<Room> | undefined;
 
-  rooms: Room[] = [];
-  @Input() rooms$: Observable<Room[]> | null = null;
-
-  @Output() newBookingEvent2: EventEmitter<any> = new EventEmitter();
-  @Output() newBookingEvent3: EventEmitter<any> = new EventEmitter();
+  @Output() newBookingEvent: EventEmitter<any> = new EventEmitter();
 
   selectedDate: string | null = null;
   selectedTimeStart: string | null = null;
@@ -39,10 +33,6 @@ export class SelectTimeFrameComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.rooms$) {
-      this.rooms$.subscribe( rooms => this.rooms = rooms );
-    }
-
     if (this.room$) {
       this.room$.subscribe(room => {
         this.room = room;
@@ -50,8 +40,8 @@ export class SelectTimeFrameComponent implements OnInit {
     }
   }
 
-  handleInput3(): void {
-    console.log('handleInput3()');
+  handleInput(): void {
+    console.log('handleInput()');
 
     let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
     let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
@@ -75,48 +65,10 @@ export class SelectTimeFrameComponent implements OnInit {
         let room = Object.assign({}, this.room); // shallow copy
         room.bookings.push(booking);
 
-        this.newBookingEvent3.emit(room);
+        this.newBookingEvent.emit(room);
       } else {
         console.log("Cannot make booking...");
       }
-    }
-
-  }
-
-  handleInput2(event: MouseEvent): void {
-    //console.log('handleInput2()');
-    let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
-    let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
-    let booking: Booking = {
-      person: { // <<<<< logged person (TODO)
-        name: 'John',
-        surname: 'McBar',
-        role: 'Software Engineer',
-      },
-      timeFrame: {
-        start: Date.parse(UnixTimestampStartString),
-        end: Date.parse(UnixTimestampEndString),
-      }
-    };
-
-    let filtered = this.rooms.filter(r => r.id === Number(this.roomId));
-    let room = filtered[0];
-    let roomBookings = room.bookings;
-
-    let assessment = this.roomService.assessBooking(roomBookings, booking);
-
-    if (assessment) {
-      console.log('Booking assessment was good. Passing update room object along.');
-      room.bookings.push(booking);
-
-      let updatedRooms = this.rooms.map(r => {
-        if (r.id === room.id) return room;
-        else return r;
-      });
-
-      this.newBookingEvent2.emit({ updatedRooms }); //<<<<<< why not emitting the single updated room?
-    } else {
-      console.log("Cannot make booking...");
     }
   }
 }

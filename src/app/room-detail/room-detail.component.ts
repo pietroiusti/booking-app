@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
 import { Room } from '../models/room';
 
 import { Store } from '../store';
-import { filter, map, tap, Observable, Subscription, scan } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-room-detail',
@@ -18,10 +18,8 @@ export class
   RoomDetailComponent implements OnInit, OnDestroy {
   id!: number;
 
-  //room: Room | null = null;
   room$: Observable<Room> | undefined;
 
-  rooms$: Observable<Room[]> | null = null;
   subscription: Subscription | null = null;
 
   constructor(
@@ -34,26 +32,18 @@ export class
   ngOnInit(): void {
     this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
 
-    this.rooms$ = this.store.select<Room[]>('rooms');
     this.subscription = this.roomService.getRooms$.subscribe();
 
     this.room$ = this.store.select_room(this.id);
-    //this.room$.subscribe(r => this.room = r);
   }
 
   ngOnDestroy(): void {
-    //unsubscribe?
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
-  handleNewBookingEvent2(obj: any) {
-    //console.log(this.room);
-
-    let updatedRooms = obj.updatedRooms;
-    let updatedRoom = updatedRooms.find((r: Room) => r.id === this.id);
-    this.roomService.updateRooms(updatedRoom);
-  }
-
-  handleNewBookingEvent3(updatedRoom: Room) {
+  handleNewBookingEvent(updatedRoom: Room) {
     console.log(updatedRoom);
     this.roomService.updateRooms(updatedRoom);
   }

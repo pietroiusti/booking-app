@@ -8,7 +8,7 @@ import { Store } from './store';
 
 import { Room } from './models/room';
 
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Booking } from './models/booking';
 import { TimeFrame } from './models/time-frame';
 
@@ -143,7 +143,7 @@ export class RoomService {
       return false;
     }
 
-    // todo: add more tests (e.g., forbid booking for past times)
+    // TODO: add more tests (e.g., forbid booking for past times)
 
     return true;
   }
