@@ -4,6 +4,17 @@
     <input [(ngModel)]="selectedDate" type="date" name="selected-day">
     <input [(ngModel)]="selectedTimeStart" type="time" name="selected-time-start">
     <input [(ngModel)]="selectedTimeEnd" type="time" name="selected-time-end">
+    <input [formControl]="gpFormControl" type="text" name="foo" id="foobar">
+  </div>
+
+  <br>
+  <br>
+
+  <span>Select a time frame (using control):</span>
+  <div>
+    <input [formControl]="selectedDateControl" type="date" name="selected-day">
+    <input [formControl]="selectedTimeStartControl" type="time" name="selected-time-start">
+    <input [formControl]="selectedTimeEndControl" type="time" name="selected-time-end">
   </div>
 </div>
 

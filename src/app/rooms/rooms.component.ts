@@ -39,7 +39,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
     this.rooms$.subscribe(rooms => {
       this.roomsKeys = rooms.map(r => r.id);
 
-      this.cd.markForCheck();
+      this.cd.markForCheck();// TODO: detectChanges instead? Investigate differences.
     });
   }
 

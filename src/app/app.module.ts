@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 //import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // services
 //import { InMemoryDataService } from './in-memory-data.service';
@@ -34,6 +35,7 @@ import { SelectTimeFrameComponent } from './select-time-frame/select-time-frame.
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.

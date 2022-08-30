@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
+import { FormControl } from '@angular/forms';
+
 // services
 import { RoomService } from '../room.service';
 
@@ -8,7 +10,7 @@ import { Store } from '../store';
 // types
 import { Booking } from '../models/booking';
 import { Room } from '../models/room';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-select-time-frame',
@@ -17,6 +19,11 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectTimeFrameComponent implements OnInit {
+
+  gpFormControl = new FormControl('');
+  selectedDateControl = new FormControl('');
+  selectedTimeStartControl = new FormControl('');
+  selectedTimeEndControl = new FormControl('');
 
   room: Room | null = null;
   @Input() room$: Observable<Room> | undefined;
@@ -42,6 +49,15 @@ export class SelectTimeFrameComponent implements OnInit {
 
   handleInput(): void {
     console.log('handleInput()');
+
+    console.log('this.selectedDateControl.value:');
+    console.log(this.selectedDateControl.value);
+    console.log('this.selectedTimeStartControl.value:');
+    console.log(this.selectedTimeStartControl.value);
+    console.log('this.selectedTimeEndControl.value:');
+    console.log(this.selectedTimeEndControl.value);
+
+    this.gpFormControl.setValue('hola');
 
     let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
     let UnixTimestampStart = Date.parse(UnixTimestampStartString);

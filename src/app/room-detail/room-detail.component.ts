@@ -32,7 +32,7 @@ export class
   ngOnInit(): void {
     this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
 
-    this.subscription = this.roomService.getRooms$.subscribe();
+    this.subscription = this.roomService.getRooms$.subscribe(); // TODO: avoid duplication!
 
     this.room$ = this.store.select_room(this.id);
   }
@@ -45,7 +45,7 @@ export class
 
   handleNewBookingEvent(updatedRoom: Room) {
     console.log(updatedRoom);
-    this.roomService.updateRooms(updatedRoom);
+    this.roomService.updateRooms(updatedRoom); // why not in select time frame comp?
   }
 
   goBack(): void {
