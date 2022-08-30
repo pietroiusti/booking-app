@@ -1,6 +1,6 @@
 <h3>Current bookings reading from store:</h3>
-<ul *ngIf="roomCurrentBookings">
-  <li *ngFor="let booking of roomCurrentBookings">
+<ul *ngIf="room">
+  <li *ngFor="let booking of room.bookings">
     <p>Person: {{ booking.person.name }} {{ booking.person.surname }} ({{ booking.person.role }})</p>
     <p>Start: {{ booking.timeFrame.start | date:'medium' }}</p>
     <p>End: {{ booking.timeFrame.end | date:'medium' }}</p>
