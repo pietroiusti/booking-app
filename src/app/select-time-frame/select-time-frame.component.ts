@@ -20,10 +20,14 @@ export class SelectTimeFrameComponent implements OnInit {
 
   @Input() roomId: string | undefined;
 
+  room: Room | null = null;
+  @Input() room$: Observable<Room> | undefined;
+
   rooms: Room[] = [];
   @Input() rooms$: Observable<Room[]> | null = null;
 
   @Output() newBookingEvent2: EventEmitter<any> = new EventEmitter();
+  @Output() newBookingEvent3: EventEmitter<any> = new EventEmitter();
 
   selectedDate: string | null = null;
   selectedTimeStart: string | null = null;
@@ -38,6 +42,45 @@ export class SelectTimeFrameComponent implements OnInit {
     if (this.rooms$) {
       this.rooms$.subscribe( rooms => this.rooms = rooms );
     }
+
+    if (this.room$) {
+      this.room$.subscribe(room => {
+        this.room = room;
+      })
+    }
+  }
+
+  handleInput3(): void {
+    console.log('handleInput3()');
+
+    let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
+    let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
+    let booking: Booking = {
+      person: { // <<<<< logged person (TODO)
+        name: 'John',
+        surname: 'McBar',
+        role: 'Software Engineer',
+      },
+      timeFrame: {
+        start: Date.parse(UnixTimestampStartString),
+        end: Date.parse(UnixTimestampEndString),
+      }
+    };
+
+    if (this.room) {
+      let assessment = this.roomService.assessBooking(this.room.bookings, booking);
+      if (assessment) {
+        console.log('Booking assessment was good. Passing update room object along.');
+
+        let room = Object.assign({}, this.room); // shallow copy
+        room.bookings.push(booking);
+
+        this.newBookingEvent3.emit(room);
+      } else {
+        console.log("Cannot make booking...");
+      }
+    }
+
   }
 
   handleInput2(event: MouseEvent): void {
@@ -71,7 +114,7 @@ export class SelectTimeFrameComponent implements OnInit {
         else return r;
       });
 
-      this.newBookingEvent2.emit({ updatedRooms });
+      this.newBookingEvent2.emit({ updatedRooms }); //<<<<<< why not emitting the single updated room?
     } else {
       console.log("Cannot make booking...");
     }

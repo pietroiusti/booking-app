@@ -53,6 +53,11 @@ export class
     this.roomService.updateRooms(updatedRoom);
   }
 
+  handleNewBookingEvent3(updatedRoom: Room) {
+    console.log(updatedRoom);
+    this.roomService.updateRooms(updatedRoom);
+  }
+
   goBack(): void {
     this.location.back();
   }
