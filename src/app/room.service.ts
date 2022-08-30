@@ -80,6 +80,18 @@ export class RoomService {
     };
   }
 
+  // take unix timestamps
+  createBooking(start: number, end: number): Booking {
+    return {
+      person: { // <<<<< logged person (TODO)
+        name: 'John',
+        surname: 'McBar',
+        role: 'Software Engineer',
+      },
+      timeFrame: { start, end },
+    };
+  }
+
   assessBooking(roomBookings: Booking[], newBooking: Booking): boolean {
     // Check if booking start time is before end time
     function startBeforeEnd (booking: Booking): boolean {

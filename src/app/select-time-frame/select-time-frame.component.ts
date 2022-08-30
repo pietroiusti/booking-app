@@ -44,18 +44,11 @@ export class SelectTimeFrameComponent implements OnInit {
     console.log('handleInput()');
 
     let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
+    let UnixTimestampStart = Date.parse(UnixTimestampStartString);
     let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
-    let booking: Booking = {
-      person: { // <<<<< logged person (TODO)
-        name: 'John',
-        surname: 'McBar',
-        role: 'Software Engineer',
-      },
-      timeFrame: {
-        start: Date.parse(UnixTimestampStartString),
-        end: Date.parse(UnixTimestampEndString),
-      }
-    };
+    let UnixTimestampEnd = Date.parse(UnixTimestampEndString);
+
+    let booking = this.roomService.createBooking(UnixTimestampStart, UnixTimestampEnd);
 
     if (this.room) {
       let assessment = this.roomService.assessBooking(this.room.bookings, booking);
