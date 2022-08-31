@@ -5,12 +5,9 @@ import { FormControl } from '@angular/forms';
 // services
 import { RoomService } from '../room.service';
 
-import { Store } from '../store';
-
 // types
-import { Booking } from '../models/booking';
 import { Room } from '../models/room';
-import { from, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-select-time-frame',
@@ -36,7 +33,6 @@ export class SelectTimeFrameComponent implements OnInit {
 
   constructor(
     private roomService: RoomService,
-    private store: Store,
   ) { }
 
   ngOnInit(): void {
@@ -50,18 +46,9 @@ export class SelectTimeFrameComponent implements OnInit {
   handleInput(): void {
     console.log('handleInput()');
 
-    console.log('this.selectedDateControl.value:');
-    console.log(this.selectedDateControl.value);
-    console.log('this.selectedTimeStartControl.value:');
-    console.log(this.selectedTimeStartControl.value);
-    console.log('this.selectedTimeEndControl.value:');
-    console.log(this.selectedTimeEndControl.value);
-
-    this.gpFormControl.setValue('hola');
-
-    let UnixTimestampStartString = this.selectedDate + 'T' + this.selectedTimeStart + ':00' + '.000+02:00';
+    let UnixTimestampStartString = this.selectedDateControl.value + 'T' + this.selectedTimeStartControl.value + ':00' + '.000+02:00';
     let UnixTimestampStart = Date.parse(UnixTimestampStartString);
-    let UnixTimestampEndString = this.selectedDate + 'T' + this.selectedTimeEnd + ':00' + '.000+02:00';
+    let UnixTimestampEndString = this.selectedDateControl.value + 'T' + this.selectedTimeEndControl.value + ':00' + '.000+02:00';
     let UnixTimestampEnd = Date.parse(UnixTimestampEndString);
 
     let booking = this.roomService.createBooking(UnixTimestampStart, UnixTimestampEnd);
