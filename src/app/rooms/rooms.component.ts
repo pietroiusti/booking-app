@@ -14,8 +14,7 @@ import { Room } from '../models/room';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomsComponent implements OnInit {
-  roomsKeys: number[] = [];
-
+  rooms: Room[] | null = null;
   rooms$!: Observable<Room[]>;
   subscription!: Subscription;
 
@@ -28,7 +27,8 @@ export class RoomsComponent implements OnInit {
   ngOnInit(): void {
     this.rooms$ = this.store.select<Room[]>('rooms');
     this.rooms$.subscribe(rooms => {
-      this.roomsKeys = rooms.map(r => r.id);
+      //this.roomsKeys = rooms.map(r => r.id);
+      this.rooms = rooms;
 
       this.cd.markForCheck();// TODO: detectChanges instead? Investigate differences.
     });

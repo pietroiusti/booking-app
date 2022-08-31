@@ -2,8 +2,14 @@ mat-card {
   margin: 1em;
   width: 15%;
   min-width: 100px;
+  color: black;
   background-color: lemonchiffon;
   text-align: center;
+}
+
+mat-card-subtitle {
+  font-size: 10px;
+  color: grey;
 }
 
 mat-card:hover {

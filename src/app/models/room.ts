@@ -1,10 +1,11 @@
 import { Booking } from "./booking";
 
 export interface Room {
-  // tv
-  // whiteboard
-  // capacity
-  // TODO: button => card
   id: number;
+  name: string,
+  display: boolean,
+  whiteboard: boolean,
+  airConditioning: boolean,
+  capacity: number,
   bookings: Booking[];
 }
