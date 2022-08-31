@@ -1,16 +1,23 @@
 <p class="backLink" (click)="goBack()">← go back to bookable items</p>
 
-<mat-card *ngFor="let r of rooms" routerLink="/rooms/{{r.id}}">
-  <mat-card-title>Room {{ r.id }}</mat-card-title>
-  <mat-card-subtitle>
+<mat-card *ngFor="let r of rooms">
 
+
+  <div class="matHeader">
+    <mat-checkbox align="end"></mat-checkbox>
+  </div>  
+  
+
+  <mat-card-title>Room {{ r.id }}</mat-card-title>  
+  
+  <mat-card-subtitle>
     <span>CAP: {{ r.capacity }}</span>
     <span *ngIf="r.airConditioning"> | AC</span>
     <span *ngIf="r.display"> | DISPLAY</span>
     <span *ngIf="r.whiteboard"> | WHITEBOARD</span>
-
   </mat-card-subtitle>
+  
   <mat-card-actions>
-    <button>CHECK</button>
+    <button routerLink="/rooms/{{r.id}}">BOOK</button>
   </mat-card-actions>
 </mat-card>

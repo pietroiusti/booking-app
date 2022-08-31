@@ -3,8 +3,12 @@ mat-card {
   width: 15%;
   min-width: 100px;
   color: black;
-  background-color: lemonchiffon;
+  background-color: #d7dbe0;
   text-align: center;
+}
+
+.matHeader {
+  text-align: right;
 }
 
 mat-card-subtitle {
@@ -15,5 +19,5 @@ mat-card-subtitle {
 mat-card:hover {
   color: white;
   background-color: #42545C;
-  cursor: pointer;
+  /*cursor: pointer;*/
 }
