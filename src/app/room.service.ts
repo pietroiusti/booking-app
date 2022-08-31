@@ -16,7 +16,6 @@ import { TimeFrame } from './models/time-frame';
   providedIn: 'root'
 })
 export class RoomService {
-  //private roomsUrl = 'api/rooms'; // URL to web api
   private roomsUrl = 'http://localhost:3000/rooms';
 
   httpOptions = {
@@ -33,6 +32,23 @@ export class RoomService {
       tap(next => this.store.set('rooms', next))
     );
 
+  // create booking, assess it, and, if it's all okay, book
+  book(room: Room, start: number, end: number) {
+    // create booking
+    let booking = this.createBooking(start, end);
+    // assess booking
+    let assessment = this.assessBooking(room.bookings, booking);
+    // book
+    if (assessment) {
+      console.log('Booking accepted');
+      room = Object.assign({}, room); // shallow copy
+      room.bookings.push(booking);
+      this.updateRooms(room);
+    } else {
+      console.log('Booking rejected');
+    }
+  }
+
   updateRooms(updatedRoom: Room): void {
     console.log('updateRooms()');
 
@@ -43,8 +59,7 @@ export class RoomService {
     //https://stackoverflow.com/questions/25727306/request-header-field-access-control-allow-headers-is-not-allowed-by-access-contr
 
 
-    // 1. TODO send req to server to change data
-    //this.http.put(this.roomsUrl, updatedRoom, this.httpOptions)
+    // 1. Send req to server to change data
     this.http.put(this.roomsUrl, updatedRoom, httpOptions2)
       .pipe(
         tap(_ => console.log(`New booking for room ${updatedRoom.id}`)),

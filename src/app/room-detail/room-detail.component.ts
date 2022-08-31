@@ -50,19 +50,8 @@ export class
     let UnixTimestampEndString = input.selectedDate + 'T' + input.selectedTimeEnd + ':00' + '.000+02:00';
     let UnixTimestampEnd = Date.parse(UnixTimestampEndString);
 
-    let booking = this.roomService.createBooking(UnixTimestampStart, UnixTimestampEnd);
-
     if (this.room) {
-      let assessment = this.roomService.assessBooking(this.room.bookings, booking);
-      if (assessment) {
-        console.log('Booking assessment was good. Passing update room object along.');
-
-        let room = Object.assign({}, this.room); // shallow copy
-        room.bookings.push(booking);
-        this.roomService.updateRooms(room);
-      } else {
-        console.log("Cannot make booking...");
-      }
+      this.roomService.book(this.room, UnixTimestampStart, UnixTimestampEnd);
     }
   }
 
