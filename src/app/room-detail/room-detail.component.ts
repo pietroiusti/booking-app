@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { RoomService } from '../room.service';
@@ -16,7 +16,7 @@ import { TimeFrameInput } from '../models/time-frame-input';
   styleUrls: ['./room-detail.component.css']
 })
 export class
-  RoomDetailComponent implements OnInit, OnDestroy {
+  RoomDetailComponent implements OnInit {
   id!: number;
 
   room: Room | null = null;
@@ -34,18 +34,10 @@ export class
   ngOnInit(): void {
     this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
 
-    this.subscription = this.roomService.getRooms$.subscribe(); // TODO: avoid duplication!
-
     this.room$ = this.store.select_room(this.id);
     this.room$.subscribe(room => {
       this.room = room;
     });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   handleNewBookingEvent(input: TimeFrameInput): void {

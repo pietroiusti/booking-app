@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { RoomService } from '../room.service';
 
@@ -15,7 +15,7 @@ import { Room } from '../models/room';
   styleUrls: ['./rooms.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoomsComponent implements OnInit, OnDestroy {
+export class RoomsComponent implements OnInit {
   roomsKeys: number[] = [];
 
   rooms$!: Observable<Room[]>;
@@ -34,8 +34,6 @@ export class RoomsComponent implements OnInit, OnDestroy {
                                                       // this.store.select<Room[]>('rooms')
                                                       //     .subscribe(rooms => this.rooms$ = rooms);
 
-    this.subscription = this.roomService.getRooms$.subscribe();//<-- initiate the data flow
-
     this.rooms$.subscribe(rooms => {
       this.roomsKeys = rooms.map(r => r.id);
 
@@ -45,10 +43,6 @@ export class RoomsComponent implements OnInit, OnDestroy {
 
   logStore() {
     console.log(this.store);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   goBack(): void {
