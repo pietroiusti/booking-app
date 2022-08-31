@@ -1,13 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { FormControl } from '@angular/forms';
 
-// services
-import { RoomService } from '../room.service';
-
 // types
-import { Room } from '../models/room';
-import { Observable } from 'rxjs';
+import { TimeFrameInput } from '../models/time-frame-input';
 
 @Component({
   selector: 'app-select-time-frame',
@@ -17,54 +13,26 @@ import { Observable } from 'rxjs';
 })
 export class SelectTimeFrameComponent implements OnInit {
 
-  gpFormControl = new FormControl('');
   selectedDateControl = new FormControl('');
   selectedTimeStartControl = new FormControl('');
   selectedTimeEndControl = new FormControl('');
 
-  room: Room | null = null;
-  @Input() room$: Observable<Room> | undefined;
-
   @Output() newBookingEvent: EventEmitter<any> = new EventEmitter();
 
-  selectedDate: string | null = null;
-  selectedTimeStart: string | null = null;
-  selectedTimeEnd: string | null = null;
+  constructor() {}
 
-  constructor(
-    private roomService: RoomService,
-  ) { }
+  ngOnInit(): void { }
 
-  ngOnInit(): void {
-    if (this.room$) {
-      this.room$.subscribe(room => {
-        this.room = room;
-      })
-    }
-  }
-
-  handleInput(): void {
+  handleInput() {
     console.log('handleInput()');
-
-    let UnixTimestampStartString = this.selectedDateControl.value + 'T' + this.selectedTimeStartControl.value + ':00' + '.000+02:00';
-    let UnixTimestampStart = Date.parse(UnixTimestampStartString);
-    let UnixTimestampEndString = this.selectedDateControl.value + 'T' + this.selectedTimeEndControl.value + ':00' + '.000+02:00';
-    let UnixTimestampEnd = Date.parse(UnixTimestampEndString);
-
-    let booking = this.roomService.createBooking(UnixTimestampStart, UnixTimestampEnd);
-
-    if (this.room) {
-      let assessment = this.roomService.assessBooking(this.room.bookings, booking);
-      if (assessment) {
-        console.log('Booking assessment was good. Passing update room object along.');
-
-        let room = Object.assign({}, this.room); // shallow copy
-        room.bookings.push(booking);
-
-        this.newBookingEvent.emit(room);
-      } else {
-        console.log("Cannot make booking...");
-      }
+    if (this.selectedDateControl.value && this.selectedTimeStartControl.value
+                                       && this.selectedTimeEndControl.value) {
+      let input: TimeFrameInput = {
+        selectedDate: this.selectedDateControl.value,
+          selectedTimeStart: this.selectedTimeStartControl.value,
+          selectedTimeEnd: this.selectedTimeEndControl.value,
+        };
+        this.newBookingEvent.emit(input);
     }
   }
 }
