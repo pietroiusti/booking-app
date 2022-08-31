@@ -1,7 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
-import { RoomService } from '../room.service';
-
 import { Location } from '@angular/common';
 
 import { Store } from '../store';
@@ -22,7 +20,6 @@ export class RoomsComponent implements OnInit {
   subscription!: Subscription;
 
   constructor(
-    private roomService: RoomService,
     private location: Location,
     private store: Store,
     private cd: ChangeDetectorRef,

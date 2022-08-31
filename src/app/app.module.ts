@@ -20,6 +20,12 @@ import { RoomsComponent } from './rooms/rooms.component';
 import { RoomDetailComponent } from './room-detail/room-detail.component';
 import { RoomCurrentBookingsComponent } from './room-current-bookings/room-current-bookings.component';
 import { SelectTimeFrameComponent } from './select-time-frame/select-time-frame.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+// Angular Material
+import { MatSliderModule } from '@angular/material/slider';
+import {MatCardModule} from '@angular/material/card';
+
 
 @NgModule({
   declarations: [
@@ -37,12 +43,15 @@ import { SelectTimeFrameComponent } from './select-time-frame/select-time-frame.
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
     //HttpClientInMemoryWebApiModule.forRoot(
     //  InMemoryDataService, { dataEncapsulation: false }
     //),
+    MatSliderModule,
+    MatCardModule,
   ],
   providers: [
     Store,

@@ -1,0 +1,13 @@
+mat-card {
+  margin: 1em;
+  width: 15%;
+  min-width: 100px;
+  background-color: lemonchiffon;
+  text-align: center;
+}
+
+mat-card:hover {
+  color: white;
+  background-color: #42545C;
+  cursor: pointer;
+}
