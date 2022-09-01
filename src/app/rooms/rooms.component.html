@@ -1,12 +1,15 @@
 <p class="backLink" (click)="goBack()">← go back to bookable items</p>
 
-<mat-card *ngFor="let r of rooms">
+<button>create room (todo)</button>
 
+<br>
 
+<app-room-filter></app-room-filter>
+
+<mat-card *ngFor="let r of rooms" routerLink="/rooms/{{r.id}}">
   <div class="matHeader">
     <mat-checkbox align="end"></mat-checkbox>
-  </div>  
-  
+  </div>
 
   <mat-card-title>Room {{ r.id }}</mat-card-title>  
   
@@ -18,6 +21,6 @@
   </mat-card-subtitle>
   
   <mat-card-actions>
-    <button routerLink="/rooms/{{r.id}}">BOOK</button>
+    <button>Button</button>
   </mat-card-actions>
 </mat-card>

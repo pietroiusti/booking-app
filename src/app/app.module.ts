@@ -26,6 +26,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import {MatCardModule} from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { RoomFilterComponent } from './room-filter/room-filter.component';
+import {MatInputModule} from '@angular/material/input';
 
 
 @NgModule({
@@ -37,6 +39,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     RoomDetailComponent,
     RoomCurrentBookingsComponent,
     SelectTimeFrameComponent,
+    RoomFilterComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatSliderModule,
     MatCardModule,
     MatCheckboxModule,
+    MatInputModule,
   ],
   providers: [
     Store,
