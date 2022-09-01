@@ -3,15 +3,18 @@
 <button>create room (todo)</button>
 
 <br>
+<br>
 
 <app-room-filter></app-room-filter>
+
+<br>
 
 <mat-card *ngFor="let r of rooms" routerLink="/rooms/{{r.id}}">
   <div class="matHeader">
     <mat-checkbox align="end"></mat-checkbox>
   </div>
 
-  <mat-card-title>Room {{ r.id }}</mat-card-title>  
+  <mat-card-title>Room {{ r.id }} -- {{r.name}}</mat-card-title>
   
   <mat-card-subtitle>
     <span>CAP: {{ r.capacity }}</span>
