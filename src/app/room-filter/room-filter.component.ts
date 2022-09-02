@@ -45,7 +45,7 @@ export class RoomFilterComponent implements OnInit {
 
 
     this.nameSub$.next(''); // send empty string as the first filtering string to be used
-    this.acSub$.next(true); // mutatis mutandis
+    this.acSub$.next(false); // mutatis mutandis
 
   }
 }

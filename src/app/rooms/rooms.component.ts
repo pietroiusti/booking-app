@@ -63,8 +63,15 @@ export class RoomsComponent implements OnInit {
       let filterString = val[1];
       let acBoolean = val[2];
 
+      console.log('acBoolean: ' + acBoolean);
+
       let re = new RegExp(filterString, 'i');
-      this.filteredRooms = rooms.filter(r => (re.test(r.name)) && (r.airConditioning === acBoolean));
+      //this.filteredRooms = rooms.filter(r => (re.test(r.name)) && (r.airConditioning === acBoolean));
+      this.filteredRooms = rooms.filter( (r) => {
+        return (re.test(r.name))
+                      &&
+               (!acBoolean || r.airConditioning === true);
+      });
 
       //this.cd.markForCheck();
       this.cd.detectChanges(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
