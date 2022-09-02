@@ -39,16 +39,10 @@ export class RoomsComponent implements OnInit {
     });    
   }
 
-  handleNameFilterEvent3b(obsv$: Observable<string>) {
-    console.log('handleNameFilterEvent3b()');
+  handleNameFilterInit(obsv$: Observable<string>) {
+    console.log('handleNameFilterInit()');
 
     this.obsv$ = obsv$;
-    /* this.sub.subscribe(userInput => {
-      console.log(userInput);
-    }); */
-    this.obsv$.subscribe(v => {
-      console.log(v);
-    })
 
     let combined = combineLatest([this.rooms$, this.obsv$]);
 

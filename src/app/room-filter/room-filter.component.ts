@@ -12,8 +12,8 @@ export class RoomFilterComponent implements OnInit {
   obvs$: Observable<string> =  this.sub$.asObservable();
   @Output() nameFilterInitEvent: EventEmitter<any> = new EventEmitter();
 
-  handleInputEvent3(event: Event) {
-    console.log('handleInputEvent3()');
+  handleNameInput(event: Event) {
+    console.log('handleInputEvent()');
     let userInput = (((event as InputEvent).target) as HTMLInputElement).value;
     this.sub$.next(userInput);
   }
