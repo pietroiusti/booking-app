@@ -4,7 +4,7 @@ import { Component, OnInit, Directive, Input, ViewChild, ElementRef, Output, Eve
 import { AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { from, fromEvent, Observable } from 'rxjs';
+import { from, fromEvent, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, tap, switchMap, startWith } from 'rxjs/operators';
 
 @Component({
@@ -29,9 +29,11 @@ export class RoomFilterComponent implements OnInit, AfterViewInit {
   // FILTERING 2:
   // Use rxjs' fromEvent to get typeahead$.
   // Pass typeahead observalbe to parent (rooms component), which  combines
-  // rooms$ and typeahead$ in order to listen to both of them, and change
+  // rooms$ and typeahead$ in order to listen to both of them, and reactively change
   // the rooms array displayed in the template as soon as new value is emitted
-  // by either rooms$ or typeahead$
+  // by either rooms$ or typeahead$.
+  // Unlike FILTERING 1, FILTERING 2 allows for room cards in the view being
+  // modified/added/removed upon store modification also after they have been filtered.
   @Output() nameFilterEvent2: EventEmitter<any> = new EventEmitter();
 
   // FILTERING 3:
@@ -43,8 +45,9 @@ export class RoomFilterComponent implements OnInit, AfterViewInit {
     console.log(this.nameFilter);
     console.log(this.nameFilter.nativeElement);
 
-    // create observable for user text input
-    const typeahead = fromEvent(this.nameFilter.nativeElement, 'input').pipe(
+    // create observable emitting user text input value as they type
+    const typeahead$ = fromEvent(this.nameFilter.nativeElement, 'input').pipe(
+      //tap(x => console.log('hello: ' + x)),
       map(e => ((e as InputEvent).target as HTMLInputElement).value),
       //filter(text => text.length > 2),
       //debounceTime(10),
@@ -53,10 +56,10 @@ export class RoomFilterComponent implements OnInit, AfterViewInit {
 
     // filtering 2
     // send typeahead observable to parent
-    this.nameFilterEvent2.emit(typeahead);
+    this.nameFilterEvent2.emit(typeahead$);
 
     //filtering 1
-    typeahead.subscribe( data => {
+    typeahead$.subscribe( data => {
       console.log('typeahead: ' + data);
       this.nameFilterEvent.emit(data);
     });
@@ -71,6 +74,9 @@ export class RoomFilterComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   ngOnInit(): void {
-
+    this.nameFilterEvent2.emit(of('')); // <======= Send empty string as a the the first
+                                        // filtering string to be used.
+                                        // Without this the room cards are not rendered when
+                                        // accessing the rooms component.
   }
 }

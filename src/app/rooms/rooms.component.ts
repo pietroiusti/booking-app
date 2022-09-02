@@ -3,7 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { Location } from '@angular/common';
 
 import { Store } from '../store';
-import { elementAt, Observable, Subscription, map, combineLatest } from 'rxjs';
+import { elementAt, Observable, Subscription, map, combineLatest, concat, of } from 'rxjs';
 
 import { Room } from '../models/room';
 
@@ -38,17 +38,11 @@ export class RoomsComponent implements OnInit {
     this.rooms$.subscribe(rooms => {
       this.rooms = rooms;
 
-      //if (! this.filteredRooms2) {
-      //  console.log(' !this.filteredRooms2');
-      //  this.filteredRooms2 = rooms;
-      //  console.log(rooms);
-      //}
-
       this.cd.markForCheck();// TODO: detectChanges instead? Investigate differences.
     });
 
     // filtering 1
-    this.rooms$.pipe(elementAt(1)).subscribe(v => this.filteredRooms = v);
+    //this.rooms$.pipe(elementAt(1)).subscribe(v => this.filteredRooms = v);
   }
 
   // filtering 1 ######
@@ -77,11 +71,18 @@ export class RoomsComponent implements OnInit {
     let combined = combineLatest([this.rooms$, typeahead$]);
 
     combined.subscribe(val => {
+      console.log('allCombined Observer');
+
       let rooms = val[0];
       let filterString = val[1];
+      console.log(filterString === '');
 
       let re = new RegExp(filterString, 'i');
       this.filteredRooms2 = rooms.filter( r => re.test(r.name) );
+      console.log(this.filteredRooms2);
+
+      //this.cd.markForCheck();
+      //this.cd.detectChanges();
     })
   }
 
@@ -92,8 +93,6 @@ export class RoomsComponent implements OnInit {
   handleNameFilterEvent3() {
     console.log('handleNameFilterEvent3()');
   }
-
-
 
   logStore() {
     console.log(this.store);
