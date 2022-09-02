@@ -39,21 +39,32 @@ export class RoomsComponent implements OnInit {
     });    
   }
 
-  handleNameFilterInit(obsv$: Observable<string>) {
+  handleFilterInit(observablesObj: Observable<any>[]) {
     console.log('handleNameFilterInit()');
 
-    this.obsv$ = obsv$;
+    //this.obsv$ = obsv$;
 
-    let combined = combineLatest([this.rooms$, this.obsv$]);
+    //let combined = combineLatest([this.rooms$, observables[0]]); //<< TODO: add other observables
+
+    //let combined = combineLatest([this.rooms$, ...observables]);
+
+    let arrFromObj = [];
+    for (let k in observablesObj) {
+      arrFromObj.push(observablesObj[k]);
+    }
+    // [rooms$, name$, ac$] //<<<<<<<<<<<<<<<<<<<<<<< does it keep the order? Hopefully.
+
+    let combined = combineLatest([this.rooms$, ...arrFromObj]);
 
     combined.subscribe(val => {
       console.log('combined Observer');
 
       let rooms = val[0];
       let filterString = val[1];
+      let acBoolean = val[2];
 
       let re = new RegExp(filterString, 'i');
-      this.filteredRooms = rooms.filter(r => re.test(r.name));
+      this.filteredRooms = rooms.filter(r => (re.test(r.name)) && (r.airConditioning === acBoolean));
 
       //this.cd.markForCheck();
       this.cd.detectChanges(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

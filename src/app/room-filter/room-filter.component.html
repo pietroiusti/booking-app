@@ -18,7 +18,7 @@
   <br>
 
   <!-- filter by ac -->
-  <mat-checkbox class="roomFilterCheckBox">AC</mat-checkbox>
+  <mat-checkbox checked class="roomFilterCheckBox" (input)="handleAcInput($event)">AC</mat-checkbox>
   <!-- filter by display -->
   <mat-checkbox class="roomFilterCheckBox">Display</mat-checkbox>
   <!-- filter by whiteboard -->
