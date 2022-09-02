@@ -41,9 +41,11 @@ export class RoomFilterComponent implements OnInit, AfterViewInit {
   // Somehow achieve the same result that we would achieve with fromEvent()
   @Output() nameFilterEvent3: EventEmitter<any> = new EventEmitter();
 
+
+
   ngAfterViewInit() {
-    console.log(this.nameFilter);
-    console.log(this.nameFilter.nativeElement);
+    //console.log(this.nameFilter);
+    //console.log(this.nameFilter.nativeElement);
 
     // create observable emitting user text input value as they type
     const typeahead$ = fromEvent(this.nameFilter.nativeElement, 'input').pipe(
@@ -59,24 +61,30 @@ export class RoomFilterComponent implements OnInit, AfterViewInit {
     this.nameFilterEvent2.emit(typeahead$);
 
     //filtering 1
-    typeahead$.subscribe( data => {
+    /* typeahead$.subscribe( data => {
       console.log('typeahead: ' + data);
       this.nameFilterEvent.emit(data);
-    });
+    }); */
+
   }
 
   //filtering 3
-  handleInputEvent3(event: Event) {
+  /* handleInputEvent3(event: Event | "init") {
     console.log('handleInputEvent3()');
     console.log(event);
-  }
+    this.nameFilterEvent3.emit(event);
+  } */
 
   constructor() { }
 
   ngOnInit(): void {
+
     this.nameFilterEvent2.emit(of('')); // <======= Send empty string as a the the first
                                         // filtering string to be used.
                                         // Without this the room cards are not rendered when
                                         // accessing the rooms component.
+
+   /* this.handleInputEvent3('init'); */
+
   }
 }

@@ -5,12 +5,13 @@
 <br>
 <br>
 
-<app-room-filter (nameFilterEvent3)="handleNameFilterEvent3()"
-                 (nameFilterEvent2)="handleNameFilterEvent2($event)"
-                 (nameFilterEvent)="handleNameFilterEvent($event)"></app-room-filter>
+<!-- <app-room-filter (nameFilterEvent3)="handleNameFilterEvent3($event)"></app-room-filter> -->
+<app-room-filter (nameFilterEvent2)="handleNameFilterEvent2($event)"></app-room-filter>
+<!-- <app-room-filter (nameFilterEvent)="handleNameFilterEvent($event)"></app-room-filter> -->
 
 <br>
 
+<!-- <mat-card *ngFor="let r of filteredRooms3" routerLink="/rooms/{{r.id}}"> -->
 <mat-card *ngFor="let r of filteredRooms2" routerLink="/rooms/{{r.id}}">
 <!-- <mat-card *ngFor="let r of filteredRooms" routerLink="/rooms/{{r.id}}"> -->
   <div class="matHeader">
