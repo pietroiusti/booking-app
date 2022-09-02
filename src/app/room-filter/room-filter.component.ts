@@ -4,7 +4,7 @@ import { Component, OnInit, Directive, Input, ViewChild, ElementRef, Output, Eve
 import { AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { from, fromEvent, Observable, of } from 'rxjs';
+import { from, fromEvent, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, tap, switchMap, startWith } from 'rxjs/operators';
 
 @Component({
@@ -15,7 +15,12 @@ import { debounceTime, distinctUntilChanged, filter, map, tap, switchMap, startW
 export class RoomFilterComponent implements OnInit, AfterViewInit {
   nameControl = new FormControl('');
 
+  // for filtering 2
   @ViewChild('nameFilter') nameFilter!: ElementRef;
+
+  //for filtering 3
+  sub$: Subject<string> = new Subject<string>()
+  obvs$: Observable<string> =  this.sub$.asObservable();
 
   // DIFFERENT WAYS OF IMPLEMENTING FILTERING BY NAME:
 
@@ -24,7 +29,8 @@ export class RoomFilterComponent implements OnInit, AfterViewInit {
   // Subscribe to typeahead$ and
   // pass values emitted by typeahead$ to parent (rooms component), which
   // uses the string value to filter the rooms array displayed in its template
-  @Output() nameFilterEvent: EventEmitter<any> = new EventEmitter();
+  //
+  // @Output() nameFilterEvent: EventEmitter<any> = new EventEmitter();
 
   // FILTERING 2:
   // Use rxjs' fromEvent to get typeahead$.
@@ -34,13 +40,14 @@ export class RoomFilterComponent implements OnInit, AfterViewInit {
   // by either rooms$ or typeahead$.
   // Unlike FILTERING 1, FILTERING 2 allows for room cards in the view being
   // modified/added/removed upon store modification also after they have been filtered.
-  @Output() nameFilterEvent2: EventEmitter<any> = new EventEmitter();
+  //
+  // @Output() nameFilterEvent2: EventEmitter<any> = new EventEmitter();
 
   // FILTERING 3:
   // use (input) in the template to pass a value to rooms component
   // Somehow achieve the same result that we would achieve with fromEvent()
-  @Output() nameFilterEvent3: EventEmitter<any> = new EventEmitter();
-
+  @Output() nameFilterEvent3a: EventEmitter<any> = new EventEmitter();
+  @Output() nameFilterEvent3b: EventEmitter<any> = new EventEmitter();
 
 
   ngAfterViewInit() {
@@ -48,6 +55,7 @@ export class RoomFilterComponent implements OnInit, AfterViewInit {
     //console.log(this.nameFilter.nativeElement);
 
     // create observable emitting user text input value as they type
+    /*
     const typeahead$ = fromEvent(this.nameFilter.nativeElement, 'input').pipe(
       //tap(x => console.log('hello: ' + x)),
       map(e => ((e as InputEvent).target as HTMLInputElement).value),
@@ -55,10 +63,12 @@ export class RoomFilterComponent implements OnInit, AfterViewInit {
       //debounceTime(10),
       distinctUntilChanged()
     );
+    */
 
     // filtering 2
     // send typeahead observable to parent
-    this.nameFilterEvent2.emit(typeahead$);
+    //
+    //this.nameFilterEvent2.emit(typeahead$);
 
     //filtering 1
     /* typeahead$.subscribe( data => {
@@ -69,22 +79,21 @@ export class RoomFilterComponent implements OnInit, AfterViewInit {
   }
 
   //filtering 3
-  /* handleInputEvent3(event: Event | "init") {
+  handleInputEvent3(event: Event) {
     console.log('handleInputEvent3()');
-    console.log(event);
-    this.nameFilterEvent3.emit(event);
-  } */
+    let userInput = (((event as InputEvent).target) as HTMLInputElement).value;
+    this.sub$.next(userInput);
+  }
 
   constructor() { }
 
   ngOnInit(): void {
-
-    this.nameFilterEvent2.emit(of('')); // <======= Send empty string as a the the first
+    //this.nameFilterEvent2.emit(of('')); // <======= Send empty string as a the the first
                                         // filtering string to be used.
                                         // Without this the room cards are not rendered when
                                         // accessing the rooms component.
 
-   /* this.handleInputEvent3('init'); */
-
+    this.nameFilterEvent3b.emit(this.obvs$);//pass observable to parent
+    this.sub$.next('');//send empty string as the first filtering string to be used
   }
 }

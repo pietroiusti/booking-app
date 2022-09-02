@@ -3,7 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { Location } from '@angular/common';
 
 import { Store } from '../store';
-import { elementAt, Observable, Subscription, map, combineLatest, concat, of, bindCallback, fromEvent, distinctUntilChanged } from 'rxjs';
+import { elementAt, Observable, Subscription, map, combineLatest, concat, of, bindCallback, fromEvent, distinctUntilChanged, Subject } from 'rxjs';
 
 import { Room } from '../models/room';
 
@@ -27,6 +27,7 @@ export class RoomsComponent implements OnInit {
 
   //filtering 3 ######
   filteredRooms3: Room[] | null = null;
+  obsv$: Observable<string> | null = null;
 
   constructor(
     private location: Location,
@@ -67,6 +68,7 @@ export class RoomsComponent implements OnInit {
   // Receive typeahead$
   // combine typeahead$ with room$ using combineLastest()
   // display filtered room
+  /*
   handleNameFilterEvent2(typeahead$: Observable<string>) {
     console.log('handleNameFilterEvent2()');
 
@@ -89,11 +91,43 @@ export class RoomsComponent implements OnInit {
       this.cd.detectChanges(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     })
   }
+  */
 
   // filtering 3 ######
   // Receive inputEvent
   // combine typeahead$ with room$ using combineLastest()
   // display filtered room
+
+  handleNameFilterEvent3b(obsv$: Observable<string>) {
+    console.log('handleNameFilterEvent3b()');
+
+    this.obsv$ = obsv$;
+    /* this.sub.subscribe(userInput => {
+      console.log(userInput);
+    }); */
+    this.obsv$.subscribe(v => {
+      console.log(v);
+    })
+
+    let combined = combineLatest([this.rooms$, this.obsv$]);
+
+    combined.subscribe(val => {
+      console.log('combined Observer');
+
+      let rooms = val[0];
+      let filterString = val[1];
+
+      let re = new RegExp(filterString, 'i');
+      this.filteredRooms3 = rooms.filter(r => re.test(r.name));
+
+      //this.cd.markForCheck();
+      this.cd.detectChanges(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    })
+  }
+
+  /* handleNameFilterEvent3a(event: Event) {
+    console.log('handleNameFilterEvent3a');
+  } */
 
   /*
   handleNameFilterEvent3(event: Event | "init") {
