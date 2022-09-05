@@ -32,6 +32,20 @@ export class FilterService {
 
     }
 
+    reset() {
+      let filter = {
+        name: '',
+        ac: false,
+        wb: false,
+        display: false,
+        date: '',
+        from: '',
+        to: '',
+      };
+
+      this.store.set('filter', filter);
+    }
+
     filterRooms(rooms: Room[], filter: Filter): Room[] {
       let re = new RegExp(filter.name, 'i');
       let booking: Booking | null = null;

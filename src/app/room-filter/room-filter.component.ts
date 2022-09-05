@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -11,7 +11,8 @@ import { FilterService } from '../filter.service';
   templateUrl: './room-filter.component.html',
   styleUrls: ['./room-filter.component.css']
 })
-export class RoomFilterComponent implements OnInit {
+export class RoomFilterComponent implements OnInit, OnDestroy {
+
   filter: Object | null = null;
   filter$: Observable<any> | null = null;
 
@@ -63,5 +64,9 @@ export class RoomFilterComponent implements OnInit {
       console.log(filter);
       this.filter = filter
     });
+  }
+
+  ngOnDestroy(): void {
+    this.filterService.reset();
   }
 }
