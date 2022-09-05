@@ -10,14 +10,14 @@ import { ObservableFilter } from '../models/observable-filter';
 })
 export class RoomFilterComponent implements OnInit {
   nameSub$: Subject<string> = new Subject<string>()
-  nameObvs$: Observable<string> =  this.nameSub$.asObservable();
+  nameObsv$: Observable<string> =  this.nameSub$.asObservable();
 
   // air cond
   acSub$: Subject<boolean> = new Subject<boolean>();
-  acObvs$: Observable<boolean> =  this.acSub$.asObservable();
+  acObsv$: Observable<boolean> =  this.acSub$.asObservable();
   // white board
   wbSub$: Subject<boolean> = new Subject<boolean>();
-  wbObvs$: Observable<boolean> =  this.wbSub$.asObservable();
+  wbObsv$: Observable<boolean> =  this.wbSub$.asObservable();
   // display
   displaySub$: Subject<boolean> = new Subject<boolean>();
   displayObsv$: Observable<boolean> = this.displaySub$.asObservable();
@@ -53,25 +53,16 @@ export class RoomFilterComponent implements OnInit {
   }
 
   handleTimeFrameDateInput(event: Event) {
-    //console.log(event);
-    //console.log(((event as Event).target));
-    //console.log(((event as Event).target as HTMLInputElement).value);
     let val = ((event as Event).target as HTMLInputElement).value;
     this.dateSub$.next(val);
   }
 
   handleTimeFrameFromInput(event: Event) {
-    //console.log(event);
-    //console.log(((event as Event).target));
-    //console.log(((event as Event).target as HTMLInputElement).value);
     let val = ((event as Event).target as HTMLInputElement).value;
     this.fromSub$.next(val);
   }
 
   handleTimeFrameToInput(event: Event) {
-    //console.log(event);
-    //console.log(((event as Event).target));
-    //console.log(((event as Event).target as HTMLInputElement).value);
     let val = ((event as Event).target as HTMLInputElement).value;
     this.toSub$.next(val);
   }
@@ -80,9 +71,9 @@ export class RoomFilterComponent implements OnInit {
 
   ngOnInit(): void {
     let observableObj: ObservableFilter = {
-      name$: this.nameObvs$,
-      ac$: this.acObvs$,
-      wb$: this.wbObvs$,
+      name$: this.nameObsv$,
+      ac$: this.acObsv$,
+      wb$: this.wbObsv$,
       display$: this.displayObsv$,
       date$: this.dateObsv$,
       from$: this.fromObsv$,

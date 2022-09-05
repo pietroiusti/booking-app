@@ -87,15 +87,6 @@ export class RoomsComponent implements OnInit {
         console.log(booking);
       }
 
-      /*
-      if (this.rooms && booking) {
-        for (let r of this.rooms) {
-          let result = this.roomService.assessBooking(r.bookings, booking);
-          console.log(result);
-        }
-      }
-      */
-
       let re = new RegExp(filterString, 'i');
       this.filteredRooms = rooms.filter( (r) => {
         return (re.test(r.name))
