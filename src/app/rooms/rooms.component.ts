@@ -47,7 +47,9 @@ export class RoomsComponent implements OnInit {
                                     this.rooms$, observablesObj.name$,
                                     observablesObj.ac$,
                                     observablesObj.wb$,
-                                  ] );
+                                    observablesObj.display$,
+                                  ]
+                                );
 
     combined.subscribe(val => {
       console.log('combined Observer');
@@ -56,6 +58,7 @@ export class RoomsComponent implements OnInit {
       let filterString = val[1];
       let acBoolean = val[2];
       let wcBoolean = val[3];
+      let displayBoolean = val[4];
 
       let re = new RegExp(filterString, 'i');
       this.filteredRooms = rooms.filter( (r) => {
@@ -64,6 +67,8 @@ export class RoomsComponent implements OnInit {
                (!acBoolean || r.airConditioning === true)
                       &&
                (!wcBoolean || r.whiteboard === true)
+                      &&
+               (!displayBoolean || r.display === true)
                ;
       });
 
