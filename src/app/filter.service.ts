@@ -4,6 +4,10 @@ import { Observable } from 'rxjs';
 import { Store } from './store';
 
 import { Filter } from './models/filter';
+import { Room } from './models/room';
+
+import { RoomService } from './room.service';
+import { Booking } from './models/booking';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +18,8 @@ export class FilterService {
   filter$: Observable<Filter> | null = null;
 
   constructor(
-    private store: Store
+    private store: Store,
+    private roomService: RoomService,
     ) {
       console.log('filterService constructor()');
 
@@ -25,6 +30,33 @@ export class FilterService {
         console.log(this.filter);
       });
 
+    }
+
+    filterRooms(rooms: Room[], filter: Filter): Room[] {
+      let re = new RegExp(filter.name, 'i');
+      let booking: Booking | null = null;
+      if (filter.date && filter.from && filter.to) {
+        let UnixTimestampStartString = filter.date + 'T' + filter.from + ':00' + '.000+02:00';
+        let UnixTimestampStart = Date.parse(UnixTimestampStartString);
+        let UnixTimestampEndString = filter.date + 'T' + filter.to + ':00' + '.000+02:00';
+        let UnixTimestampEnd = Date.parse(UnixTimestampEndString);
+        booking = {
+          person: { name: 'foo', surname: 'bar', role: 'baz' }, // the person does not matter
+          timeFrame: { start: UnixTimestampStart, end: UnixTimestampEnd },
+        }
+      }
+
+      return rooms.filter( r => {
+        return (re.test(r.name))
+                    &&
+               (!filter.ac || r.airConditioning === true)
+                    &&
+               (!filter.wb || r.whiteboard === true)
+                    &&
+               (!filter.display || r.display === true)
+                    &&
+               (!booking || this.roomService.assessBooking(r.bookings, booking));
+      });
     }
 
     handleInput(options: {type: string, value: any}) {

@@ -11,6 +11,8 @@ import { Booking } from '../models/booking';
 
 import { RoomService } from '../room.service';
 
+import { FilterService } from '../filter.service';
+
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -28,6 +30,10 @@ export class RoomsComponent implements OnInit {
   filter$: Observable<any> | null = null;
   // #
 
+  // *
+  filteredRooms2: Room[] | null = null;
+  // *
+
   // Filtering  
   filteredRooms: Room[] | null = null;
   obsv$: Observable<string> | null = null;
@@ -37,6 +43,7 @@ export class RoomsComponent implements OnInit {
     private store: Store,
     private cd: ChangeDetectorRef,
     private roomService: RoomService,
+    private filterService: FilterService,
   ) { }
 
   ngOnInit(): void {
@@ -55,6 +62,25 @@ export class RoomsComponent implements OnInit {
       console.log(filter);
     });
     // #
+
+    let combined = combineLatest([this.rooms$, this.filter$]);
+    combined.subscribe(val => {
+      console.log('combined2: ');
+      console.log('rooms: ');
+      let rooms = val[0];
+      console.log(val[0]);
+      console.log('filter: ');
+      let filter = val[1];
+      console.log(val[1]);
+
+      let filtered = this.filterService.filterRooms(rooms, filter);
+
+      console.log(filtered);
+
+      this.filteredRooms = filtered;
+
+      this.cd.detectChanges();
+    });
   }
 
   handleFilterInit(observablesObj: ObservableFilter) {
@@ -79,7 +105,7 @@ export class RoomsComponent implements OnInit {
       console.log(rooms);
       let filterString = val[1];
       let acBoolean = val[2];
-      let wcBoolean = val[3];
+      let wbBoolean = val[3];
       let displayBoolean = val[4];
 
 
@@ -102,12 +128,13 @@ export class RoomsComponent implements OnInit {
       }
 
       let re = new RegExp(filterString, 'i');
+      /*
       this.filteredRooms = rooms.filter( (r) => {
         return (re.test(r.name))
                       &&
                (!acBoolean || r.airConditioning === true)
                       &&
-               (!wcBoolean || r.whiteboard === true)
+               (!wbBoolean || r.whiteboard === true)
                       &&
                (!displayBoolean || r.display === true)
                       &&
@@ -116,6 +143,7 @@ export class RoomsComponent implements OnInit {
 
       //this.cd.markForCheck();
       this.cd.detectChanges(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      */
     })
   }
 
