@@ -21,6 +21,13 @@ export class RoomFilterComponent implements OnInit {
   // display
   displaySub$: Subject<boolean> = new Subject<boolean>();
   displayObsv$: Observable<boolean> = this.displaySub$.asObservable();
+  // time frame
+  dateSub$: Subject<string> = new Subject<string>();
+  dateObsv$: Observable<string> = this.dateSub$.asObservable();
+  fromSub$: Subject<string> = new Subject<string>();
+  fromObsv$: Observable<string> = this.fromSub$.asObservable();
+  toSub$: Subject<string> = new Subject<string>();
+  toObsv$: Observable<string> = this.toSub$.asObservable();
 
   @Output() filterInitEvent: EventEmitter<any> = new EventEmitter();
 
@@ -45,6 +52,30 @@ export class RoomFilterComponent implements OnInit {
     this.displaySub$.next(isChecked);
   }
 
+  handleTimeFrameDateInput(event: Event) {
+    //console.log(event);
+    //console.log(((event as Event).target));
+    //console.log(((event as Event).target as HTMLInputElement).value);
+    let val = ((event as Event).target as HTMLInputElement).value;
+    this.dateSub$.next(val);
+  }
+
+  handleTimeFrameFromInput(event: Event) {
+    //console.log(event);
+    //console.log(((event as Event).target));
+    //console.log(((event as Event).target as HTMLInputElement).value);
+    let val = ((event as Event).target as HTMLInputElement).value;
+    this.fromSub$.next(val);
+  }
+
+  handleTimeFrameToInput(event: Event) {
+    //console.log(event);
+    //console.log(((event as Event).target));
+    //console.log(((event as Event).target as HTMLInputElement).value);
+    let val = ((event as Event).target as HTMLInputElement).value;
+    this.toSub$.next(val);
+  }
+
   constructor() { }
 
   ngOnInit(): void {
@@ -53,12 +84,18 @@ export class RoomFilterComponent implements OnInit {
       ac$: this.acObvs$,
       wb$: this.wbObvs$,
       display$: this.displayObsv$,
+      date$: this.dateObsv$,
+      from$: this.fromObsv$,
+      to$: this.toObsv$,
     };
     this.filterInitEvent.emit(observableObj);
 
     this.nameSub$.next(''); // Send empty string as the first filtering string to be used.
     this.acSub$.next(false); // Mutatis mutandis.
-    this.wbSub$.next(false); //      ||
+    this.wbSub$.next(false);      // ||
     this.displaySub$.next(false); // ||
+    this.dateSub$.next('');       // ||
+    this.fromSub$.next('');       // ||
+    this.toSub$.next('');         // ||
   }
 }

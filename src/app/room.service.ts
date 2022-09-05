@@ -119,7 +119,7 @@ export class RoomService {
       }
     }
 
-    // Check whether booking overalaps with another booking
+    // Check whether booking overlaps with another booking
     function overlap(roomBookings: Booking[], b: Booking): boolean {
       function framesOverlap(tf1: TimeFrame, tf2: TimeFrame): boolean {
         // Checking overlap:

@@ -3,10 +3,13 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { Location } from '@angular/common';
 
 import { Store } from '../store';
-import { Observable, Subscription, combineLatest } from 'rxjs';
+import { Observable, Subscription, combineLatest, from } from 'rxjs';
 
 import { Room } from '../models/room';
 import { ObservableFilter } from '../models/observable-filter';
+import { Booking } from '../models/booking';
+
+import { RoomService } from '../room.service';
 
 @Component({
   selector: 'app-rooms',
@@ -28,6 +31,7 @@ export class RoomsComponent implements OnInit {
     private location: Location,
     private store: Store,
     private cd: ChangeDetectorRef,
+    private roomService: RoomService,
   ) { }
 
   ngOnInit(): void {
@@ -48,6 +52,9 @@ export class RoomsComponent implements OnInit {
                                     observablesObj.ac$,
                                     observablesObj.wb$,
                                     observablesObj.display$,
+                                    observablesObj.date$,
+                                    observablesObj.from$,
+                                    observablesObj.to$,
                                   ]
                                 );
 
@@ -55,10 +62,39 @@ export class RoomsComponent implements OnInit {
       console.log('combined Observer');
 
       let rooms = val[0];
+      console.log(rooms);
       let filterString = val[1];
       let acBoolean = val[2];
       let wcBoolean = val[3];
       let displayBoolean = val[4];
+
+
+      let dateString = val[5];
+      let fromString = val[6];
+      let toString = val[7];
+      let booking: Booking | null = null;
+
+      if (dateString && fromString && toString) {
+        //TODO: these computations should be somewhere else. Cf. room-detail component
+        let UnixTimestampStartString = dateString + 'T' + fromString + ':00' + '.000+02:00';
+        let UnixTimestampStart = Date.parse(UnixTimestampStartString);
+        let UnixTimestampEndString = dateString + 'T' + toString + ':00' + '.000+02:00';
+        let UnixTimestampEnd = Date.parse(UnixTimestampEndString);
+        booking = {
+          person: { name: 'foo', surname: 'bar', role: 'baz' },// the person does not matter
+          timeFrame: { start: UnixTimestampStart, end: UnixTimestampEnd },
+        };
+        console.log(booking);
+      }
+
+      /*
+      if (this.rooms && booking) {
+        for (let r of this.rooms) {
+          let result = this.roomService.assessBooking(r.bookings, booking);
+          console.log(result);
+        }
+      }
+      */
 
       let re = new RegExp(filterString, 'i');
       this.filteredRooms = rooms.filter( (r) => {
@@ -69,7 +105,8 @@ export class RoomsComponent implements OnInit {
                (!wcBoolean || r.whiteboard === true)
                       &&
                (!displayBoolean || r.display === true)
-               ;
+                      &&
+               (!booking || this.roomService.assessBooking(r.bookings, booking));
       });
 
       //this.cd.markForCheck();
