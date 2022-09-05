@@ -43,7 +43,11 @@ export class RoomsComponent implements OnInit {
   handleFilterInit(observablesObj: ObservableFilter) {
     console.log('handleNameFilterInit()');
 
-    let combined = combineLatest( [this.rooms$, observablesObj.name$, observablesObj.ac$] );
+    let combined = combineLatest( [
+                                    this.rooms$, observablesObj.name$,
+                                    observablesObj.ac$,
+                                    observablesObj.wb$,
+                                  ] );
 
     combined.subscribe(val => {
       console.log('combined Observer');
@@ -51,12 +55,16 @@ export class RoomsComponent implements OnInit {
       let rooms = val[0];
       let filterString = val[1];
       let acBoolean = val[2];
+      let wcBoolean = val[3];
 
       let re = new RegExp(filterString, 'i');
       this.filteredRooms = rooms.filter( (r) => {
         return (re.test(r.name))
                       &&
-               (!acBoolean || r.airConditioning === true);
+               (!acBoolean || r.airConditioning === true)
+                      &&
+               (!wcBoolean || r.whiteboard === true)
+               ;
       });
 
       //this.cd.markForCheck();
