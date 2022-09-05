@@ -23,6 +23,11 @@ export class RoomsComponent implements OnInit {
   rooms$!: Observable<Room[]>;
   subscription!: Subscription;
 
+  // #
+  filter: Object | null = null;
+  filter$: Observable<any> | null = null;
+  // #
+
   // Filtering  
   filteredRooms: Room[] | null = null;
   obsv$: Observable<string> | null = null;
@@ -41,13 +46,22 @@ export class RoomsComponent implements OnInit {
 
       // this.cd.markForCheck();// TODO: detectChanges instead? Investigate differences.
       this.cd.detectChanges()
-    });    
+    });
+
+    // #
+    this.filter$ = this.store.select<any>('filter');
+    this.filter$.subscribe(filter => {
+      console.log('rooms.component: ');
+      console.log(filter);
+    });
+    // #
   }
 
   handleFilterInit(observablesObj: ObservableFilter) {
     console.log('handleNameFilterInit()');
 
-    let combined = combineLatest( [
+    let combined = combineLatest(
+                                  [
                                     this.rooms$, observablesObj.name$,
                                     observablesObj.ac$,
                                     observablesObj.wb$,

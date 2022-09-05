@@ -6,11 +6,20 @@ import { Room } from './models/room';
 
 const state: State = {
   rooms: [],
+  filter: {
+    name: '',
+    ac: false,
+    wb: false,
+    display: false,
+    date: '',
+    from: '',
+    to: '',
+  }
 };
 
 export class Store {
 
-  private subject = new BehaviorSubject<State>(state); //https://rxjs.dev/guide/subject
+  private subject = new BehaviorSubject<State>(state); //https://orxjs.dev/guide/subject
   // We use BehaviorSubject instead of Subject because it allows us to
   // create an initial state.
   // Moreover, unlike a Subject, the BehaviorSubject will pass the last value to any new
