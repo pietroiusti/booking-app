@@ -19,15 +19,10 @@ const state: State = {
 
 export class Store {
 
-  private subject = new BehaviorSubject<State>(state); //https://orxjs.dev/guide/subject
-  // We use BehaviorSubject instead of Subject because it allows us to
-  // create an initial state.
-  // Moreover, unlike a Subject, the BehaviorSubject will pass the last value to any new
-  // subscriber.
+  private subject = new BehaviorSubject<State>(state);
 
   // old from Motto: private store = this.subject.asObservable().distinctUntilChanged();
   private store = this.subject.asObservable().pipe(distinctUntilChanged());
-
 
   get value() { // return type?
     return this.subject.value;

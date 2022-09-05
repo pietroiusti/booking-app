@@ -102,7 +102,7 @@ export class FilterService {
           this.store.set('filter', filter);
           break;
         default:
-          console.log('What should we do?');
+          console.log('Error: incorrect options');
       }
 
     }
