@@ -9,6 +9,7 @@ import { Observable, Subscription, combineLatest } from 'rxjs';
 import { Room } from '../models/room';
 
 import { FilterService } from '../filter.service';
+import { Filter } from '../models/filter';
 
 @Component({
   selector: 'app-rooms',
@@ -21,8 +22,8 @@ export class RoomsComponent implements OnInit {
   rooms$!: Observable<Room[]>;
   subscription!: Subscription;
 
-  filter: Object | null = null;
-  filter$: Observable<any> | null = null;
+  filter: Filter | null = null;
+  filter$: Observable<Filter> | null = null;
 
   // Filtering  
   filteredRooms: Room[] | null = null;
@@ -43,7 +44,7 @@ export class RoomsComponent implements OnInit {
       this.cd.detectChanges()
     });
 
-    this.filter$ = this.store.select<any>('filter');
+    this.filter$ = this.store.select<Filter>('filter');
     this.filter$.subscribe(filter => {
       console.log('rooms.component: ');
       console.log(filter);

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Store } from '../store';
 
 import { FilterService } from '../filter.service';
+import { Filter } from '../models/filter';
 
 @Component({
   selector: 'app-room-filter',
@@ -13,8 +14,8 @@ import { FilterService } from '../filter.service';
 })
 export class RoomFilterComponent implements OnInit, OnDestroy {
 
-  filter: Object | null = null;
-  filter$: Observable<any> | null = null;
+  filter: Filter | null = null;
+  filter$: Observable<Filter> | null = null;
 
   @Output() filterInitEvent: EventEmitter<any> = new EventEmitter();
 
@@ -59,7 +60,7 @@ export class RoomFilterComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.filter$ = this.store.select<any>('filter');
+    this.filter$ = this.store.select<Filter>('filter');
     this.filter$.subscribe(filter => {
       console.log(filter);
       this.filter = filter
