@@ -10,6 +10,7 @@ import { Room } from '../models/room';
 
 import { FilterService } from '../filter.service';
 import { Filter } from '../models/filter';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-rooms',
@@ -64,7 +65,14 @@ export class RoomsComponent implements OnInit {
 
   handleCreateRoomClick() {
     // TODO
-    console.log('hello world');
+  }
+
+  stopProp(event: Event) {
+    event.stopPropagation();
+  }
+
+  handleCheckBoxChange(obj: MatCheckboxChange) {
+    console.log(obj);
   }
 
   logStore() {

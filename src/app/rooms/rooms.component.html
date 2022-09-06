@@ -11,7 +11,7 @@
 
 <mat-card *ngFor="let r of filteredRooms" routerLink="/rooms/{{r.id}}">
   <div class="matHeader">
-    <mat-checkbox align="end"></mat-checkbox>
+    <mat-checkbox align="end" (click)="stopProp($event)" (change)="handleCheckBoxChange($event)"></mat-checkbox>
   </div>
 
   <mat-card-title>Room {{ r.id }} -- {{r.name}}</mat-card-title>
