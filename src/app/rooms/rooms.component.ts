@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 
 import { Store } from '../store';
 
-import { Observable, Subscription, combineLatest } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 
 import { Room } from '../models/room';
 
@@ -19,16 +19,11 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomsComponent implements OnInit {
-  rooms: Room[] | null = null;
   rooms$!: Observable<Room[]>;
-  subscription!: Subscription;
 
-  filter: Filter | null = null;
   filter$: Observable<Filter> | null = null;
 
-  // Filtering  
   filteredRooms: Room[] | null = null;
-  obsv$: Observable<string> | null = null;
 
   constructor(
     private location: Location,
@@ -39,17 +34,8 @@ export class RoomsComponent implements OnInit {
 
   ngOnInit(): void {
     this.rooms$ = this.store.select<Room[]>('rooms');
-    this.rooms$.subscribe(rooms => {
-      this.rooms = rooms;
-      // this.cd.markForCheck();// TODO: detectChanges instead? Investigate differences.
-      this.cd.detectChanges()
-    });
 
     this.filter$ = this.store.select<Filter>('filter');
-    this.filter$.subscribe(filter => {
-      console.log('rooms.component: ');
-      console.log(filter);
-    });
 
     let combined = combineLatest([this.rooms$, this.filter$]);
     combined.subscribe(val => {
@@ -73,6 +59,7 @@ export class RoomsComponent implements OnInit {
 
   handleCheckBoxChange(obj: MatCheckboxChange) {
     console.log(obj);
+    this.store.set
   }
 
   logStore() {

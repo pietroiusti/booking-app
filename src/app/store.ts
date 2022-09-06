@@ -15,7 +15,8 @@ const state: State = {
     from: '',
     to: '',
     capacity: '',
-  }
+  },
+  selected: [],
 };
 
 export class Store {
