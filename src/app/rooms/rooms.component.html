@@ -12,7 +12,7 @@
 
 <mat-card *ngFor="let r of filteredRooms" routerLink="/rooms/{{r.id}}">
   <div class="matHeader">
-    <mat-checkbox align="end" (click)="stopProp($event)" (change)="handleCheckBoxChange($event, r.id)"></mat-checkbox>
+    <mat-checkbox align="end" [checked]="selected &&selected.includes(r.id)" (click)="stopProp($event)" (change)="handleCheckBoxChange($event, r.id)"></mat-checkbox>
   </div>
 
   <mat-card-title>Room {{ r.id }} -- {{r.name}}</mat-card-title>

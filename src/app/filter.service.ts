@@ -89,6 +89,8 @@ export class FilterService {
 
       filter[options.type] = options.value;
 
+      this.store.set('selected', []);
+
       this.store.set('filter', filter);
     }
 
