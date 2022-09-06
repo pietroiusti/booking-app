@@ -112,7 +112,7 @@ export class FilterService {
           break;
         case 'to':
           console.log('filter service: trying to update to in store with value ' + options.value);
-          filter.from = options.value;
+          filter.to = options.value;
           this.store.set('filter', filter);
           break;
         default:
