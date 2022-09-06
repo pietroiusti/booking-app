@@ -85,6 +85,11 @@ export class RoomsComponent implements OnInit, OnDestroy {
     }
   }
 
+  modifyRoom(event: Event, roomId: number) {
+    event.stopPropagation();
+    console.log(roomId);
+  }
+
   logStore() {
     console.log(this.store);
   }
