@@ -29,6 +29,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { RoomFilterComponent } from './room-filter/room-filter.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule} from '@angular/material/button';
+
 
 
 @NgModule({
@@ -60,6 +62,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatCheckboxModule,
     MatInputModule,
     MatSelectModule,
+    MatButtonModule,
   ],
   providers: [
     Store,

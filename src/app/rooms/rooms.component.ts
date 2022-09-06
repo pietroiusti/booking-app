@@ -62,6 +62,11 @@ export class RoomsComponent implements OnInit {
     });
   }
 
+  handleCreateRoomClick() {
+    // TODO
+    console.log('hello world');
+  }
+
   logStore() {
     console.log(this.store);
   }
