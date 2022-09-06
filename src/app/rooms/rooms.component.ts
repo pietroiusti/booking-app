@@ -25,6 +25,9 @@ export class RoomsComponent implements OnInit {
 
   filteredRooms: Room[] | null = null;
 
+  selected: number[] | null = null;
+  selected$: Observable<number[]> | null = null;
+
   constructor(
     private location: Location,
     private store: Store,
@@ -47,6 +50,9 @@ export class RoomsComponent implements OnInit {
 
       this.cd.detectChanges();
     });
+
+    this.selected$ = this.store.select<number[]>('selected');
+    this.selected$.subscribe(selected => this.selected = selected);
   }
 
   handleCreateRoomClick() {
@@ -57,9 +63,22 @@ export class RoomsComponent implements OnInit {
     event.stopPropagation();
   }
 
-  handleCheckBoxChange(obj: MatCheckboxChange) {
-    console.log(obj);
-    this.store.set
+  handleCheckBoxChange(obj: MatCheckboxChange, roomId: number) {
+    if (this.selected) {
+
+      let selected;
+      selected = this.selected.map(x=>x); // shallow copy
+
+      if (obj.checked === true) {
+        if (! selected.includes(roomId)) selected.push(roomId);
+      } else if (obj.checked === false) {
+        if (selected.includes(roomId)) selected = selected.filter(id=>id!==roomId);
+      }
+      this.store.set('selected', selected);
+
+    } else {
+      console.log('???');
+    }
   }
 
   logStore() {

@@ -66,7 +66,6 @@ export class RoomFilterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.filter$ = this.store.select<Filter>('filter');
     this.filter$.subscribe(filter => {
-      console.log(filter);
       this.filter = filter
     });
   }

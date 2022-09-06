@@ -21,15 +21,10 @@ export class FilterService {
     private store: Store,
     private roomService: RoomService,
     ) {
-      console.log('filterService constructor()');
-
       this.filter$ = this.store.select<Filter>('filter');
       this.filter$.subscribe(filter => {
-        console.log('filterService: ');
         this.filter = filter;
-        console.log(this.filter);
       });
-
     }
 
     reset() {
