@@ -89,55 +89,12 @@ export class FilterService {
 
     handleInput(options: {type: string, value: any}) {
       console.log('filter.service: ');
-      console.log(options);
 
       let filter = Object.assign({}, this.filter); // shallow copy of filter
 
-      switch (options.type) {
-        case 'name':
-          console.log('filter service: trying to update name in store with value ' + options.value);
-          filter.name = options.value;
-          this.store.set('filter', filter);
-          break;
-        case 'ac':
-          console.log('filter service: trying to update ac in store with value ' + options.value);
-          filter.ac = options.value;
-          this.store.set('filter', filter);
-          break;
-        case 'wb':
-          console.log('filter service: trying to update wb in store with value ' + options.value);
-          filter.wb = options.value;
-          this.store.set('filter', filter);
-          break;
-        case 'display':
-          console.log('filter service: trying to update display in store with value ' + options.value);
-          filter.display = options.value;
-          this.store.set('filter', filter);
-          break;
-        case 'date':
-          console.log('filter service: trying to update date in store with value ' + options.value);
-          filter.date = options.value;
-          this.store.set('filter', filter);
-          break;
-        case 'from':
-          console.log('filter service: trying to update from in store with value ' + options.value);
-          filter.from = options.value;
-          this.store.set('filter', filter);
-          break;
-        case 'to':
-          console.log('filter service: trying to update to in store with value ' + options.value);
-          filter.to = options.value;
-          this.store.set('filter', filter);
-          break;
-        case 'capacity':
-          console.log('filter service: trying to update capacity in store with value ' + options.value);
-          filter.capacity = options.value;
-          this.store.set('filter', filter);
-          break;
-        default:
-          console.log('Error: incorrect options');
-      }
+      filter[options.type] = options.value;
 
+      this.store.set('filter', filter);
     }
 
 }
