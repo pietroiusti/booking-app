@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { Location } from '@angular/common';
 
@@ -18,7 +18,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   styleUrls: ['./rooms.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoomsComponent implements OnInit {
+export class RoomsComponent implements OnInit, OnDestroy {
   rooms$!: Observable<Room[]>;
 
   filter$: Observable<Filter> | null = null;
@@ -53,6 +53,10 @@ export class RoomsComponent implements OnInit {
 
     this.selected$ = this.store.select<number[]>('selected');
     this.selected$.subscribe(selected => this.selected = selected);
+  }
+
+  ngOnDestroy(): void {
+    this.store.set('selected', []);
   }
 
   handleCreateRoomClick() {
