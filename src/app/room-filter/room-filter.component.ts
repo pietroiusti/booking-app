@@ -54,6 +54,10 @@ export class RoomFilterComponent implements OnInit, OnDestroy {
     this.filterService.handleInput({type: 'to', value: val});
   }
 
+  handleCapacityInput(val: string) {
+    this.filterService.handleInput({type: 'capacity', value: val});
+  }
+
   constructor(
     private store: Store,
     private filterService: FilterService,

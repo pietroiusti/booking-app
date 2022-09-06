@@ -14,6 +14,7 @@ const state: State = {
     date: '',
     from: '',
     to: '',
+    capacity: '',
   }
 };
 

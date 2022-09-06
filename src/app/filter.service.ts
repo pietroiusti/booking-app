@@ -69,8 +69,22 @@ export class FilterService {
                     &&
                (!filter.display || r.display === true)
                     &&
-               (!booking || this.roomService.assessBooking(r.bookings, booking));
+               (!booking || this.roomService.assessBooking(r.bookings, booking))
+                    &&
+               (!filter.capacity || filter.capacity === this.roomCapacityInWords(r.capacity))
       });
+    }
+
+    roomCapacityInWords(num: number): string {
+      if (num <= 4) {
+        return 'small';
+      } else if (num > 4 && num < 10) {
+        return 'medium';
+      } else if (num >= 10) {
+        return 'big';
+      } else {
+        return 'error';
+      }
     }
 
     handleInput(options: {type: string, value: any}) {
@@ -113,6 +127,11 @@ export class FilterService {
         case 'to':
           console.log('filter service: trying to update to in store with value ' + options.value);
           filter.to = options.value;
+          this.store.set('filter', filter);
+          break;
+        case 'capacity':
+          console.log('filter service: trying to update capacity in store with value ' + options.value);
+          filter.capacity = options.value;
           this.store.set('filter', filter);
           break;
         default:

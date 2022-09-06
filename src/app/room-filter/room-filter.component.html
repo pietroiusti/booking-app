@@ -6,7 +6,7 @@
   <!-- filter by name -->
   <mat-form-field class="example-full-width" appearance="fill">
     <mat-label>Filter by room name</mat-label>
-      <input #nameFilter matInput placeholder="Stevenson" (input)="handleNameInput($event)">
+    <input #nameFilter matInput placeholder="Stevenson" (input)="handleNameInput($event)">
   </mat-form-field>
 
   <!-- filter by timeframe -->
@@ -26,6 +26,23 @@
   <!-- filter by display -->
   <mat-checkbox class="roomFilterCheckBox" (input)="handleDisplayInput($event)">Display</mat-checkbox>
   <!-- filter by capacity -->
-  <span>Capacity (todo)</span>
+  <!-- <span>Capacity (todo)</span> -->
+  <mat-form-field appearance="fill">
+    <mat-label>Capacity</mat-label>
+    <mat-select (valueChange)="handleCapacityInput($event)">
+      <mat-option value="">
+
+      </mat-option>
+      <mat-option value="small">
+        Small
+      </mat-option>
+      <mat-option value="medium">
+        Medium
+      </mat-option>
+      <mat-option value="big">
+        Big
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
 </div>
