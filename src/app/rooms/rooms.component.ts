@@ -21,7 +21,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 export class RoomsComponent implements OnInit, OnDestroy {
   rooms$!: Observable<Room[]>;
 
-  filter$: Observable<Filter> | null = null;
+  filter$: Observable<Filter> | null = null;//<<<<<==== this.store.select<Filter>('filter');
 
   filteredRooms: Room[] | null = null;
 

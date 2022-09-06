@@ -1,6 +1,15 @@
 <p class="backLink" (click)="goBack()">← go back to rooms</p>
 
-<h3>Room {{id}}</h3>
+<h3>Room {{id}} -- {{room?.name}}</h3>
+
+<div>
+  <span>Capacity: {{room?.capacity}}</span> | <span>Display: {{room?.display ? 'yes' : 'no'}}</span> |
+  <span>Whiteboard: {{room?.whiteboard ? 'yes' : 'no'}}</span> |
+  <span>Air conditioning: {{room?.airConditioning ? 'yes' : 'no'}}</span>
+</div>
+
+<br>
+<br>
 
 <app-select-time-frame (newBookingEvent)="handleNewBookingEvent($event)"></app-select-time-frame>
 

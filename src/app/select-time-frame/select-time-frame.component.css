@@ -1,11 +1,6 @@
-.available {
-  background-color: greenyellow;
-}
+#timeFrame {
+  background-color: aliceblue;
 
-.accepted {
-  background-color: greenyellow;
-}
-
-.rejected {
-  background-color: red;
+  width: 70%;
+  margin: auto;
 }
