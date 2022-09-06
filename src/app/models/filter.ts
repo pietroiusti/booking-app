@@ -1,5 +1,5 @@
 export interface Filter {
-  [k: string]: any;
+  [k: string]: string | boolean;
   name: string;
   ac: boolean;
   wb: boolean;
