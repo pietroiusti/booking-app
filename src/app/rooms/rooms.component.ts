@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { Location } from '@angular/common';
 
@@ -18,15 +18,15 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   styleUrls: ['./rooms.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoomsComponent implements OnInit, OnDestroy {
-  rooms$!: Observable<Room[]>;
+export class RoomsComponent implements OnDestroy, AfterViewInit {
+  rooms$: Observable<Room[]> = this.store.select<Room[]>('rooms');
 
-  filter$: Observable<Filter> | null = null;//<<<<<==== this.store.select<Filter>('filter');
+  filter$: Observable<Filter> = this.store.select<Filter>('filter');
 
-  filteredRooms: Room[] | null = null;
+  filteredRooms: Room[] = [];
 
-  selected: number[] | null = null;
-  selected$: Observable<number[]> | null = null;
+  selected: number[] = [];
+  selected$: Observable<number[]> = this.store.select<number[]>('selected');
 
   constructor(
     private location: Location,
@@ -35,11 +35,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
     private filterService: FilterService,
   ) { }
 
-  ngOnInit(): void {
-    this.rooms$ = this.store.select<Room[]>('rooms');
-
-    this.filter$ = this.store.select<Filter>('filter');
-
+  ngAfterViewInit(): void {
     let combined = combineLatest([this.rooms$, this.filter$]);
     combined.subscribe(val => {
       let rooms = val[0];
@@ -51,9 +47,8 @@ export class RoomsComponent implements OnInit, OnDestroy {
       this.cd.detectChanges();
     });
 
-    this.selected$ = this.store.select<number[]>('selected');
     this.selected$.subscribe(selected => this.selected = selected);
-  }
+  }  
 
   ngOnDestroy(): void {
     this.store.set('selected', []);

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { RoomService } from './room.service';
@@ -8,7 +8,7 @@ import { RoomService } from './room.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy{
+export class AppComponent implements AfterViewInit, OnDestroy {
   title = 'Booking App';
   subscription: Subscription | null = null;
 
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy{
     private roomService: RoomService,
   ) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.subscription = this.roomService.getRooms$.subscribe();
   }
 
