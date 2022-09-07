@@ -41,10 +41,6 @@ export class
   }
 
   handleNewBookingEvent(input: TimeFrameInput): void {
-    console.log('handleNewBookingEvent()');
-    console.log('input:');
-    console.log(input);
-
     let UnixTimestampStartString = input.selectedDate + 'T' + input.selectedTimeStart + ':00' + '.000+02:00';
     let UnixTimestampStart = Date.parse(UnixTimestampStartString);
     let UnixTimestampEndString = input.selectedDate + 'T' + input.selectedTimeEnd + ':00' + '.000+02:00';

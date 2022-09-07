@@ -1,10 +1,10 @@
-import { Component, OnDestroy, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
 
 import { Location } from '@angular/common';
 
 import { Store } from '../store';
 
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, Subscription } from 'rxjs';
 
 import { Room } from '../models/room';
 
@@ -18,15 +18,22 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   styleUrls: ['./rooms.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoomsComponent implements OnDestroy, AfterViewInit {
-  rooms$: Observable<Room[]> = this.store.select<Room[]>('rooms');
+export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
+  //rooms$: Observable<Room[]> = this.store.select<Room[]>('rooms');
 
-  filter$: Observable<Filter> = this.store.select<Filter>('filter');
+  //filter$: Observable<Filter> = this.store.select<Filter>('filter');
+
+  ngOnInit(): void {
+    //this.cd.detectChanges();
+    //console.log('rooms onInit')
+  }
 
   filteredRooms: Room[] = [];
+  filteredRoomsSubscription: Subscription | null = null;
 
   selected: number[] = [];
   selected$: Observable<number[]> = this.store.select<number[]>('selected');
+  selectedSubscription: Subscription | null = null;
 
   constructor(
     private location: Location,
@@ -36,22 +43,34 @@ export class RoomsComponent implements OnDestroy, AfterViewInit {
   ) { }
 
   ngAfterViewInit(): void {
-    let combined = combineLatest([this.rooms$, this.filter$]);
-    combined.subscribe(val => {
-      let rooms = val[0];
-      let filter = val[1];
+    console.log('ROOMS NGAFTERVIEWINIT()');
 
-      let filtered = this.filterService.filterRooms(rooms, filter);
+    // THIS HAS A BUG I CANNOT FIND
+    // THE ROOM LISTS RENDERS ONLY IF WE ASK FOR localhost:3000/rooms DIRECTLY
+    //
+    /* let obsv = this.filterService.getFilteredRoomsObsv();
+    console.log(obsv);
+
+    obsv.subscribe(filtered => {
+      console.log('rooms component: got filtered value')
       this.filteredRooms = filtered;
-
       this.cd.detectChanges();
+    }); */
+
+    this.filteredRoomsSubscription = this.filterService.getFilteredRoomsObsv2()
+      .subscribe(filtered => {
+        console.log('rooms: got filtered');
+        this.filteredRooms = filtered;
+        this.cd.detectChanges();
     });
 
-    this.selected$.subscribe(selected => this.selected = selected);
-  }  
+    this.selectedSubscription =  this.selected$.subscribe(selected => this.selected = selected);
+  }
 
   ngOnDestroy(): void {
     this.store.set('selected', []);
+    this.filteredRoomsSubscription?.unsubscribe();
+    this.selectedSubscription?.unsubscribe();
   }
 
   handleCreateRoomClick() {
@@ -66,12 +85,12 @@ export class RoomsComponent implements OnDestroy, AfterViewInit {
     if (this.selected) {
 
       let selected;
-      selected = this.selected.map(x=>x); // shallow copy
+      selected = this.selected.map(x => x); // shallow copy
 
       if (obj.checked === true) {
-        if (! selected.includes(roomId)) selected.push(roomId);
+        if (!selected.includes(roomId)) selected.push(roomId);
       } else if (obj.checked === false) {
-        if (selected.includes(roomId)) selected = selected.filter(id=>id!==roomId);
+        if (selected.includes(roomId)) selected = selected.filter(id => id !== roomId);
       }
       this.store.set('selected', selected);
 

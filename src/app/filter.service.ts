@@ -1,5 +1,5 @@
 import { Injectable} from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable, Subject } from 'rxjs';
 
 import { Store } from './store';
 
@@ -13,17 +13,40 @@ import { Booking } from './models/booking';
   providedIn: 'root'
 })
 export class FilterService {
+  rooms$: Observable<Room[]> = this.store.select('rooms');
 
   filter: Filter | null = null;
-  filter$: Observable<Filter> | null = null;
+  filter$: Observable<Filter> = this.store.select<Filter>('filter');
+
+  // 1st METHOD
+  //filteredRooms$$ = new Subject<Room[]>();
+  //filteredRooms$: Observable<Room[]> = this.filteredRooms$$.asObservable();
 
   constructor(
     private store: Store,
     private roomService: RoomService,
     ) {
-      this.filter$ = this.store.select<Filter>('filter');
+
+      console.log('FILTER SERVICE CONSTRUCTOR')
+
       this.filter$.subscribe(filter => {
         this.filter = filter;
+      });
+
+      let combined = combineLatest([this.rooms$, this.filter$]);
+      combined.subscribe(val => {
+        console.log('COMBINED OBSERVER')
+
+        let rooms = val[0];
+        console.log(val[0]);
+
+        let filter = val[1];
+        console.log(val[1]);
+
+        let filtered = this.filterRooms(rooms, filter);
+
+        // 1st METHOD
+        //this.filteredRooms$$.next(filtered);
       });
     }
 
@@ -83,7 +106,7 @@ export class FilterService {
     }
 
     handleInput(options: {type: string, value: any}) {
-      console.log('filter.service: ');
+      console.log(`FILTER.SERVICE  HANDLEINPUT, ${options.type}, ${options.value}`);
 
       let filter = Object.assign({}, this.filter); // shallow copy of filter
 
@@ -94,4 +117,14 @@ export class FilterService {
       this.store.set('filter', filter);
     }
 
+    // 1st METHOD
+    /* getFilteredRoomsObsv(): Observable<Room[]> {
+      return this.filteredRooms$;
+    } */
+
+    getFilteredRoomsObsv2(): Observable<Room[]> {
+      console.log('getFilteredRoomsObsv2()');
+      return combineLatest([this.rooms$, this.filter$])
+        .pipe( map( ([rooms, filter]) => this.filterRooms(rooms, filter) ) )
+    };
 }

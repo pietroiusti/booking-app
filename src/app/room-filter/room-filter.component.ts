@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -12,12 +12,23 @@ import { Filter } from '../models/filter';
   templateUrl: './room-filter.component.html',
   styleUrls: ['./room-filter.component.css']
 })
-export class RoomFilterComponent implements OnInit, OnDestroy {
+export class RoomFilterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   filter: Filter | null = null;
-  filter$: Observable<Filter> | null = null;
+  filter$: Observable<Filter> = this.store.select<Filter>('filter');//| null = null;
 
-  @Output() filterInitEvent: EventEmitter<any> = new EventEmitter();
+  constructor(
+    private store: Store,
+    private filterService: FilterService,
+  ) { }
+
+  ngOnInit(): void { }
+
+  ngAfterViewInit(): void {
+    this.filter$.subscribe(filter => {
+      this.filter = filter
+    });
+  }
 
   handleNameInput(event: Event) {
     let userInput = (((event as InputEvent).target) as HTMLInputElement).value;
@@ -56,18 +67,6 @@ export class RoomFilterComponent implements OnInit, OnDestroy {
 
   handleCapacityInput(val: string) {
     this.filterService.handleInput({type: 'capacity', value: val});
-  }
-
-  constructor(
-    private store: Store,
-    private filterService: FilterService,
-  ) { }
-
-  ngOnInit(): void {
-    this.filter$ = this.store.select<Filter>('filter');
-    this.filter$.subscribe(filter => {
-      this.filter = filter
-    });
   }
 
   ngOnDestroy(): void {
