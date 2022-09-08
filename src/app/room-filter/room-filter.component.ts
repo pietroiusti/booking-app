@@ -15,7 +15,7 @@ import { Filter } from '../models/filter';
 export class RoomFilterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   filter: Filter | null = null;
-  filter$: Observable<Filter> = this.store.select<Filter>('filter');//| null = null;
+  filter$: Observable<Filter> = this.store.select<Filter>('filter');
 
   constructor(
     private store: Store,
