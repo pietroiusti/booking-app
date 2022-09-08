@@ -24,7 +24,7 @@ export class Store {
   private subject = new BehaviorSubject<State>(state);
 
   // old from Motto: private store = this.subject.asObservable().distinctUntilChanged();
-  private store = this.subject.asObservable().pipe(distinctUntilChanged());
+  private store = this.subject.asObservable();//.pipe(distinctUntilChanged());
 
   get value() { // return type?
     return this.subject.value;
@@ -33,7 +33,10 @@ export class Store {
   // ex: store.select<Todo[]>('todos')
   select<T>(name: string): Observable<T> {
     // old from Motto: return this.store.pluck(name);
-    return this.store.pipe(map(x => x[name]));
+    return this.store.pipe(
+      map(x => x[name]),
+      distinctUntilChanged()
+    );
   }
 
   select_room(id: number): Observable<Room>{
@@ -45,9 +48,7 @@ export class Store {
   // ex: store.set('todos', [{...}, {...}])
   set(name: string, state: any): void {
     this.subject.next({
-    // notify the behaviour subj that something changed
       ...this.value, [name]: state
-    });
+    })
   }
-
 }

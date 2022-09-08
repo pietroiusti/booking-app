@@ -19,14 +19,16 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
+
+  // TEST
+  // this observable of rooms emits values, even when properties of the store other than rooms are set!
+  test$: Observable<Room[]> = this.store.select<Room[]>('rooms');
+
   //rooms$: Observable<Room[]> = this.store.select<Room[]>('rooms');
 
   //filter$: Observable<Filter> = this.store.select<Filter>('filter');
 
-  ngOnInit(): void {
-    //this.cd.detectChanges();
-    //console.log('rooms onInit')
-  }
+  ngOnInit(): void { }
 
   filteredRooms: Room[] = [];
   filteredRoomsSubscription: Subscription | null = null;
@@ -43,34 +45,44 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
   ) { }
 
   ngAfterViewInit(): void {
-    console.log('ROOMS NGAFTERVIEWINIT()');
-
     // THIS HAS A BUG I CANNOT FIND
     // THE ROOM LISTS RENDERS ONLY IF WE ASK FOR localhost:3000/rooms DIRECTLY
     //
-    /* let obsv = this.filterService.getFilteredRoomsObsv();
+    /*
+    let obsv = this.filterService.getFilteredRoomsObsv();
     console.log(obsv);
 
     obsv.subscribe(filtered => {
       console.log('rooms component: got filtered value')
       this.filteredRooms = filtered;
       this.cd.detectChanges();
-    }); */
+    });
+    */
 
+    console.log('rooms-component subscribing to getFilteredRoomsObsv2$');
     this.filteredRoomsSubscription = this.filterService.getFilteredRoomsObsv2()
       .subscribe(filtered => {
-        console.log('rooms: got filtered');
+        console.log('rooms-component: GOT FILTERED ROOMS');
         this.filteredRooms = filtered;
         this.cd.detectChanges();
-    });
+      });
 
-    this.selectedSubscription =  this.selected$.subscribe(selected => this.selected = selected);
+    console.log('rooms-component subscribing to selected$');
+    this.selectedSubscription = this.selected$.subscribe(selected => this.selected = selected);
+
+    console.log('rooms-component subscribing to test$');
+    this.test$.subscribe(r => {
+      console.log('test$');
+    });
   }
 
   ngOnDestroy(): void {
     this.store.set('selected', []);
-    this.filteredRoomsSubscription?.unsubscribe();
-    this.selectedSubscription?.unsubscribe();
+
+    if (this.filteredRoomsSubscription)
+      this.filteredRoomsSubscription.unsubscribe();
+    if (this.selectedSubscription)
+      this.selectedSubscription.unsubscribe();
   }
 
   handleCreateRoomClick() {

@@ -17,6 +17,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   ) { }
 
   ngAfterViewInit(): void {
+    console.log('app component after init');
     this.subscription = this.roomService.getRooms$.subscribe();
   }
 

@@ -1,5 +1,5 @@
 import { Injectable} from '@angular/core';
-import { combineLatest, map, Observable, Subject } from 'rxjs';
+import { combineLatest, map, Observable, ReplaySubject, Subject, tap } from 'rxjs';
 
 import { Store } from './store';
 
@@ -13,29 +13,31 @@ import { Booking } from './models/booking';
   providedIn: 'root'
 })
 export class FilterService {
-  rooms$: Observable<Room[]> = this.store.select('rooms');
+  rooms$: Observable<Room[]> = this.store.select<Room[]>('rooms');
 
   filter: Filter | null = null;
   filter$: Observable<Filter> = this.store.select<Filter>('filter');
 
   // 1st METHOD
-  //filteredRooms$$ = new Subject<Room[]>();
-  //filteredRooms$: Observable<Room[]> = this.filteredRooms$$.asObservable();
+  filteredRooms$$ = new ReplaySubject<Room[]>(1);
+  filteredRooms$: Observable<Room[]> = this.filteredRooms$$.asObservable();
 
   constructor(
     private store: Store,
     private roomService: RoomService,
     ) {
 
-      console.log('FILTER SERVICE CONSTRUCTOR')
-
       this.filter$.subscribe(filter => {
         this.filter = filter;
       });
+      this.rooms$.subscribe(_ => {
+        ;
+      });
 
-      let combined = combineLatest([this.rooms$, this.filter$]);
-      combined.subscribe(val => {
-        console.log('COMBINED OBSERVER')
+      /*
+      let combined$ = combineLatest([this.rooms$, this.filter$]);
+      console.log('filter.service subscribing to combined$');
+      combined$.subscribe(val => {
 
         let rooms = val[0];
         console.log(val[0]);
@@ -45,9 +47,15 @@ export class FilterService {
 
         let filtered = this.filterRooms(rooms, filter);
 
+        //##########################
+        // THIS FUNCTION DOES NOTHING BESIDES UPDATING THE VALUE OF filter!
+        //##########################
+
         // 1st METHOD
-        //this.filteredRooms$$.next(filtered);
+        this.filteredRooms$$.next(filtered);
       });
+      */
+
     }
 
     reset() {
@@ -118,13 +126,16 @@ export class FilterService {
     }
 
     // 1st METHOD
-    /* getFilteredRoomsObsv(): Observable<Room[]> {
+    /*
+    getFilteredRoomsObsv(): Observable<Room[]> {
       return this.filteredRooms$;
-    } */
-
+    }
+    */
     getFilteredRoomsObsv2(): Observable<Room[]> {
       console.log('getFilteredRoomsObsv2()');
       return combineLatest([this.rooms$, this.filter$])
-        .pipe( map( ([rooms, filter]) => this.filterRooms(rooms, filter) ) )
+        .pipe(
+          tap(v => {console.log('combineLatest tap'); return v}),
+          map( ([rooms, filter]) => this.filterRooms(rooms, filter) ) )
     };
 }
