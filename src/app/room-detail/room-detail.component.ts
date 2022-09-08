@@ -36,7 +36,7 @@ export class
 
     this.room$ = this.store.select_room(this.id);
     this.subscription = this.room$.subscribe(room => {
-      console.log('FOO');
+      console.log('room$ observer');
       this.room = room;
     });
   }

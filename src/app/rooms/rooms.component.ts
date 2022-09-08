@@ -11,6 +11,8 @@ import { Room } from '../models/room';
 import { FilterService } from '../filter.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
+import { SelectedService } from '../selected.service';
+
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -32,12 +34,13 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     private store: Store,
     private cd: ChangeDetectorRef,
     private filterService: FilterService,
+    private selectedService: SelectedService,
   ) { }
 
   ngAfterViewInit(): void {
     this.filteredRoomsSubscription = this.filterService.getFilteredRoomsObsv2()
       .subscribe(filtered => {
-        console.log('rooms-component: GOT FILTERED ROOMS');
+        console.log('filteredRoomsObsv observer: GOT FILTERED ROOMS');
         this.filteredRooms = filtered;
         this.cd.detectChanges();
       });
@@ -55,7 +58,7 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
       this.selectedSubscription.unsubscribe();
     }
 
-    this.store.set('selected', []);
+    this.selectedService.reset();
   }
 
   handleCreateRoomClick() {
@@ -77,7 +80,7 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
       } else if (obj.checked === false) {
         if (selected.includes(roomId)) selected = selected.filter(id => id !== roomId);
       }
-      this.store.set('selected', selected);
+      this.selectedService.updateSelected(selected);
 
     } else {
       console.log('???');
