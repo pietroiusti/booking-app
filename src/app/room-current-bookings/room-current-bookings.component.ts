@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, Input, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 
 import { Room } from '../models/room';
 
@@ -9,9 +9,12 @@ import { Room } from '../models/room';
   styleUrls: ['./room-current-bookings.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoomCurrentBookingsComponent implements OnInit {
+export class RoomCurrentBookingsComponent implements OnInit, OnDestroy {
   room: Room | null = null;
+
   @Input() room$: Observable<Room> | undefined;
+
+  subscription: Subscription | null = null;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -19,10 +22,16 @@ export class RoomCurrentBookingsComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.room$) {
-      this.room$.subscribe(room => {
+      this.subscription = this.room$.subscribe(room => {
           this.room = room;
           this.cd.markForCheck();
       });
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+    this.subscription.unsubscribe();
     }
   }
 }

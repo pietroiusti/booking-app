@@ -46,12 +46,16 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
   }
 
   ngOnDestroy(): void {
-    this.store.set('selected', []);
-
-    if (this.filteredRoomsSubscription)
+    if (this.filteredRoomsSubscription) {
+      console.log('unsub1');
       this.filteredRoomsSubscription.unsubscribe();
-    if (this.selectedSubscription)
+    }
+    if (this.selectedSubscription) {
+      console.log('unsub2');
       this.selectedSubscription.unsubscribe();
+    }
+
+    this.store.set('selected', []);
   }
 
   handleCreateRoomClick() {

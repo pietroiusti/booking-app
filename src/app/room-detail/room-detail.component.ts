@@ -36,12 +36,15 @@ export class
 
     this.room$ = this.store.select_room(this.id);
     this.subscription = this.room$.subscribe(room => {
+      console.log('FOO');
       this.room = room;
     });
   }
 
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   handleNewBookingEvent(input: TimeFrameInput): void {

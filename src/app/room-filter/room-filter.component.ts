@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '../store';
 
@@ -17,6 +17,8 @@ export class RoomFilterComponent implements OnInit, OnDestroy, AfterViewInit {
   filter: Filter | null = null;
   filter$: Observable<Filter> = this.store.select<Filter>('filter');
 
+  subscription: Subscription | null = null;
+
   constructor(
     private store: Store,
     private filterService: FilterService,
@@ -25,7 +27,7 @@ export class RoomFilterComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void { }
 
   ngAfterViewInit(): void {
-    this.filter$.subscribe(filter => {
+    this.subscription = this.filter$.subscribe(filter => {
       this.filter = filter
     });
   }
@@ -70,6 +72,9 @@ export class RoomFilterComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
     this.filterService.reset();
   }
 }
