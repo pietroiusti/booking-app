@@ -12,6 +12,7 @@ import { FilterService } from '../filter.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import { SelectedService } from '../selected.service';
+import { Filter } from '../models/filter';
 
 @Component({
   selector: 'app-rooms',
@@ -21,6 +22,9 @@ import { SelectedService } from '../selected.service';
 })
 export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
   ngOnInit(): void { }
+
+  filter: Filter | null = null;
+  filterSubscription: Subscription | null = null;
 
   filteredRooms: Room[] = [];
   filteredRoomsSubscription: Subscription | null = null;
@@ -46,6 +50,8 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
       });
 
     this.selectedSubscription = this.selected$.subscribe(selected => this.selected = selected);
+
+    this.filterSubscription = this.store.select<Filter>('filter').subscribe(filter => this.filter = filter);
   }
 
   ngOnDestroy(): void {
@@ -56,6 +62,9 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     if (this.selectedSubscription) {
       console.log('unsub2');
       this.selectedSubscription.unsubscribe();
+    }
+    if (this.filterSubscription) {
+      this.filterSubscription.unsubscribe();
     }
 
     this.selectedService.reset();
@@ -71,7 +80,7 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
 
   handleCheckBoxChange(obj: MatCheckboxChange, roomId: number) {
     if (this.selected) {
-
+      //TODO: move this stuff into the selected service
       let selected;
       selected = this.selected.map(x => x); // shallow copy
 

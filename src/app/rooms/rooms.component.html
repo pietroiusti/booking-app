@@ -2,6 +2,7 @@
 
 <button mat-stroked-button color="primary" (click)="handleCreateRoomClick()">Create room</button>
 <button *ngIf="this.selected && this.selected.length > 1" mat-stroked-button color="primary">Multi-Action</button>
+<button *ngIf="this.selected && this.selected.length > 1 && filter && filter.date && filter.from && filter.to" mat-stroked-button color="primary">Book Multiple Rooms</button>
 
 <br>
 <br>
