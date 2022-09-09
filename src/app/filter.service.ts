@@ -92,7 +92,7 @@ export class FilterService {
       console.log('getFilteredRoomsObsv2()');
       return combineLatest([this.rooms$, this.filter$])
         .pipe(
-          tap(v => {console.log('combineLatest tap'); return v}),
+          tap(v => {console.log('combineLatest tap', v); return v}),
           map( ([rooms, filter]) => this.filterRooms(rooms, filter) ) )
     };
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, zip } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -47,6 +47,37 @@ export class RoomService {
     } else {
       console.log('Booking rejected');
     }
+  }
+
+  bookMultiple(rooms: Room[], date: string, from: string, to: string) {
+
+    let booking = this.createBooking(this.unixTimeStamp(date, from), this.unixTimeStamp(date, to));
+
+    let reqs = [];
+
+    let httpOptions2 = {
+      headers : new HttpHeaders ({
+        'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+    })};
+    //https://stackoverflow.com/questions/25727306/request-header-field-access-control-allow-headers-is-not-allowed-by-access-contr
+
+    for (let r of rooms) {
+      let updatedRoom = Object.assign({}, r);
+      updatedRoom.bookings.push(booking);
+
+      let req = this.http.put(this.roomsUrl, updatedRoom, httpOptions2)
+                  .pipe(
+                    tap(_ => console.log(`New booking for room ${r.id}`)),
+                    catchError(this.handleError<any>('book function')));
+      reqs.push(req);
+    }
+
+    let forkJoined = forkJoin(reqs);
+    let forkJoinedVal;
+    forkJoined.subscribe(v => {
+      forkJoinedVal = v;
+      console.log('I should tell the user whether the booking was successful or not ');
+    });
   }
 
   updateRooms(updatedRoom: Room): void {
@@ -105,6 +136,10 @@ export class RoomService {
       },
       timeFrame: { start, end },
     };
+  }
+
+  unixTimeStamp(date: string, time: string) {
+    return Date.parse(date + 'T' + time + ':00' + '.000+02:00');
   }
 
   assessBooking(roomBookings: Booking[], newBooking: Booking): boolean {

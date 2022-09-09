@@ -14,6 +14,8 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { SelectedService } from '../selected.service';
 import { Filter } from '../models/filter';
 
+import { RoomService } from '../room.service';
+
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -39,12 +41,15 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     private cd: ChangeDetectorRef,
     private filterService: FilterService,
     private selectedService: SelectedService,
+    private roomService: RoomService,
   ) { }
 
   ngAfterViewInit(): void {
+    console.log('this.ngAfterViewInit')
     this.filteredRoomsSubscription = this.filterService.getFilteredRoomsObsv2()
       .subscribe(filtered => {
         console.log('filteredRoomsObsv observer: GOT FILTERED ROOMS');
+        console.log(filtered);
         this.filteredRooms = filtered;
         this.cd.detectChanges();
       });
@@ -94,6 +99,16 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     } else {
       console.log('???');
     }
+  }
+
+  multipleBook() {
+    //let start;
+    //let end;
+
+    let rooms: Room[] = this.filteredRooms.filter(r => this.selected.includes(r.id));
+
+    if (this.filter)
+      this.roomService.bookMultiple(rooms, this.filter['date'], this.filter['from'], this.filter['to']);
   }
 
   modifyRoom(event: Event, roomId: number) {
