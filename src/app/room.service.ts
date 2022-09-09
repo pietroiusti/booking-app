@@ -49,6 +49,34 @@ export class RoomService {
     }
   }
 
+  book2(room: Room, start: number, end: number): Observable<any> | null{
+    // create booking
+    let booking = this.createBooking(start, end);
+    // assess booking
+    let assessment = this.assessBooking(room.bookings, booking);
+    // book
+    if (assessment) {
+      console.log('Booking accepted');
+      room = Object.assign({}, room); // shallow copy
+      room.bookings.push(booking);
+
+      //this.updateRooms(room);      
+      let httpOptions2 = {
+        headers : new HttpHeaders ({
+          'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+      })};
+      
+      return this.http.put(this.roomsUrl, room, httpOptions2)
+        .pipe(
+          tap(_ => console.log(`New booking for room ${room.id}`)),
+          catchError(this.handleError<any>('book function')),
+        );
+    } else {
+      console.log('Booking rejected');
+      return null;
+    }
+  }
+
   bookMultiple(rooms: Room[], date: string, from: string, to: string) {
 
     let booking = this.createBooking(this.unixTimeStamp(date, from), this.unixTimeStamp(date, to));
@@ -80,6 +108,20 @@ export class RoomService {
     });
   }
 
+  updateStore(room: Room, start: number, end: number) {
+    let value = this.store.value.rooms;
+
+    let rooms = value.map((r: Room) => {
+      if (r.id === room.id) {
+        return { ...r, ...room };
+      } else {
+        return r;
+      }
+    });
+
+    this.store.set('rooms', rooms);
+  }
+
   updateRooms(updatedRoom: Room): void {
     console.log('updateRooms()');
 
@@ -106,8 +148,9 @@ export class RoomService {
                   }
                 });
                 this.store.set('rooms', rooms);
-      })
-  }
+                this.store.set('lastBooking', 'good');
+      });
+  }  
 
   /**
  * Handle Http operation that failed.

@@ -30,7 +30,7 @@ import { RoomFilterComponent } from './room-filter/room-filter.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -63,6 +63,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
+    MatSnackBarModule,
   ],
   providers: [
     Store,

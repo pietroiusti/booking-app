@@ -9,6 +9,7 @@ import { Room } from '../models/room';
 import { Store } from '../store';
 import { Observable, Subscription } from 'rxjs';
 import { TimeFrameInput } from '../models/time-frame-input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-room-detail',
@@ -24,11 +25,15 @@ export class
 
   subscription: Subscription | null = null;
 
+  snackBarText1: string = "";
+  snackBarText2: string = "";
+
   constructor(
     private route: ActivatedRoute,
     private roomService: RoomService,
     private location: Location,
     private store: Store,
+    private _snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -54,8 +59,27 @@ export class
     let UnixTimestampEnd = Date.parse(UnixTimestampEndString);
 
     if (this.room) {
-      this.roomService.book(this.room, UnixTimestampStart, UnixTimestampEnd);
+      //this.roomService.book(this.room, UnixTimestampStart, UnixTimestampEnd); //<<<<<<<<<<<<<<<<
+
+      // #########
+      let reqObsv = this.roomService.book2(this.room, UnixTimestampStart, UnixTimestampEnd);
+      
+      if (reqObsv) {
+        reqObsv.subscribe( v => {
+          //console.log('I should update local store');          
+          if (this.room) {
+            this._snackBar.open('Booking successful');
+            this.roomService.updateStore(this.room, UnixTimestampStart, UnixTimestampEnd);
+          } else {
+            ;
+          }
+        })
+      } else {
+        this._snackBar.open('There was something wrong with your booking :( Try again');  
+      }      
     }
+    // ##########
+
   }
 
   goBack(): void {

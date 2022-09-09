@@ -17,6 +17,7 @@ const state: State = {
     capacity: '',
   },
   selected: [],
+  lastBooking: undefined,
 };
 
 export class Store {
