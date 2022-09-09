@@ -102,13 +102,15 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
   }
 
   multipleBook() {
-    //let start;
-    //let end;
+    let selectedRooms: Room[] = this.filteredRooms.filter(r => this.selected.includes(r.id));
 
-    let rooms: Room[] = this.filteredRooms.filter(r => this.selected.includes(r.id));
+    this.selectedService.reset();
 
     if (this.filter)
-      this.roomService.bookMultiple(rooms, this.filter['date'], this.filter['from'], this.filter['to']);
+      this.roomService.bookMultiple(selectedRooms, this.filter['date'], this.filter['from'], this.filter['to']);
+
+    this.filterService.reset();
+
   }
 
   modifyRoom(event: Event, roomId: number) {

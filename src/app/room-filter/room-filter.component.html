@@ -11,11 +11,11 @@
 
   <!-- filter by timeframe -->
   <label for="">date</label>
-  <input (change)="handleTimeFrameDateInput($event)" type="date">
+  <input value="{{filter ? filter.date : ''}}" (change)="handleTimeFrameDateInput($event)" type="date">
   <label for="">from</label>
-  <input (change)="handleTimeFrameFromInput($event)" type="time">
+  <input value="{{filter ? filter.from : ''}}" (change)="handleTimeFrameFromInput($event)" type="time">
   <label for="">to</label>
-  <input (change)="handleTimeFrameToInput($event)" type="time">
+  <input value="{{filter ? filter.to : ''}}" (change)="handleTimeFrameToInput($event)" type="time">
 
   <br>
 
