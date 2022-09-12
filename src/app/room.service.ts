@@ -60,15 +60,16 @@ export class RoomService {
       room = Object.assign({}, room); // shallow copy
       room.bookings.push(booking);
 
-      //this.updateRooms(room);      
-      let httpOptions2 = {
+      let httpOptions = {
         headers : new HttpHeaders ({
-          'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+          //'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+          //"Content-Type": "text/plain",
+          'observe': 'response',
       })};
       
-      return this.http.put(this.roomsUrl, room, httpOptions2)
+      return this.http.put(this.roomsUrl, room, httpOptions)
         .pipe(
-          tap(_ => console.log(`New booking for room ${room.id}`)),
+          tap(v => console.log(`New booking for room ${room.id}, v: ${v}`)),
           catchError(this.handleError<any>('book function')),
         );
     } else {
@@ -164,7 +165,6 @@ export class RoomService {
       // TODO: send the error to remote logging infrastructure
       console.log(error); // log to console instead
 
-      // Let the app keep running by return an empty result
       return of (result as T);
     };
   }

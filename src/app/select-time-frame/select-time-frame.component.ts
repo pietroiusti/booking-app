@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { FormControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 // types
 import { TimeFrameInput } from '../models/time-frame-input';
@@ -20,9 +19,7 @@ export class SelectTimeFrameComponent implements OnInit {
 
   @Output() newBookingEvent: EventEmitter<any> = new EventEmitter();
 
-  constructor(
-    private _snackBar: MatSnackBar
-  ) { }
+  constructor() {}
 
   ngOnInit(): void { }
 
@@ -37,8 +34,5 @@ export class SelectTimeFrameComponent implements OnInit {
         };
         this.newBookingEvent.emit(input);
     }
-
-    //openSnackBar(message.value, action.value)
-    //this._snackBar.open('Book successful!', 'Okay');
   }
 }

@@ -65,17 +65,29 @@ export class
       let reqObsv = this.roomService.book2(this.room, UnixTimestampStart, UnixTimestampEnd);
       
       if (reqObsv) {
+        this._snackBar.open('Your booking seemed okay, waiting for server response ;)');
         reqObsv.subscribe( v => {
           //console.log('I should update local store');          
           if (this.room) {
-            this._snackBar.open('Booking successful');
-            this.roomService.updateStore(this.room, UnixTimestampStart, UnixTimestampEnd);
+            let room = this.room;
+            if (v && v.result === 'All good') {
+              //this._snackBar.open('Booking accepted :)');
+              setTimeout(()=>{
+                this._snackBar.open('Booking accepted :)');
+                this.roomService.updateStore(room, UnixTimestampStart, UnixTimestampEnd);
+              }, 2000);
+            } else {
+              //this._snackBar.open('The server rejected your booking :(');
+              setTimeout(() => {
+                this._snackBar.open('The server rejected your booking :(');
+              }, 2000);
+            }
           } else {
-            ;
+            console.log('???');
           }
         })
       } else {
-        this._snackBar.open('There was something wrong with your booking :( Try again');  
+        this._snackBar.open('There was something wrong with your booking :( Try again');
       }      
     }
     // ##########
