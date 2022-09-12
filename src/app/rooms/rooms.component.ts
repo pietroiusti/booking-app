@@ -119,40 +119,6 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     this.filterService.reset();
   }
 
-  multipleBook2(): void {
-    let selectedRooms: Room[] = this.filteredRooms.filter(r => this.selected.includes(r.id));
-
-    this.selectedService.reset();
-
-    if (this.filter) {
-      let forkJoined = this.roomService.bookMultiple2(selectedRooms, this.filter['date'], this.filter['from'], this.filter['to']);
-      forkJoined.subscribe(v => {
-        if (v.reduce((a, o) => o.result === 'All good' ? a : false, true)) {// if each req result === 'all good'
-          console.log('All good! :)');
-          this._snackBar.open('All good! :)');
-        } else {
-          console.log('Something went w rong :(');
-          console.log(v);
-          this._snackBar.open('Something went w rong :(');
-        }
-      });
-    }
-
-    this.filterService.reset();
-  }
-
-  multipleBook(): void {
-    let selectedRooms: Room[] = this.filteredRooms.filter(r => this.selected.includes(r.id));
-
-    this.selectedService.reset();
-
-    if (this.filter)
-      this.roomService.bookMultiple(selectedRooms, this.filter['date'], this.filter['from'], this.filter['to']);
-
-    this.filterService.reset();
-
-  }
-
   modifyRoom(event: Event, roomId: number) {
     event.stopPropagation();
     console.log(roomId);

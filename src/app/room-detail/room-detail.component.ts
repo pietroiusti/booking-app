@@ -66,43 +66,6 @@ export class
       reqObsv.subscribe();
   }
 
-  handleNewBookingEvent(input: TimeFrameInput): void {
-    let UnixTimestampStartString = input.selectedDate + 'T' + input.selectedTimeStart + ':00' + '.000+02:00';
-    let UnixTimestampStart = Date.parse(UnixTimestampStartString);
-    let UnixTimestampEndString = input.selectedDate + 'T' + input.selectedTimeEnd + ':00' + '.000+02:00';
-    let UnixTimestampEnd = Date.parse(UnixTimestampEndString);
-
-    if (!this.room)
-      return;
-
-    let reqObsv = this.roomService.book2(this.room, UnixTimestampStart, UnixTimestampEnd);
-
-    if (reqObsv) {
-      this._snackBar.open('Your booking seemed okay, waiting for server response ;)');
-
-      reqObsv.subscribe(v => {
-        if (this.room) {
-          let room = this.room;
-          if (v && v.result === 'All good') {
-            setTimeout(() => {
-              this._snackBar.open('Booking accepted :)');
-              this.roomService.updateStore(room, UnixTimestampStart, UnixTimestampEnd);
-            }, 2000);
-          } else {
-            setTimeout(() => {
-              this._snackBar.open('The server rejected your booking :(');
-            }, 2000);
-          }
-        } else {
-          console.log('???');
-        }
-      })
-    } else {
-      this._snackBar.open('There was something wrong with your booking :( Try again');
-    }
-
-  }
-
   goBack(): void {
     this.location.back();
   }

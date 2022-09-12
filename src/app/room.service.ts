@@ -93,35 +93,6 @@ export class RoomService {
     }
   }
 
-  book2(room: Room, start: number, end: number): Observable<any> | null{
-    // create booking
-    let booking = this.createBooking(start, end);
-    // assess booking
-    let assessment = this.assessBooking(room.bookings, booking);
-    // book
-    if (assessment) {
-      console.log('Booking accepted');
-      room = Object.assign({}, room); // shallow copy
-      room.bookings.push(booking);
-
-      let httpOptions = {
-        headers : new HttpHeaders ({
-          //'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
-          //"Content-Type": "text/plain",
-          'observe': 'response',
-      })};
-      
-      return this.http.put(this.roomsUrl, room, httpOptions)
-        .pipe(
-          tap(v => console.log(`New booking for room ${room.id}, v: ${v}`)),
-          catchError(this.handleError<any>('book function')),
-        );
-    } else {
-      console.log('Booking rejected');
-      return null;
-    }
-  }
-
   bookMultiple3(rooms: Room[], date: string, from: string, to: string) {
 
     let booking = this.createBooking(this.unixTimeStamp(date, from), this.unixTimeStamp(date, to));
@@ -169,66 +140,6 @@ export class RoomService {
         }
       })
     );
-  }
-
-  bookMultiple2(rooms: Room[], date: string, from: string, to: string) {
-
-    let booking = this.createBooking(this.unixTimeStamp(date, from), this.unixTimeStamp(date, to));
-
-    let reqs = [];
-
-    let httpOptions3 = {
-      headers : new HttpHeaders ({
-        'observe': 'response',
-    })};
-
-    for (let r of rooms) {
-      let updatedRoom = structuredClone(r); // deep copy; otherwise we would be changing 
-                                            // the rooms in the store without respecting
-                                            // immutability.
-      updatedRoom.bookings.push(booking);
-
-      let req = this.http.put(this.roomsUrl, updatedRoom, httpOptions3)
-                  .pipe(
-                    tap(_ => console.log(`New booking for room ${r.id}`)),
-                    catchError(this.handleError<any>('book function')));
-      reqs.push(req);
-    }
-
-    // I am not (re-)assessing the bookings here at the moment
-
-    return forkJoin(reqs);
-  }
-
-  bookMultiple(rooms: Room[], date: string, from: string, to: string) {
-
-    let booking = this.createBooking(this.unixTimeStamp(date, from), this.unixTimeStamp(date, to));
-
-    let reqs = [];
-
-    let httpOptions2 = {
-      headers : new HttpHeaders ({
-        'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
-    })};
-    //https://stackoverflow.com/questions/25727306/request-header-field-access-control-allow-headers-is-not-allowed-by-access-contr
-
-    for (let r of rooms) {
-      let updatedRoom = Object.assign({}, r);
-      updatedRoom.bookings.push(booking);
-
-      let req = this.http.put(this.roomsUrl, updatedRoom, httpOptions2)
-                  .pipe(
-                    tap(_ => console.log(`New booking for room ${r.id}`)),
-                    catchError(this.handleError<any>('book function')));
-      reqs.push(req);
-    }
-
-    let forkJoined = forkJoin(reqs);
-    let forkJoinedVal;
-    forkJoined.subscribe(v => {
-      forkJoinedVal = v;
-      console.log('I should tell the user whether the booking was successful or not ');
-    });
   }
 
   updateStore(room: Room, start: number, end: number) {
