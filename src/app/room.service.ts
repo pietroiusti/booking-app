@@ -133,11 +133,14 @@ export class RoomService {
         'observe': 'response',
     })};
 
+    let updatedRooms: Room[] = [];
+
     for (let r of rooms) {
       let updatedRoom = structuredClone(r); // deep copy; otherwise we would be changing 
                                             // the rooms in the store without respecting
                                             // immutability.
       updatedRoom.bookings.push(booking);
+      updatedRooms.push(updatedRoom);
 
       let req = this.http.put(this.roomsUrl, updatedRoom, httpOptions3)
                   .pipe(
@@ -152,6 +155,9 @@ export class RoomService {
       tap(v => {
         if ( v.every(o => o.result === 'All good') ) {
           this._snackBar.open('All good! :)');
+          for (let r of updatedRooms) {
+            this.updateStore(r, booking.timeFrame.start, booking.timeFrame.end);
+          }
         } else {
           this._snackBar.open('Something went w rong :(');
         }
