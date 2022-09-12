@@ -90,7 +90,9 @@ export class RoomService {
     })};
 
     for (let r of rooms) {
-      let updatedRoom = Object.assign({}, r);
+      let updatedRoom = structuredClone(r); // deep copy; otherwise we would be changing 
+                                            // the rooms in the store without respecting
+                                            // immutability.
       updatedRoom.bookings.push(booking);
 
       let req = this.http.put(this.roomsUrl, updatedRoom, httpOptions3)
