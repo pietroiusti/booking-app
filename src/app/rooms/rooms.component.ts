@@ -104,6 +104,21 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     }
   }
 
+  multipleBook3(): void {
+    let selectedRooms: Room[] = this.filteredRooms.filter(r => this.selected.includes(r.id));
+
+    this.selectedService.reset();
+
+    if (!this.filter)
+      return;
+
+    let forkJoined = this.roomService.bookMultiple3(selectedRooms, this.filter['date'], this.filter['from'], this.filter['to']);
+
+    forkJoined.subscribe();
+
+    this.filterService.reset();
+  }
+
   multipleBook2(): void {
     let selectedRooms: Room[] = this.filteredRooms.filter(r => this.selected.includes(r.id));
 
@@ -112,7 +127,7 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     if (this.filter) {
       let forkJoined = this.roomService.bookMultiple2(selectedRooms, this.filter['date'], this.filter['from'], this.filter['to']);
       forkJoined.subscribe(v => {
-        if (v.reduce((a,o)=>o.result==='All good'?a:false,true)) {// if each req result === 'all good'
+        if (v.reduce((a, o) => o.result === 'All good' ? a : false, true)) {// if each req result === 'all good'
           console.log('All good! :)');
           this._snackBar.open('All good! :)');
         } else {
