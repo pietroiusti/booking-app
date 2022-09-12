@@ -11,6 +11,8 @@ import { Room } from '../models/room';
 import { FilterService } from '../filter.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { SelectedService } from '../selected.service';
 import { Filter } from '../models/filter';
 
@@ -42,6 +44,7 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     private filterService: FilterService,
     private selectedService: SelectedService,
     private roomService: RoomService,
+    private _snackBar: MatSnackBar,
   ) { }
 
   ngAfterViewInit(): void {
@@ -101,7 +104,29 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     }
   }
 
-  multipleBook() {
+  multipleBook2(): void {
+    let selectedRooms: Room[] = this.filteredRooms.filter(r => this.selected.includes(r.id));
+
+    this.selectedService.reset();
+
+    if (this.filter) {
+      let forkJoined = this.roomService.bookMultiple2(selectedRooms, this.filter['date'], this.filter['from'], this.filter['to']);
+      forkJoined.subscribe(v => {
+        if (v.reduce((a,o)=>o.result==='All good'?a:false,true)) {// if each req result === 'all good'
+          console.log('All good! :)');
+          this._snackBar.open('All good! :)');
+        } else {
+          console.log('Something went w rong :(');
+          console.log(v);
+          this._snackBar.open('Something went w rong :(');
+        }
+      });
+    }
+
+    this.filterService.reset();
+  }
+
+  multipleBook(): void {
     let selectedRooms: Room[] = this.filteredRooms.filter(r => this.selected.includes(r.id));
 
     this.selectedService.reset();

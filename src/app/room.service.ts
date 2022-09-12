@@ -78,6 +78,33 @@ export class RoomService {
     }
   }
 
+  bookMultiple2(rooms: Room[], date: string, from: string, to: string) {
+
+    let booking = this.createBooking(this.unixTimeStamp(date, from), this.unixTimeStamp(date, to));
+
+    let reqs = [];
+
+    let httpOptions3 = {
+      headers : new HttpHeaders ({
+        'observe': 'response',
+    })};
+
+    for (let r of rooms) {
+      let updatedRoom = Object.assign({}, r);
+      updatedRoom.bookings.push(booking);
+
+      let req = this.http.put(this.roomsUrl, updatedRoom, httpOptions3)
+                  .pipe(
+                    tap(_ => console.log(`New booking for room ${r.id}`)),
+                    catchError(this.handleError<any>('book function')));
+      reqs.push(req);
+    }
+
+    // I am not (re-)assessing the bookings here at the moment
+
+    return forkJoin(reqs);
+  }
+
   bookMultiple(rooms: Room[], date: string, from: string, to: string) {
 
     let booking = this.createBooking(this.unixTimeStamp(date, from), this.unixTimeStamp(date, to));
