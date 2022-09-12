@@ -159,7 +159,13 @@ export class RoomService {
             this.updateStore(r, booking.timeFrame.start, booking.timeFrame.end);
           }
         } else {
-          this._snackBar.open('Something went w rong :(');
+          const nonUpdatedRooms = v.filter(r => r.result !== 'All good');
+
+          this._snackBar.open(`Something went wrong :( See log to see which bookings have failed`);
+          console.log(`Error: The following rooms have not been booked:`)
+          for (let r of nonUpdatedRooms) {
+            console.log(r.id);
+          }
         }
       })
     );
