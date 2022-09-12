@@ -12,6 +12,8 @@ import { catchError, tap } from 'rxjs/operators';
 import { Booking } from './models/booking';
 import { TimeFrame } from './models/time-frame';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,6 +27,7 @@ export class RoomService {
   constructor(
     private http: HttpClient,
     private store: Store,
+    private _snackBar: MatSnackBar,
   ) { }
 
   getRooms$: Observable<Room[]> = this.http.get<Room[]>(this.roomsUrl)
@@ -46,6 +49,47 @@ export class RoomService {
       this.updateRooms(room);
     } else {
       console.log('Booking rejected');
+    }
+  }
+
+  book3(room: Room, start: number, end: number): Observable<any> | null{
+    // create booking
+    let booking = this.createBooking(start, end);
+    // assess booking
+    let assessment = this.assessBooking(room.bookings, booking);
+    // book
+    if (assessment) {
+      console.log('Assessment okay');
+      this._snackBar.open('Your booking looked good. Waiting for server...');
+
+      room = structuredClone(room); //<<<<<<<<<<<<<<<<< needed?
+      room.bookings.push(booking);
+
+      let httpOptions = {
+        headers : new HttpHeaders ({
+          'observe': 'response',
+      })};
+
+      return this.http.put<{result: string}>(this.roomsUrl, room, httpOptions)
+        .pipe(
+          tap((v) => {
+            if (v.result === `All good`) {
+              setTimeout(() => {
+                this._snackBar.open('Success! :)');
+                this.updateStore(room, start, end);
+              }, 2000);
+            } else {
+              setTimeout(() => {
+                this._snackBar.open('Something went wrong on the server :(');
+              }, 2000);
+            }
+          }),
+          catchError(this.handleError<any>('book function')),
+        );
+    } else {
+      console.log('Assessment failed');
+      this._snackBar.open('There was something wrong with your booking :( Try again');
+      return null;
     }
   }
 
