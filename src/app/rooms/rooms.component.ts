@@ -11,8 +11,6 @@ import { Room } from '../models/room';
 import { FilterService } from '../filter.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
-
 import { SelectedService } from '../selected.service';
 import { Filter } from '../models/filter';
 
@@ -44,7 +42,6 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     private filterService: FilterService,
     private selectedService: SelectedService,
     private roomService: RoomService,
-    private _snackBar: MatSnackBar,
   ) { }
 
   ngAfterViewInit(): void {

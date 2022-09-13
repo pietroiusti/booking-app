@@ -60,7 +60,7 @@ export class RoomService {
     // book
     if (assessment) {
       console.log('Assessment okay');
-      this._snackBar.open('Your booking looked good. Waiting for server...');
+      this._snackBar.open('Your booking looked good. Waiting for server...', 'Got it');
 
       room = structuredClone(room); //<<<<<<<<<<<<<<<<< needed?
       room.bookings.push(booking);
@@ -75,12 +75,12 @@ export class RoomService {
           tap((v) => {
             if (v.result === `All good`) {
               setTimeout(() => {
-                this._snackBar.open('Success! :)');
+                this._snackBar.open('Success! :)', 'Got it');
                 this.updateStore(room, start, end);
               }, 2000);
             } else {
               setTimeout(() => {
-                this._snackBar.open('Something went wrong on the server :(');
+                this._snackBar.open('Something went wrong on the server :(', 'Got it');
               }, 2000);
             }
           }),
@@ -88,7 +88,7 @@ export class RoomService {
         );
     } else {
       console.log('Assessment failed');
-      this._snackBar.open('There was something wrong with your booking :( Try again');
+      this._snackBar.open('There was something wrong with your booking :( Try again', 'Okay');
       return null;
     }
   }
@@ -125,15 +125,15 @@ export class RoomService {
     return forkJoin(reqs).pipe(
       tap(v => {
         if ( v.every(o => o.result === 'All good') ) {
-          this._snackBar.open('All good! :)');
+          this._snackBar.open('All good! :)', 'Got it');
           for (let r of updatedRooms) {
             this.updateStore(r, booking.timeFrame.start, booking.timeFrame.end);
           }
         } else {
           const nonUpdatedRooms = v.filter(r => r.result !== 'All good');
 
-          this._snackBar.open(`Something went wrong :( See log to see which bookings have failed`);
-          console.log(`Error: The following rooms have not been booked:`)
+          this._snackBar.open('Something went wrong :( See log to see which bookings have failed', 'Okay');
+          console.log('Error: The following rooms have not been booked:');
           for (let r of nonUpdatedRooms) {
             console.log(r.id);
           }
