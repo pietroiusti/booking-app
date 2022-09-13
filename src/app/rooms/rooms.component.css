@@ -17,3 +17,8 @@ mat-card:hover {
 
   cursor: pointer;
 }
+
+.room-feature-icon {
+  margin-left: 10px;
+  margin-right: 10px;
+}
