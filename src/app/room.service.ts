@@ -91,6 +91,14 @@ export class RoomService {
     let updatedRooms: Room[] = [];
 
     for (let r of rooms) {
+      /*
+      // without immer.js:
+      const updatedBookings = [...r.bookings]
+      updatedBookings.push(booking);
+      const updatedRoom = Object.assign({}, r);
+      updatedRoom.bookings = updatedBookings;
+      */
+
       const updatedRoom = produce(r, draft => {
         draft.bookings.push(booking);
       });
