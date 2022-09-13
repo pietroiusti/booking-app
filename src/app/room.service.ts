@@ -127,17 +127,14 @@ export class RoomService {
   }
 
   updateStore(room: Room, start: number, end: number) {
-    let value = this.store.value.rooms;
+    const currentRooms = this.store.value.rooms;
 
-    let rooms = value.map((r: Room) => {
-      if (r.id === room.id) {
-        return { ...r, ...room };
-      } else {
-        return r;
-      }
+    const updatedRooms = produce(currentRooms, draft => {
+      const i = draft.findIndex(r => r.id === room.id);
+      draft[i] = room;
     });
 
-    this.store.set('rooms', rooms);
+    this.store.set('rooms', updatedRooms);
   }
 
   updateRooms(updatedRoom: Room): void {
