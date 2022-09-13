@@ -8,6 +8,7 @@ import { Room } from './models/room';
 
 import { RoomService } from './room.service';
 import { Booking } from './models/booking';
+import produce from 'immer';
 
 @Injectable({
   providedIn: 'root'
@@ -79,13 +80,16 @@ export class FilterService {
     handleInput(options: {type: string, value: any}) {
       console.log(`FILTER.SERVICE  HANDLEINPUT, ${options.type}, ${options.value}`);
 
-      let filter = Object.assign({}, this.filter); // shallow copy of filter
+      if (!this.filter)
+        return;
 
-      filter[options.type] = options.value;
+      const updatedFilter = produce(this.filter, draft => {
+          draft[options.type] = options.value;
+      });
 
       this.store.set('selected', []);
 
-      this.store.set('filter', filter);
+      this.store.set('filter', updatedFilter);
     }
 
     getFilteredRoomsObsv2(): Observable<Room[]> {
