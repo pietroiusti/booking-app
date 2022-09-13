@@ -137,37 +137,7 @@ export class RoomService {
     this.store.set('rooms', updatedRooms);
   }
 
-  updateRooms(updatedRoom: Room): void {
-    console.log('updateRooms()');
-
-    let httpOptions2 = {
-      headers : new HttpHeaders ({
-        'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
-    })};
-    //https://stackoverflow.com/questions/25727306/request-header-field-access-control-allow-headers-is-not-allowed-by-access-contr
-
-
-    // 1. Send req to server to change data
-    this.http.put(this.roomsUrl, updatedRoom, httpOptions2)
-      .pipe(
-        tap(_ => console.log(`New booking for room ${updatedRoom.id}`)),
-        catchError(this.handleError<any>('book function')),
-      ).subscribe(v => {
-                // 2. When successful, update local store
-                let value = this.store.value.rooms;
-                let rooms = value.map((room: Room) => {
-                  if (room.id === updatedRoom.id) {
-                    return { ...room, ...updatedRoom };
-                  } else {
-                    return room;
-                  }
-                });
-                this.store.set('rooms', rooms);
-                this.store.set('lastBooking', 'good');
-      });
-  }  
-
-  /**
+ /**
  * Handle Http operation that failed.
  * Let the app continue.
  *
