@@ -3,6 +3,7 @@ import { Observable, BehaviorSubject, distinctUntilChanged, map} from 'rxjs';
 import { State } from "./models/state";
 
 import { Room } from './models/room';
+import produce from 'immer';
 
 const state: State = {
   rooms: [],
@@ -48,8 +49,11 @@ export class Store {
 
   // ex: store.set('todos', [{...}, {...}])
   set(name: string, state: any): void {
-    this.subject.next({
-      ...this.value, [name]: state
-    })
+
+    let updated = produce(this.value, draft => {
+      draft[name] = state;
+    });
+
+    this.subject.next(updated);
   }
 }

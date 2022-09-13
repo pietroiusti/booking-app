@@ -36,23 +36,6 @@ export class RoomService {
       tap(next => this.store.set('rooms', next))
     );
 
-  // create booking, assess it, and, if it's all okay, book
-  book(room: Room, start: number, end: number) {
-    // create booking
-    let booking = this.createBooking(start, end);
-    // assess booking
-    let assessment = this.assessBooking(room.bookings, booking);
-    // book
-    if (assessment) {
-      console.log('Booking accepted');
-      room = Object.assign({}, room); // shallow copy
-      room.bookings.push(booking);
-      this.updateRooms(room);
-    } else {
-      console.log('Booking rejected');
-    }
-  }
-
   book3(room: Room, start: number, end: number): Observable<any> | null{
     // create booking
     let booking = this.createBooking(start, end);
