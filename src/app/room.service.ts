@@ -13,6 +13,7 @@ import { Booking } from './models/booking';
 import { TimeFrame } from './models/time-frame';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
+import produce from 'immer';
 
 @Injectable({
   providedIn: 'root'
@@ -107,10 +108,10 @@ export class RoomService {
     let updatedRooms: Room[] = [];
 
     for (let r of rooms) {
-      let updatedRoom = structuredClone(r); // deep copy; otherwise we would be changing 
-                                            // the rooms in the store without respecting
-                                            // immutability.
-      updatedRoom.bookings.push(booking);
+      const updatedRoom = produce(r, draft => {
+        draft.bookings.push(booking);
+      });
+
       updatedRooms.push(updatedRoom);
 
       let req = this.http.put(this.roomsUrl, updatedRoom, httpOptions3)
