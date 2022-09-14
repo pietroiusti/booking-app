@@ -1,8 +1,10 @@
-<h3>Current bookings reading from store:</h3>
-<ul *ngIf="room">
-  <li *ngFor="let booking of room.bookings">
-    <p>Person: {{ booking.person.name }} {{ booking.person.surname }} ({{ booking.person.role }})</p>
-    <p>Start: {{ booking.timeFrame.start | date:'medium' }}</p>
-    <p>End: {{ booking.timeFrame.end | date:'medium' }}</p>
-  </li>
-</ul>
+<div id="currentBookingsDiv">
+  <h3>Current bookings reading from store:</h3>
+  <ul *ngIf="room">
+    <li *ngFor="let booking of room.bookings">
+      <p>Person: {{ booking.person.name }} {{ booking.person.surname }} ({{ booking.person.role }})</p>
+      <p>Start: {{ booking.timeFrame.start | date:'medium' }}</p>
+      <p>End: {{ booking.timeFrame.end | date:'medium' }}</p>
+    </li>
+  </ul>
+</div>
