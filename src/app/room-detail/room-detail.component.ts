@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { RoomService } from '../room.service';
@@ -9,6 +9,9 @@ import { Room } from '../models/room';
 import { Store } from '../store';
 import { Observable, Subscription } from 'rxjs';
 import { TimeFrameInput } from '../models/time-frame-input';
+import { MatDialog } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-room-detail',
@@ -29,6 +32,7 @@ export class
     private roomService: RoomService,
     private location: Location,
     private store: Store,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -61,7 +65,38 @@ export class
       reqObsv.subscribe();
   }
 
+  // ######################
+  openDialog() {
+    const dRef = this.dialog.open(DialogExample, {
+      height: '400px',
+      width: '600px',
+      data: {
+        id: this.room?.id,
+        name: this.room?.name,
+        capacity: this.room?.capacity,
+        display: this.room?.display,
+        whiteboard: this.room?.whiteboard,
+        airConditioning: this.room?.airConditioning
+      },
+    });
+    dRef.afterClosed().subscribe(v => {
+      console.log('closed');
+    })
+  }
+// ######################
+
   goBack(): void {
     this.location.back();
   }
+}
+
+@Component({
+  selector: 'dialog-example',
+  templateUrl: './dialog-example.html',
+  styleUrls: ['./dialog-example.css']
+})
+export class DialogExample {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: {[k: string]: any}
+  ){}
 }

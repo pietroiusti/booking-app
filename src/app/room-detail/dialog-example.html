@@ -1,0 +1,52 @@
+<h1 mat-dialog-title>Modify Room Details</h1>
+
+<mat-dialog-content>
+
+  <div>
+  <span class="field">id:</span>
+  <mat-form-field appearance="fill">
+    <input matInput value="{{data['id']}}">
+  </mat-form-field>
+  </div>
+
+  <div>
+    <span class="field">name:</span>
+    <mat-form-field appearance="fill">
+      <input matInput value="{{data['name']}}">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <span class="field">capacity:</span>
+    <mat-form-field appearance="fill">
+      <input matInput value="{{data['capacity']}}">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <span class="field">display:</span>
+    <mat-form-field appearance="fill">
+      <input matInput value="{{data['display']}}">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <span class="field">whiteboard:</span>
+    <mat-form-field appearance="fill">
+      <input matInput value="{{data['whiteboard']}}">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <span class="field">Air conditioning:</span>
+    <mat-form-field appearance="fill">
+      <input matInput value="{{data['airConditioning']}}">
+    </mat-form-field>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Apply Changes</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

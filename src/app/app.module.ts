@@ -21,6 +21,7 @@ import { RoomDetailComponent } from './room-detail/room-detail.component';
 import { RoomCurrentBookingsComponent } from './room-current-bookings/room-current-bookings.component';
 import { SelectTimeFrameComponent } from './select-time-frame/select-time-frame.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DialogExample } from './room-detail/room-detail.component';
 
 // Angular Material
 import { MatSliderModule } from '@angular/material/slider';
@@ -31,7 +32,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     RoomCurrentBookingsComponent,
     SelectTimeFrameComponent,
     RoomFilterComponent,
+    DialogExample,
   ],
   imports: [
     BrowserModule,
@@ -64,6 +66,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSelectModule,
     MatButtonModule,
     MatSnackBarModule,
+    MatDialogModule,
   ],
   providers: [
     Store,
