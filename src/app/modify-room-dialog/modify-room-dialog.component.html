@@ -5,48 +5,48 @@
   <div>
   <span class="field">id:</span>
   <mat-form-field appearance="fill">
-    <input matInput value="{{data['id']}}">
+    <input matInput readonly value="{{data['id']}}">
   </mat-form-field>
   </div>
 
   <div>
     <span class="field">name:</span>
     <mat-form-field appearance="fill">
-      <input matInput value="{{data['name']}}">
+      <input [formControl]="modifiedNameControl" matInput>
     </mat-form-field>
   </div>
 
   <div>
     <span class="field">capacity:</span>
     <mat-form-field appearance="fill">
-      <input matInput value="{{data['capacity']}}">
+      <input [formControl]="modifiedCapacityControl" matInput>
     </mat-form-field>
   </div>
 
   <div>
     <span class="field">display:</span>
     <mat-form-field appearance="fill">
-      <input matInput value="{{data['display']}}">
+      <input [formControl]="modifiedDisplayControl" matInput>
     </mat-form-field>
   </div>
 
   <div>
     <span class="field">whiteboard:</span>
     <mat-form-field appearance="fill">
-      <input matInput value="{{data['whiteboard']}}">
+      <input [formControl]="modifiedWhiteBoardControl" matInput>
     </mat-form-field>
   </div>
 
   <div>
     <span class="field">Air conditioning:</span>
     <mat-form-field appearance="fill">
-      <input matInput value="{{data['airConditioning']}}">
+      <input [formControl]="modifiedAirConditioningControl" matInput>
     </mat-form-field>
   </div>
 
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Apply Changes</button>
+  <button mat-button (click)="applyChanges()">Apply Changes</button>
   <button mat-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>

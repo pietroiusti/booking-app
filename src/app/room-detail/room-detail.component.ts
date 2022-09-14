@@ -12,6 +12,10 @@ import { TimeFrameInput } from '../models/time-frame-input';
 import { MatDialog } from '@angular/material/dialog';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
+import { FormControl } from '@angular/forms';
+
+import { ModifyRoomDialogComponent } from '../modify-room-dialog/modify-room-dialog.component';
+
 
 @Component({
   selector: 'app-room-detail',
@@ -67,7 +71,7 @@ export class
 
   // ######################
   openDialog() {
-    const dRef = this.dialog.open(DialogExample, {
+    const dRef = this.dialog.open(ModifyRoomDialogComponent/*DialogExample*/, {
       height: '400px',
       width: '600px',
       data: {
@@ -88,15 +92,4 @@ export class
   goBack(): void {
     this.location.back();
   }
-}
-
-@Component({
-  selector: 'dialog-example',
-  templateUrl: './dialog-example.html',
-  styleUrls: ['./dialog-example.css']
-})
-export class DialogExample {
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {[k: string]: any}
-  ){}
 }
