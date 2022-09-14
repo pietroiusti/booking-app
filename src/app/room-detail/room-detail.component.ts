@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { RoomService } from '../room.service';
@@ -10,12 +10,8 @@ import { Store } from '../store';
 import { Observable, Subscription } from 'rxjs';
 import { TimeFrameInput } from '../models/time-frame-input';
 import { MatDialog } from '@angular/material/dialog';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-
-import { FormControl } from '@angular/forms';
 
 import { ModifyRoomDialogComponent } from '../modify-room-dialog/modify-room-dialog.component';
-
 
 @Component({
   selector: 'app-room-detail',
@@ -69,9 +65,8 @@ export class
       reqObsv.subscribe();
   }
 
-  // ######################
   openDialog() {
-    const dRef = this.dialog.open(ModifyRoomDialogComponent/*DialogExample*/, {
+    const dRef = this.dialog.open(ModifyRoomDialogComponent, {
       height: '400px',
       width: '600px',
       data: {
@@ -87,7 +82,6 @@ export class
       console.log('closed');
     })
   }
-// ######################
 
   goBack(): void {
     this.location.back();

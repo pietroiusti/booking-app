@@ -36,7 +36,7 @@ export class RoomService {
       tap(next => this.store.set('rooms', next))
     );
 
-  book3(room: Room, start: number, end: number): Observable<any> | null{
+  book3(room: Room, start: number, end: number): Observable<any> | null {
     // create booking
     let booking = this.createBooking(start, end);
     // assess booking
@@ -50,11 +50,12 @@ export class RoomService {
       room.bookings.push(booking);
 
       let httpOptions = {
-        headers : new HttpHeaders ({
+        headers: new HttpHeaders({
           'observe': 'response',
-      })};
+        })
+      };
 
-      return this.http.put<{result: string}>(this.roomsUrl, room, httpOptions)
+      return this.http.put<{ result: string }>(this.roomsUrl, room, httpOptions)
         .pipe(
           tap((v) => {
             if (v.result === `All good`) {
@@ -84,9 +85,10 @@ export class RoomService {
     let reqs = [];
 
     let httpOptions3 = {
-      headers : new HttpHeaders ({
+      headers: new HttpHeaders({
         'observe': 'response',
-    })};
+      })
+    };
 
     let updatedRooms: Room[] = [];
 
@@ -106,9 +108,9 @@ export class RoomService {
       updatedRooms.push(updatedRoom);
 
       let req = this.http.put(this.roomsUrl, updatedRoom, httpOptions3)
-                  .pipe(
-                    tap(_ => console.log(`New booking for room ${r.id}`)),
-                    catchError(this.handleError<any>('book function')));
+        .pipe(
+          tap(_ => console.log(`New booking for room ${r.id}`)),
+          catchError(this.handleError<any>('book function')));
       reqs.push(req);
     }
 
@@ -116,7 +118,7 @@ export class RoomService {
 
     return forkJoin(reqs).pipe(
       tap(v => {
-        if ( v.every(o => o.result === 'All good') ) {
+        if (v.every(o => o.result === 'All good')) {
           this._snackBar.open('All good! :)', 'Got it');
           for (let r of updatedRooms) {
             this.updateStore(r, booking.timeFrame.start, booking.timeFrame.end);
@@ -145,19 +147,19 @@ export class RoomService {
     this.store.set('rooms', updatedRooms);
   }
 
- /**
- * Handle Http operation that failed.
- * Let the app continue.
- *
- * @param operation - name of the operation that failed
- * @param result - optional value to return as the observable result
- */
+  /**
+  * Handle Http operation that failed.
+  * Let the app continue.
+  *
+  * @param operation - name of the operation that failed
+  * @param result - optional value to return as the observable result
+  */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.log(error); // log to console instead
 
-      return of (result as T);
+      return of(result as T);
     };
   }
 
@@ -179,8 +181,8 @@ export class RoomService {
 
   assessBooking(roomBookings: Booking[], newBooking: Booking): boolean {
     // Check if booking start time is before end time
-    function startBeforeEnd (booking: Booking): boolean {
-      if ( booking.timeFrame.start < booking.timeFrame.end ) {
+    function startBeforeEnd(booking: Booking): boolean {
+      if (booking.timeFrame.start < booking.timeFrame.end) {
         console.log('startBeforeEnd(): true');
         return true;
       } else {
@@ -195,27 +197,27 @@ export class RoomService {
         // Checking overlap:
         //      |----tf1----|
         // |---------tf2---------|
-        if ( (tf2.start <= tf1.start) && (tf2.end >= tf1.end) )
+        if ((tf2.start <= tf1.start) && (tf2.end >= tf1.end))
           return true;
 
         // Checking overlap:
         // |---------tf1---------|
         //      |----tf2----|
-        if ( (tf2.start >= tf1.start) && (tf2.start < tf1.end)
-                                      &&
-            (tf2.end > tf1.start)    && (tf2.end <= tf1.end) )
-            return true;
+        if ((tf2.start >= tf1.start) && (tf2.start < tf1.end)
+          &&
+          (tf2.end > tf1.start) && (tf2.end <= tf1.end))
+          return true;
 
         // Checking overlap:
         //       |----tf1----|
         // |----tf2----|
-        if ( (tf2.start <= tf1.start) && (tf2.end > tf1.start) )
+        if ((tf2.start <= tf1.start) && (tf2.end > tf1.start))
           return true;
 
         // Checking overlap:
         // |----tf1----|
         //       |----tf2----|
-        if ( (tf2.start < tf1.end) && (tf2.end >= tf1.end) )
+        if ((tf2.start < tf1.end) && (tf2.end >= tf1.end))
           return true;
 
         // Time frames do not overlap
@@ -232,11 +234,11 @@ export class RoomService {
       return false;
     }
 
-    if (! startBeforeEnd(newBooking)) {
+    if (!startBeforeEnd(newBooking)) {
       return false;
     }
 
-    if ( overlap(roomBookings, newBooking) ) {
+    if (overlap(roomBookings, newBooking)) {
       return false;
     }
 
@@ -244,4 +246,49 @@ export class RoomService {
 
     return true;
   }
+
+  /*   {
+      "id": 4,
+      "name": "Stevenson",
+      "capacity": 2,
+      "display": false,
+      "whiteboard": false,
+      "air": false
+  } */
+  modifyRoom(obj: { [k: string]: any }) {
+
+    console.log(obj);
+
+    const currentRooms: Room[] = this.store.value.rooms; //<<<<<<<<<<< okay?
+
+    const roomIndex = obj['id']-1;
+
+    const updatedRooms = produce(currentRooms, draft => {
+      const room = draft[roomIndex];
+      room.name = obj['name'];
+      room.capacity = Number(obj['capacity']); //<<<<<<<
+      room.display = obj['display']==='true'?true:false; //<<<<<<<
+      room.whiteboard = obj['whiteboard']==='true'?true:false; //<<<<<<<
+      room.airConditioning = obj['air']==='true'?true:false; //<<<<<<<
+    });
+
+    console.log(updatedRooms);
+
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'observe': 'response',
+      })
+    };
+    this.http.put<{ result: string }>(this.roomsUrl, updatedRooms[roomIndex], httpOptions)
+      .subscribe(v => {
+        console.log(v);
+        if (v.result === 'All good') {
+          console.log('All good :)');
+          this.store.set('rooms', updatedRooms);
+        } else {
+          console.log('Something went wrong :(');
+        }
+      });
+  }
+
 }
