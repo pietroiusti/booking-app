@@ -284,9 +284,11 @@ export class RoomService {
         console.log(v);
         if (v.result === 'All good') {
           console.log('All good :)');
+          this._snackBar.open('Room successfully modified :)', 'Got it');
           this.store.set('rooms', updatedRooms);
         } else {
           console.log('Something went wrong :(');
+          this._snackBar.open('Something went wrong :(', 'Got it');
         }
       });
   }
