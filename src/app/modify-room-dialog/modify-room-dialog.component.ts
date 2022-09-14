@@ -10,6 +10,12 @@ import { RoomService } from '../room.service';
 })
 export class ModifyRoomDialogComponent implements OnInit {
   id: number | null = null;
+
+  // current values:
+  //name: string | null = null;
+  //capacity: string | null = null;
+
+
   modifiedNameControl = new FormControl('');
   modifiedCapacityControl = new FormControl('');
   modifiedDisplayControl = new FormControl('');
@@ -32,12 +38,20 @@ export class ModifyRoomDialogComponent implements OnInit {
     if (!this.id)
       return;
 
-    let obj: { id: number;
-               name: string | null;
-               capacity: string | null;
-               display: string | null;
-               whiteboard: string | null;
-               air: string | null;
+    if ( ! (this.modifiedNameControl.value        &&
+            this.modifiedCapacityControl.value    &&
+            this.modifiedDisplayControl.value     &&
+            this.modifiedWhiteBoardControl.value  &&
+            this.modifiedAirConditioningControl.value) )
+      return;
+
+    let obj: {
+               id: number;
+               name: string;
+               capacity: string;
+               display: string;
+               whiteboard: string;
+               air: string;
               } = {
       id: this.id,
       name: this.modifiedNameControl.value,

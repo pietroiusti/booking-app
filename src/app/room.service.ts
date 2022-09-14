@@ -247,21 +247,31 @@ export class RoomService {
     return true;
   }
 
-  /*   {
-      "id": 4,
-      "name": "Stevenson",
-      "capacity": 2,
-      "display": false,
-      "whiteboard": false,
-      "air": false
-  } */
-  modifyRoom(obj: { [k: string]: any }) {
-
+  modifyRoom(obj: { id: number;
+                      name: string;
+                      capacity: string;
+                      display: string;
+                      whiteboard: string;
+                      air: string;
+                    }): void {
     console.log(obj);
 
     const currentRooms: Room[] = this.store.value.rooms; //<<<<<<<<<<< okay?
 
     const roomIndex = obj['id']-1;
+
+    const currentRoom = currentRooms[roomIndex];
+
+    if (
+      currentRoom.name === obj.name                         &&
+      currentRoom.capacity.toString() === obj.capacity      &&
+      currentRoom.display.toString() === obj.display        &&
+      currentRoom.whiteboard.toString() === obj.whiteboard  &&
+      currentRoom.airConditioning.toString() === obj.air
+    ) {
+      this._snackBar.open('Nothing to update!', 'okay');
+      return;
+    }
 
     const updatedRooms = produce(currentRooms, draft => {
       const room = draft[roomIndex];
