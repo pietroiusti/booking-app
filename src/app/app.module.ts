@@ -33,6 +33,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ModifyRoomDialogComponent } from './modify-room-dialog/modify-room-dialog.component';
+import { CreateRoomDialogComponent } from './create-room-dialog/create-room-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { ModifyRoomDialogComponent } from './modify-room-dialog/modify-room-dial
     SelectTimeFrameComponent,
     RoomFilterComponent,
     ModifyRoomDialogComponent,
+    CreateRoomDialogComponent,
   ],
   imports: [
     BrowserModule,

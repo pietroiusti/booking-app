@@ -303,4 +303,25 @@ export class RoomService {
       });
   }
 
+  createRoom(obj: {[k:string]: string}) {
+    console.log(obj);
+
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'observe': 'response',
+      })
+    };
+
+    this.http.post<any>(this.roomsUrl, obj, httpOptions)
+      .subscribe(res => {
+        console.log(res);
+        if (res.result == 'All good') {
+          // update store
+          console.log('we should update the store');
+        } else {
+          console.log('something wrong...');
+        }
+      })
+  }
+
 }

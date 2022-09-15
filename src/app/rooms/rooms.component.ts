@@ -16,6 +16,9 @@ import { Filter } from '../models/filter';
 
 import { RoomService } from '../room.service';
 
+import { MatDialog } from '@angular/material/dialog';
+import { CreateRoomDialogComponent } from '../create-room-dialog/create-room-dialog.component';
+
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -42,6 +45,7 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     private filterService: FilterService,
     private selectedService: SelectedService,
     private roomService: RoomService,
+    private dialog: MatDialog,
   ) { }
 
   ngAfterViewInit(): void {
@@ -76,7 +80,16 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
   }
 
   handleCreateRoomClick() {
-    // TODO
+    console.log('hello world');
+
+    const dRef = this.dialog.open(CreateRoomDialogComponent, {
+      height: '400px',
+      width: '600px',
+    });
+    dRef.afterClosed().subscribe(v => {
+      console.log('closed');
+    })
+
   }
 
   stopProp(event: Event) {
