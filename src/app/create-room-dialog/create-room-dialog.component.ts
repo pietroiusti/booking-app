@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Room } from '../models/room';
 
 import { RoomService } from '../room.service';
+import { Store } from '../store';
 
 @Component({
   selector: 'app-create-room-dialog',
@@ -9,6 +12,9 @@ import { RoomService } from '../room.service';
   styleUrls: ['./create-room-dialog.component.css']
 })
 export class CreateRoomDialogComponent implements OnInit {
+
+  newRoomId: number | null = null;
+  rooms$: Observable<Room[]> = this.store.select<Room[]>('rooms');
 
   idControl = new FormControl('');
   nameControl = new FormControl('');
@@ -19,10 +25,13 @@ export class CreateRoomDialogComponent implements OnInit {
 
   constructor(
     private roomService: RoomService,
+    private store: Store,
   ) { }
 
   ngOnInit(): void {
-
+    this.rooms$.subscribe(rooms => {
+      this.idControl.setValue((rooms.length + 1).toString());
+    });
   }
 
   sendCreateRoomReq() {
