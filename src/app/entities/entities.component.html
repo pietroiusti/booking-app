@@ -1,10 +1,12 @@
-<p><a routerLink="/">←</a></p>
+<div id="entitiesMain">
+  <p><a routerLink="/">←</a></p>
 
-<nav>
-  <a routerLink="/rooms">Rooms</a>
-  <a (click)="nothing=true">Other stuff...</a>
-</nav>
+  <nav>
+    <a routerLink="/rooms">Rooms</a>
+    <a (click)="nothing=true">Other stuff...</a>
+  </nav>
 
-<nav *ngIf="nothing">
-  <p>There is nothing here...</p>
-</nav>
+  <nav *ngIf="nothing">
+    <p>There is nothing here...</p>
+  </nav>
+</div>

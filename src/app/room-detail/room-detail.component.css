@@ -1,3 +1,9 @@
+#roomDetailMain {
+  width: 90%;
+  margin: auto;
+  text-align: center;
+}
+
 #modifyButton {
   border: 0.5px solid grey;
 }
