@@ -315,15 +315,14 @@ export class RoomService {
         console.log(res);
 
         if (res.result == 'All good') {
-          // update store
-          console.log('we should update the store');
-
           let newRoom: Room = res.room;
 
           const currentRooms = this.store.value.rooms;
           const updatedRooms = produce(currentRooms, draft => {
             draft.push(newRoom);
           })
+
+          this._snackBar.open('Room successfully created!', 'Okay');
 
           this.store.set('rooms', updatedRooms);
 
