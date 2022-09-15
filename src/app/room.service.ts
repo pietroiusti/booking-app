@@ -304,8 +304,6 @@ export class RoomService {
   }
 
   createRoom(obj: {[k:string]: string}) {
-    console.log(obj);
-
     let httpOptions = {
       headers: new HttpHeaders({
         'observe': 'response',
@@ -315,9 +313,20 @@ export class RoomService {
     this.http.post<any>(this.roomsUrl, obj, httpOptions)
       .subscribe(res => {
         console.log(res);
+
         if (res.result == 'All good') {
           // update store
           console.log('we should update the store');
+
+          let newRoom: Room = res.room;
+
+          const currentRooms = this.store.value.rooms;
+          const updatedRooms = produce(currentRooms, draft => {
+            draft.push(newRoom);
+          })
+
+          this.store.set('rooms', updatedRooms);
+
         } else {
           console.log('something wrong...');
         }
