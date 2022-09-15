@@ -248,12 +248,13 @@ export class RoomService {
   }
 
   modifyRoom(obj: { id: number;
-                      name: string;
-                      capacity: string;
-                      display: string;
-                      whiteboard: string;
-                      air: string;
-                    }): void {
+                    name: string;
+                    capacity: string;
+                    display: string;
+                    whiteboard: string;
+                    air: string;
+                    bookings: string;
+                  }): void {
     console.log(obj);
 
     const currentRooms: Room[] = this.store.value.rooms; //<<<<<<<<<<< okay?
@@ -267,7 +268,8 @@ export class RoomService {
       currentRoom.capacity.toString() === obj.capacity      &&
       currentRoom.display.toString() === obj.display        &&
       currentRoom.whiteboard.toString() === obj.whiteboard  &&
-      currentRoom.airConditioning.toString() === obj.air
+      currentRoom.airConditioning.toString() === obj.air    &&
+      JSON.stringify(currentRoom.bookings) === obj.bookings
     ) {
       this._snackBar.open('Nothing to update!', 'okay');
       return;
@@ -280,6 +282,7 @@ export class RoomService {
       room.display = obj['display']==='true'?true:false; //<<<<<<<
       room.whiteboard = obj['whiteboard']==='true'?true:false; //<<<<<<<
       room.airConditioning = obj['air']==='true'?true:false; //<<<<<<<
+      room.bookings = JSON.parse(obj['bookings']);
     });
 
     console.log(updatedRooms);

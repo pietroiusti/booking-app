@@ -75,7 +75,8 @@ export class
         capacity: this.room?.capacity,
         display: this.room?.display,
         whiteboard: this.room?.whiteboard,
-        airConditioning: this.room?.airConditioning
+        airConditioning: this.room?.airConditioning,
+        bookings: this.room?.bookings,
       },
     });
     dRef.afterClosed().subscribe(v => {

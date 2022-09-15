@@ -15,12 +15,12 @@ export class ModifyRoomDialogComponent implements OnInit {
   //name: string | null = null;
   //capacity: string | null = null;
 
-
-  modifiedNameControl = new FormControl('');
+  modifiedNameControl = new FormControl(''); // <<< change these names
   modifiedCapacityControl = new FormControl('');
   modifiedDisplayControl = new FormControl('');
   modifiedWhiteBoardControl = new FormControl('');
   modifiedAirConditioningControl = new FormControl('');
+  bookingsControl = new FormControl('');
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {[k: string]: any},
@@ -32,6 +32,7 @@ export class ModifyRoomDialogComponent implements OnInit {
     this.modifiedDisplayControl.setValue(data['display'].toString());
     this.modifiedWhiteBoardControl.setValue(data['whiteboard'].toString());
     this.modifiedAirConditioningControl.setValue(data['airConditioning'].toString());
+    this.bookingsControl.setValue(JSON.stringify(data['bookings']));
   }
 
   applyChanges() {
@@ -52,6 +53,7 @@ export class ModifyRoomDialogComponent implements OnInit {
                display: string;
                whiteboard: string;
                air: string;
+               bookings: string,
               } = {
       id: this.id,
       name: this.modifiedNameControl.value,
@@ -59,6 +61,7 @@ export class ModifyRoomDialogComponent implements OnInit {
       display: this.modifiedDisplayControl.value,
       whiteboard: this.modifiedWhiteBoardControl.value,
       air: this.modifiedAirConditioningControl.value,
+      bookings: this.bookingsControl.value?this.bookingsControl.value:'',
     }
 
     this.roomService.modifyRoom(obj);
