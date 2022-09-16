@@ -358,6 +358,11 @@ export class RoomService {
       .subscribe(res => {
         if (res.result === 'All good') {
           this._snackBar.open('Room Successfully Deleted!', 'Got it');
+
+          const currentRooms = this.store.value.rooms;
+          const updatedRooms = produce(currentRooms, draft => draft = draft.filter(r => r.id !== id));
+          this.store.set('rooms', updatedRooms);
+
         } else {
           this._snackBar.open('Something went wrong :(', 'Okay');
         }
