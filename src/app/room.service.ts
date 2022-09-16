@@ -257,7 +257,7 @@ export class RoomService {
 
     console.log(obj);
 
-    const currentRooms: Room[] = this.store.value.rooms; //<<<<<<<<<<< okay?
+    const currentRooms: ReadonlyArray<Room> = this.store.value.rooms; //<<<<<<<<<<< okay?
 
     const roomIndex = obj['id'] - 1;
 

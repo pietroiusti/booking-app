@@ -24,11 +24,13 @@ export class ActionHandlerService {
     this.store.set('rooms', updatedRooms);
   }
 
-  setRooms(rooms: Room[]) {
+  setRooms(rooms: ReadonlyArray<Room>) {
     this.store.set('rooms', rooms);
   }
 
   create(room: Room) {
+    //this.store.value.rooms.push(room); // testing whether readonly works
+
     const currentRooms = this.store.value.rooms;
     const updatedRooms = produce(currentRooms, draft => {
       draft.push(room);

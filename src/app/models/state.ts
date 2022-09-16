@@ -1,4 +1,4 @@
 export interface State {
-  [x: string]: any;
-  rooms: any[];
+  readonly [x: string]: any;
+  rooms: ReadonlyArray<any>;
 }
