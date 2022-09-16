@@ -20,7 +20,14 @@
 
   <br>
 
-  <div id="modifyButtonDiv">
+  <!-- <div id="modifyButtonDiv">
     <button id="modifyButton" mat-button (click)="openDialog()">Modify Room</button>
   </div>
-</div>
+  <div id="deleteButtonDiv">
+    <button id="deleteButton" mat-button (click)="openDeleteDialog()">Delete Room</button>
+  </div> -->
+
+  <div id="buttons">
+    <button id="modifyButton" mat-button mat-stroked-button color="primary" (click)="openDialog()">Modify Room</button>
+    <button id="deleteButton" mat-button mat-stroked-button color="primary" (click)="openDeleteDialog()">Delete Room</button>
+  </div>

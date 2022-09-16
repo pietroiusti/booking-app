@@ -12,6 +12,7 @@ import { TimeFrameInput } from '../models/time-frame-input';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ModifyRoomDialogComponent } from '../modify-room-dialog/modify-room-dialog.component';
+import { DeleteRoomDialogComponent } from '../delete-room-dialog/delete-room-dialog.component';
 
 @Component({
   selector: 'app-room-detail',
@@ -77,6 +78,18 @@ export class
         whiteboard: this.room?.whiteboard,
         airConditioning: this.room?.airConditioning,
         bookings: this.room?.bookings,
+      },
+    });
+    dRef.afterClosed().subscribe(v => {
+      console.log('closed');
+    })
+  }
+
+  openDeleteDialog() {
+    const dRef = this.dialog.open(DeleteRoomDialogComponent, {
+      data: {
+        id: this.room?.id,
+        name: this.room?.name,
       },
     });
     dRef.afterClosed().subscribe(v => {

@@ -34,6 +34,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ModifyRoomDialogComponent } from './modify-room-dialog/modify-room-dialog.component';
 import { CreateRoomDialogComponent } from './create-room-dialog/create-room-dialog.component';
+import { DeleteRoomDialogComponent } from './delete-room-dialog/delete-room-dialog.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { CreateRoomDialogComponent } from './create-room-dialog/create-room-dial
     RoomFilterComponent,
     ModifyRoomDialogComponent,
     CreateRoomDialogComponent,
+    DeleteRoomDialogComponent,
   ],
   imports: [
     BrowserModule,

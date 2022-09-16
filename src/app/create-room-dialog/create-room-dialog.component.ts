@@ -35,15 +35,16 @@ export class CreateRoomDialogComponent implements OnInit {
   }
 
   sendCreateRoomReq() {
-    console.log('hello world');
-
     if ( ! ( this.idControl.value         &&
              this.nameControl.value       &&
              this.capacityControl.value   &&
              this.displayControl.value    && 
              this.whiteboardControl.value &&
-             this.airCondControl.value ) )
-      return;
+             this.airCondControl.value ) ) {
+              console.log('Not gonna req!');
+              return;
+    }
+
 
     this.roomService.createRoom({
       id: this.idControl.value,

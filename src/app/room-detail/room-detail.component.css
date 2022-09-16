@@ -4,10 +4,34 @@
   text-align: center;
 }
 
+/*
 #modifyButton {
   border: 0.5px solid grey;
 }
 
 #modifyButtonDiv {
   text-align: center;
+}
+
+#deleteButton {
+  border: 0.5px solid grey;
+}
+
+#deleteButtonDiv {
+  text-align: center;
+}
+*/
+
+#buttons {
+  text-align: center;
+}
+
+#modifyButton {
+  display: inline;
+  margin: 10px;
+}
+
+#deleteButton {
+  display: inline;
+  margin: 10px;
 }

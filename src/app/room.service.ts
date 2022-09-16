@@ -14,6 +14,7 @@ import { TimeFrame } from './models/time-frame';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import produce from 'immer';
+import { DeleteRoomDialogComponent } from './delete-room-dialog/delete-room-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -313,7 +314,13 @@ export class RoomService {
       })
     };
 
-    this.http.post<any>(this.roomsUrl, obj, httpOptions)
+    const reqObj = {
+      type: 'create',
+      val: obj,
+    }
+
+    //this.http.post<any>(this.roomsUrl, obj, httpOptions)
+    this.http.post<any>(this.roomsUrl, reqObj, httpOptions)
       .subscribe(res => {
         console.log(res);
 
@@ -333,6 +340,24 @@ export class RoomService {
           console.log('something wrong...');
         }
       })
+  }
+
+  deleteRoom(id: number) {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'observe': 'response',
+      })
+    };
+
+    const reqObj = {
+      type: 'delete',
+      val: id,
+    }
+
+    this.http.post<any>(this.roomsUrl, reqObj, httpOptions)
+      .subscribe(res => {
+
+      });
   }
 
 }
