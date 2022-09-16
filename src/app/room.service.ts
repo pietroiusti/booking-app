@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { forkJoin, Observable, of, zip } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -15,6 +15,8 @@ import { TimeFrame } from './models/time-frame';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import produce from 'immer';
 import { Router } from '@angular/router';
+
+import { ActionHandlerService } from './action-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +33,7 @@ export class RoomService {
     private store: Store,
     private _snackBar: MatSnackBar,
     private router: Router,
+    private actionHandler: ActionHandlerService
   ) { }
 
   getRooms$: Observable<Room[]> = this.http.get<Room[]>(this.roomsUrl)
@@ -360,9 +363,12 @@ export class RoomService {
         if (res.result === 'All good') {
           this._snackBar.open('Room Successfully Deleted!', 'Got it');
 
+          this.actionHandler.delete(id);
+          /*
           const currentRooms = this.store.value.rooms;
           const updatedRooms = produce(currentRooms, draft => draft = draft.filter(r => r.id !== id));
           this.store.set('rooms', updatedRooms);
+          */
           this.router.navigate(['/rooms']);
         } else {
           this._snackBar.open('Something went wrong :(', 'Okay');
@@ -370,4 +376,18 @@ export class RoomService {
       });
   }
 
+  deleteRooms(arr: Number[]) {
+    console.log(arr);
+
+    const reqs = [];
+    console.log(this.store.value['selected']);
+
+    // TODO
+    console.log('TODO');
+
+    this.store.value.rooms.forEach(r => {
+
+    });
+
+  }
 }

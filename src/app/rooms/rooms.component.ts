@@ -138,6 +138,10 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     console.log(this.store);
   }
 
+  deleteSelected() {
+    this.roomService.deleteRooms(this.selected);
+  }
+
   goBack(): void {
     this.location.back();
   }
