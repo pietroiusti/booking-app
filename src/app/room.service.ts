@@ -356,7 +356,11 @@ export class RoomService {
 
     this.http.post<any>(this.roomsUrl, reqObj, httpOptions)
       .subscribe(res => {
-
+        if (res.result === 'All good') {
+          this._snackBar.open('Room Successfully Deleted!', 'Got it');
+        } else {
+          this._snackBar.open('Something went wrong :(', 'Okay');
+        }
       });
   }
 
