@@ -51,8 +51,9 @@ export class RoomService {
       console.log('Assessment okay');
       this._snackBar.open('Your booking looked good. Waiting for server...', 'Got it');
 
-      room = structuredClone(room); //<<<<<<<<<<<<<<<<< needed?
-      room.bookings.push(booking);
+      const updatedRoom = produce(room, draft => {
+        draft.bookings.push(booking);
+      });
 
       let httpOptions = {
         headers: new HttpHeaders({
@@ -60,13 +61,13 @@ export class RoomService {
         })
       };
 
-      return this.http.put<{ result: string }>(this.roomsUrl, room, httpOptions)
+      return this.http.put<{ result: string }>(this.roomsUrl, updatedRoom, httpOptions)
         .pipe(
           tap((v) => {
             if (v.result === `All good`) {
               setTimeout(() => {
                 this._snackBar.open('Success! :)', 'Got it');
-                this.actionHandler.updateStore(room, start, end);
+                this.actionHandler.modify(updatedRoom);
               }, 2000);
             } else {
               setTimeout(() => {
@@ -126,7 +127,7 @@ export class RoomService {
         if (v.every(o => o.result === 'All good')) {
           this._snackBar.open('All good! :)', 'Got it');
           for (let r of updatedRooms) {
-            this.actionHandler.updateStore(r, booking.timeFrame.start, booking.timeFrame.end);
+            this.actionHandler.modify(r);
           }
         } else {
           const nonUpdatedRooms = v.filter(r => r.result !== 'All good');
