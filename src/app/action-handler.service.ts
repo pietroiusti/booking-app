@@ -15,6 +15,21 @@ export class ActionHandlerService {
     private store: Store
   ) { }
 
+  updateStore(room: Room, start: number, end: number) {
+    const currentRooms = this.store.value.rooms;
+
+    const updatedRooms = produce(currentRooms, draft => {
+      const i = draft.findIndex(r => r.id === room.id);
+      draft[i] = room;
+    });
+
+    this.store.set('rooms', updatedRooms);
+  }
+
+  setRooms(rooms: Room[]) {
+    this.store.set('rooms', rooms);
+  }
+
   create(room: Room) {
     const currentRooms = this.store.value.rooms;
     const updatedRooms = produce(currentRooms, draft => {

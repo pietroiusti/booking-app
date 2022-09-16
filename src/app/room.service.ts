@@ -66,7 +66,7 @@ export class RoomService {
             if (v.result === `All good`) {
               setTimeout(() => {
                 this._snackBar.open('Success! :)', 'Got it');
-                this.updateStore(room, start, end);
+                this.actionHandler.updateStore(room, start, end);
               }, 2000);
             } else {
               setTimeout(() => {
@@ -126,7 +126,7 @@ export class RoomService {
         if (v.every(o => o.result === 'All good')) {
           this._snackBar.open('All good! :)', 'Got it');
           for (let r of updatedRooms) {
-            this.updateStore(r, booking.timeFrame.start, booking.timeFrame.end);
+            this.actionHandler.updateStore(r, booking.timeFrame.start, booking.timeFrame.end);
           }
         } else {
           const nonUpdatedRooms = v.filter(r => r.result !== 'All good');
@@ -139,17 +139,6 @@ export class RoomService {
         }
       })
     );
-  }
-
-  updateStore(room: Room, start: number, end: number) {
-    const currentRooms = this.store.value.rooms;
-
-    const updatedRooms = produce(currentRooms, draft => {
-      const i = draft.findIndex(r => r.id === room.id);
-      draft[i] = room;
-    });
-
-    this.store.set('rooms', updatedRooms);
   }
 
   /**
@@ -252,28 +241,33 @@ export class RoomService {
     return true;
   }
 
-  modifyRoom(obj: { id: number;
-                    name: string;
-                    capacity: string;
-                    display: string;
-                    whiteboard: string;
-                    air: string;
-                    bookings: string;
-                  }): void {
+  modifyRoom(obj: {
+    id: number;
+    name: string;
+    capacity: string;
+    display: string;
+    whiteboard: string;
+    air: string;
+    bookings: string;
+  }): void {
+    // this method could just create a room object
+    // and pass it to the action handler (together with an action 'modify'
+    // for example)...
+
     console.log(obj);
 
     const currentRooms: Room[] = this.store.value.rooms; //<<<<<<<<<<< okay?
 
-    const roomIndex = obj['id']-1;
+    const roomIndex = obj['id'] - 1;
 
     const currentRoom = currentRooms[roomIndex];
 
     if (
-      currentRoom.name === obj.name                         &&
-      currentRoom.capacity.toString() === obj.capacity      &&
-      currentRoom.display.toString() === obj.display        &&
-      currentRoom.whiteboard.toString() === obj.whiteboard  &&
-      currentRoom.airConditioning.toString() === obj.air    &&
+      currentRoom.name === obj.name &&
+      currentRoom.capacity.toString() === obj.capacity &&
+      currentRoom.display.toString() === obj.display &&
+      currentRoom.whiteboard.toString() === obj.whiteboard &&
+      currentRoom.airConditioning.toString() === obj.air &&
       JSON.stringify(currentRoom.bookings) === obj.bookings
     ) {
       this._snackBar.open('Nothing to update!', 'okay');
@@ -284,9 +278,9 @@ export class RoomService {
       const room = draft[roomIndex];
       room.name = obj['name'];
       room.capacity = Number(obj['capacity']); //<<<<<<<
-      room.display = obj['display']==='true'?true:false; //<<<<<<<
-      room.whiteboard = obj['whiteboard']==='true'?true:false; //<<<<<<<
-      room.airConditioning = obj['air']==='true'?true:false; //<<<<<<<
+      room.display = obj['display'] === 'true' ? true : false; //<<<<<<<
+      room.whiteboard = obj['whiteboard'] === 'true' ? true : false; //<<<<<<<
+      room.airConditioning = obj['air'] === 'true' ? true : false; //<<<<<<<
       room.bookings = JSON.parse(obj['bookings']);
     });
 
@@ -303,7 +297,7 @@ export class RoomService {
         if (v.result === 'All good') {
           console.log('All good :)');
           this._snackBar.open('Room successfully modified :)', 'Got it');
-          this.store.set('rooms', updatedRooms);
+          this.actionHandler.setRooms(updatedRooms);
         } else {
           console.log('Something went wrong :(');
           this._snackBar.open('Something went wrong :(', 'Got it');
@@ -311,7 +305,7 @@ export class RoomService {
       });
   }
 
-  createRoom(obj: {[k:string]: string}) {
+  createRoom(obj: { [k: string]: string }) {
     let httpOptions = {
       headers: new HttpHeaders({
         'observe': 'response',
