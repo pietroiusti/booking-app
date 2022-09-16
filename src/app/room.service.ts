@@ -14,7 +14,7 @@ import { TimeFrame } from './models/time-frame';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import produce from 'immer';
-import { DeleteRoomDialogComponent } from './delete-room-dialog/delete-room-dialog.component';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +30,7 @@ export class RoomService {
     private http: HttpClient,
     private store: Store,
     private _snackBar: MatSnackBar,
+    private router: Router,
   ) { }
 
   getRooms$: Observable<Room[]> = this.http.get<Room[]>(this.roomsUrl)
@@ -362,7 +363,7 @@ export class RoomService {
           const currentRooms = this.store.value.rooms;
           const updatedRooms = produce(currentRooms, draft => draft = draft.filter(r => r.id !== id));
           this.store.set('rooms', updatedRooms);
-
+          this.router.navigate(['/rooms']);
         } else {
           this._snackBar.open('Something went wrong :(', 'Okay');
         }
