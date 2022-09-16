@@ -331,15 +331,9 @@ export class RoomService {
         if (res.result == 'All good') {
           let newRoom: Room = res.room;
 
-          const currentRooms = this.store.value.rooms;
-          const updatedRooms = produce(currentRooms, draft => {
-            draft.push(newRoom);
-          })
+          this.actionHandler.create(newRoom);
 
           this._snackBar.open('Room successfully created!', 'Okay');
-
-          this.store.set('rooms', updatedRooms);
-
         } else {
           console.log('something wrong...');
         }
@@ -361,14 +355,8 @@ export class RoomService {
     this.http.post<any>(this.roomsUrl, reqObj, httpOptions)
       .subscribe(res => {
         if (res.result === 'All good') {
-          this._snackBar.open('Room Successfully Deleted!', 'Got it');
-
           this.actionHandler.delete(id);
-          /*
-          const currentRooms = this.store.value.rooms;
-          const updatedRooms = produce(currentRooms, draft => draft = draft.filter(r => r.id !== id));
-          this.store.set('rooms', updatedRooms);
-          */
+          this._snackBar.open('Room Successfully Deleted!', 'Got it');
           this.router.navigate(['/rooms']);
         } else {
           this._snackBar.open('Something went wrong :(', 'Okay');
