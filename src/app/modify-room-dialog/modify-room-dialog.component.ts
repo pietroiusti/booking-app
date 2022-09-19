@@ -12,13 +12,12 @@ import { Room } from '../models/room';
 })
 export class ModifyRoomDialogComponent implements OnInit {
   id: number | null = null;
-
-  nameControl = new FormControl('');
-  bookingsControl = new FormControl('');
-  capacityControl = new FormControl(null);
-  displayControl = new FormControl(false);
-  whiteBoardControl = new FormControl(false);
-  airConditioningControl = new FormControl(false);
+  nameControl = new FormControl<string | null>('');
+  bookingsControl = new FormControl<string | null>('');
+  capacityControl = new FormControl<number | null>(null);
+  displayControl = new FormControl<boolean | null>(false);
+  whiteBoardControl = new FormControl<boolean | null>(false);
+  airConditioningControl = new FormControl<boolean | null>(false);
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { [k: string]: any },
