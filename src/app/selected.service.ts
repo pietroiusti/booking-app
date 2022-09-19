@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Store } from './store';
+import { ActionHandlerService } from './action-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,14 +8,14 @@ import { Store } from './store';
 export class SelectedService {
 
   constructor(
-    private store: Store
+    private actionHandler: ActionHandlerService,
   ) { }
 
   reset() {
-    this.store.set('selected', []);
+    this.actionHandler.resetSelected();
   }
 
   updateSelected(val: number[]) {
-    this.store.set('selected', val);
+    this.actionHandler.setSelected(val);
   }
 }
