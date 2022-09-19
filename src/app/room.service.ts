@@ -38,7 +38,7 @@ export class RoomService {
 
   getRooms$: Observable<Room[]> = this.http.get<Room[]>(this.roomsUrl)
     .pipe(
-      tap(next => this.store.set('rooms', next))
+      tap(next => this.actionHandler.setRooms(next))
     );
 
   book3(room: Room, start: number, end: number): Observable<any> | null {
