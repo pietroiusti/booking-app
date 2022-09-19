@@ -34,7 +34,7 @@ export class
     private location: Location,
     private store: Store,
     public dialog: MatDialog,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
@@ -67,17 +67,21 @@ export class
   }
 
   openDialog() {
+
+    if (!this.room)
+      return;
+
     const dRef = this.dialog.open(ModifyRoomDialogComponent, {
       height: '400px',
       width: '600px',
       data: {
-        id: this.room?.id,
-        name: this.room?.name,
-        capacity: this.room?.capacity,
-        display: this.room?.display,
-        whiteboard: this.room?.whiteboard,
-        airConditioning: this.room?.airConditioning,
-        bookings: this.room?.bookings,
+        id: this.room.id,
+        name: this.room.name,
+        capacity: this.room.capacity,
+        display: this.room.display,
+        whiteboard: this.room.whiteboard,
+        airConditioning: this.room.airConditioning,
+        bookings: this.room.bookings,
       },
     });
     dRef.afterClosed().subscribe(v => {

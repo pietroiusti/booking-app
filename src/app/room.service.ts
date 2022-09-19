@@ -34,7 +34,7 @@ export class RoomService {
     private _snackBar: MatSnackBar,
     private router: Router,
     private actionHandler: ActionHandlerService
-  ) { }
+  ) {}
 
   getRooms$: Observable<Room[]> = this.http.get<Room[]>(this.roomsUrl)
     .pipe(
@@ -242,50 +242,32 @@ export class RoomService {
     return true;
   }
 
-  modifyRoom(obj: {
-    id: number;
-    name: string;
-    capacity: string;
-    display: string;
-    whiteboard: string;
-    air: string;
-    bookings: string;
-  }): void {
-    // this method could just create a room object
-    // and pass it to the action handler (together with an action 'modify'
-    // for example)...
-
-    console.log(obj);
-
-    const currentRooms: ReadonlyArray<Room> = this.store.value.rooms; //<<<<<<<<<<< okay?
-
-    const roomIndex = obj['id'] - 1;
-
+  modifyRoom(updatedRoom: Room) {
+    const currentRooms: ReadonlyArray<Room> = this.store.value.rooms;
+    const roomIndex = updatedRoom['id'] - 1;
     const currentRoom = currentRooms[roomIndex];
 
-    if (
-      currentRoom.name === obj.name &&
-      currentRoom.capacity.toString() === obj.capacity &&
-      currentRoom.display.toString() === obj.display &&
-      currentRoom.whiteboard.toString() === obj.whiteboard &&
-      currentRoom.airConditioning.toString() === obj.air &&
-      JSON.stringify(currentRoom.bookings) === obj.bookings
-    ) {
+    if ( currentRoom.name === updatedRoom.name &&
+      currentRoom.capacity === updatedRoom.capacity &&
+      currentRoom.display === updatedRoom.display &&
+      currentRoom.whiteboard === updatedRoom.whiteboard &&
+      currentRoom.airConditioning === updatedRoom.airConditioning &&
+      JSON.stringify(currentRoom.bookings) === JSON.stringify(updatedRoom.bookings)
+       )
+    {
       this._snackBar.open('Nothing to update!', 'okay');
       return;
     }
 
     const updatedRooms = produce(currentRooms, draft => {
       const room = draft[roomIndex];
-      room.name = obj['name'];
-      room.capacity = Number(obj['capacity']); //<<<<<<<
-      room.display = obj['display'] === 'true' ? true : false; //<<<<<<<
-      room.whiteboard = obj['whiteboard'] === 'true' ? true : false; //<<<<<<<
-      room.airConditioning = obj['air'] === 'true' ? true : false; //<<<<<<<
-      room.bookings = JSON.parse(obj['bookings']);
+      room.name = updatedRoom.name;
+      room.capacity = updatedRoom.capacity;
+      room.display = updatedRoom.display;
+      room.whiteboard = updatedRoom.whiteboard;
+      room.airConditioning = updatedRoom.airConditioning;
+      room.bookings = updatedRoom.bookings;
     });
-
-    console.log(updatedRooms);
 
     let httpOptions = {
       headers: new HttpHeaders({
