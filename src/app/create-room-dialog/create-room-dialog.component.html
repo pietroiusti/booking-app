@@ -5,7 +5,7 @@
   <div>
   <span class="field">id:</span>
   <mat-form-field appearance="fill">
-    <input [formControl]="idControl" readonly matInput>
+    <input type="number" [formControl]="idControl" readonly matInput>
   </mat-form-field>
   </div>
 
@@ -19,34 +19,28 @@
   <div>
     <span class="field">capacity:</span>
     <mat-form-field appearance="fill">
-      <input [formControl]="capacityControl" matInput>
+      <input type="number" [formControl]="capacityControl" matInput>
     </mat-form-field>
   </div>
 
   <div>
     <span class="field">display:</span>
-    <mat-form-field appearance="fill">
-      <input [formControl]="displayControl" matInput>
-    </mat-form-field>
+    <mat-checkbox [formControl]="displayControl"></mat-checkbox>
   </div>
 
   <div>
     <span class="field">whiteboard:</span>
-    <mat-form-field appearance="fill">
-      <input [formControl]="whiteboardControl" matInput>
-    </mat-form-field>
+    <mat-checkbox [formControl]="whiteboardControl"></mat-checkbox>
   </div>
 
   <div>
     <span class="field">Air conditioning:</span>
-    <mat-form-field appearance="fill">
-      <input [formControl]="airCondControl" matInput>
-    </mat-form-field>
+    <mat-checkbox [formControl]="airCondControl"></mat-checkbox>
   </div>
 
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button (click)="sendCreateRoomReq()">Create Room</button>
+  <button mat-button mat-dialog-close (click)="sendCreateRoomReq()">Create Room</button>
   <button mat-button mat-dialog-close>Exit</button>
 </mat-dialog-actions>

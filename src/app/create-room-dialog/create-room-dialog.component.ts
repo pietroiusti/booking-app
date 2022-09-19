@@ -13,15 +13,14 @@ import { Store } from '../store';
 })
 export class CreateRoomDialogComponent implements OnInit {
 
-  newRoomId: number | null = null;
   rooms$: Observable<Room[]> = this.store.select<Room[]>('rooms');
 
-  idControl = new FormControl('');
-  nameControl = new FormControl('');
-  capacityControl = new FormControl('');
-  displayControl = new FormControl('');
-  whiteboardControl = new FormControl('');
-  airCondControl = new FormControl('');
+  idControl = new FormControl<number | null>(null);
+  nameControl = new FormControl<string | null>('');
+  capacityControl = new FormControl<number | null>(null);
+  displayControl = new FormControl<boolean | null>(false);
+  whiteboardControl = new FormControl<boolean | null>(false);
+  airCondControl = new FormControl<boolean | null>(false);
 
   constructor(
     private roomService: RoomService,
@@ -30,31 +29,30 @@ export class CreateRoomDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.rooms$.subscribe(rooms => {
-      this.idControl.setValue((rooms.length + 1).toString());
+      this.idControl.setValue((rooms.length + 1));
     });
   }
 
   sendCreateRoomReq() {
-    if ( ! ( this.idControl.value         &&
-             this.nameControl.value       &&
-             this.capacityControl.value   &&
-             this.displayControl.value    && 
-             this.whiteboardControl.value &&
-             this.airCondControl.value ) ) {
-              console.log('Not gonna req!');
-              return;
+    if ( ! ( this.idControl.value  !== null &&
+      this.nameControl.value       !== null &&
+      this.capacityControl.value   !== null &&
+      this.displayControl.value    !== null &&
+      this.whiteboardControl.value !== null &&
+      this.airCondControl.value    !== null) ) {
+      console.log('Not gonna req!');
+      return;
     }
 
-
-    this.roomService.createRoom({
+    this.roomService.createRoom2({
       id: this.idControl.value,
       name: this.nameControl.value,
-      capacity: this.capacityControl.value,
-      display: this.displayControl.value, 
+      display: this.displayControl.value,
       whiteboard: this.whiteboardControl.value,
       airConditioning: this.airCondControl.value,
+      capacity: this.capacityControl.value,
+      bookings: []
     });
-
   }
 
 }
