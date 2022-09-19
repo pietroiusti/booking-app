@@ -6,6 +6,8 @@ import produce from 'immer';
 
 import { Room } from './models/room';
 
+import { Filter } from './models/filter';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -42,5 +44,13 @@ export class ActionHandlerService {
     const currentRooms = this.store.value.rooms;
     const updatedRooms = produce(currentRooms, draft => draft = draft.filter(r => r.id !== id));
     this.store.set('rooms', updatedRooms);
+  }
+
+  resetSelected() {
+    this.store.set('selected', []);
+  }
+
+  updateFilter(filter: Filter) {
+    this.store.set('filter', filter);
   }
 }

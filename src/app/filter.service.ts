@@ -10,6 +10,8 @@ import { RoomService } from './room.service';
 import { Booking } from './models/booking';
 import produce from 'immer';
 
+import { ActionHandlerService } from './action-handler.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,6 +24,7 @@ export class FilterService {
   constructor(
     private store: Store,
     private roomService: RoomService,
+    private actionHandler: ActionHandlerService,
     ) {
 
       this.filter$.subscribe(filter => {
@@ -31,17 +34,18 @@ export class FilterService {
     }
 
     reset() {
-      let filter = {
+      let filter: Filter = {
         name: '',
         ac: false,
         wb: false,
         display: false,
+        capacity: '',
         date: '',
         from: '',
         to: '',
       };
 
-      this.store.set('filter', filter);
+      this.actionHandler.updateFilter(filter);
     }
 
     filterRooms(rooms: Room[], filter: Filter): Room[] {
@@ -87,9 +91,9 @@ export class FilterService {
           draft[options.type] = options.value;
       });
 
-      this.store.set('selected', []);
+      this.actionHandler.resetSelected();
 
-      this.store.set('filter', updatedFilter);
+      this.actionHandler.updateFilter(updatedFilter);
     }
 
     getFilteredRoomsObsv2(): Observable<Room[]> {
