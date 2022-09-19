@@ -13,45 +13,45 @@ import { Room } from '../models/room';
 export class ModifyRoomDialogComponent implements OnInit {
   id: number | null = null;
 
-  modifiedNameControl = new FormControl('');
+  nameControl = new FormControl('');
   bookingsControl = new FormControl('');
-  modifiedCapacityControl = new FormControl(null);
-  modifiedDisplayControl = new FormControl(false);
-  modifiedWhiteBoardControl = new FormControl(false);
-  modifiedAirConditioningControl = new FormControl(false);
+  capacityControl = new FormControl(null);
+  displayControl = new FormControl(false);
+  whiteBoardControl = new FormControl(false);
+  airConditioningControl = new FormControl(false);
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { [k: string]: any },
     private roomService: RoomService,
   ) {
     this.id = data['id'];
-    this.modifiedNameControl.setValue(data['name']);
+    this.nameControl.setValue(data['name']);
     this.bookingsControl.setValue(JSON.stringify(data['bookings']));
-    this.modifiedCapacityControl.setValue(data['capacity']);
-    this.modifiedDisplayControl.setValue(data['display']);
-    this.modifiedWhiteBoardControl.setValue(data['whiteboard']);
-    this.modifiedAirConditioningControl.setValue(data['airConditioning']);
+    this.capacityControl.setValue(data['capacity']);
+    this.displayControl.setValue(data['display']);
+    this.whiteBoardControl.setValue(data['whiteboard']);
+    this.airConditioningControl.setValue(data['airConditioning']);
   }
 
   applyChanges() {
     if (!this.id)
       return;
 
-    if (this.modifiedNameControl.value === null ||
-      this.modifiedCapacityControl.value === null ||
-      this.modifiedDisplayControl.value === null ||
-      this.modifiedWhiteBoardControl.value === null ||
-      this.modifiedAirConditioningControl.value === null ||
+    if (this.nameControl.value === null ||
+      this.capacityControl.value === null ||
+      this.displayControl.value === null ||
+      this.whiteBoardControl.value === null ||
+      this.airConditioningControl.value === null ||
       this.bookingsControl.value === null)
       return;
 
     let updatedRoom: Room = {
       id: this.id,
-      name: this.modifiedNameControl.value,
-      capacity: this.modifiedCapacityControl.value,
-      display: this.modifiedDisplayControl.value,
-      whiteboard: this.modifiedWhiteBoardControl.value,
-      airConditioning: this.modifiedAirConditioningControl.value,
+      name: this.nameControl.value,
+      capacity: this.capacityControl.value,
+      display: this.displayControl.value,
+      whiteboard: this.whiteBoardControl.value,
+      airConditioning: this.airConditioningControl.value,
       bookings: JSON.parse(this.bookingsControl.value),
     };
 
