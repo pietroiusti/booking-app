@@ -1,0 +1,54 @@
+<h1 mat-dialog-title>Modify Room Details 2</h1>
+
+<mat-dialog-content>
+
+<div>
+
+  <form [formGroup]="fg" (ngSubmit)="fgSubmit()">
+    <div>
+      <span class="field">Name:</span>
+
+      <mat-form-field appearance="fill">
+        <input formControlName="nameControl" matInput>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <span class="field">Capacity:</span>
+      <mat-form-field appearance="fill">
+        <input type="number" formControlName="capacityControl" matInput>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <span class="field">Display:</span>
+      <mat-checkbox formControlName="displayControl"></mat-checkbox>
+    </div>
+
+    <div>
+      <span class="field">Whiteboard:</span>
+      <mat-checkbox formControlName="whiteBoardControl"></mat-checkbox>
+    </div>
+
+    <div>
+      <span class="field">Air conditioning:</span>
+      <mat-checkbox formControlName="airConditioningControl"></mat-checkbox>
+    </div>
+
+    <div id="bookingsDiv">
+      <span class="field">Bookings:</span>
+      <div id="bookingsTextAreaDiv">
+        <textarea formControlName="bookingsControl" name="bookingsInput" id="" cols="30" rows="10"></textarea>
+      </div>
+    </div>
+
+    <mat-dialog-actions>
+      <button mat-button mat-stroked-button mat-dialog-close
+              type="submit">Modify Room</button>
+      <button mat-button mat-stroked-button mat-dialog-close>Exit</button>
+    </mat-dialog-actions>
+  </form>
+
+</div>
+
+</mat-dialog-content>

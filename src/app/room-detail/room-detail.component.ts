@@ -14,6 +14,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModifyRoomDialogComponent } from '../modify-room-dialog/modify-room-dialog.component';
 import { DeleteRoomDialogComponent } from '../delete-room-dialog/delete-room-dialog.component';
 
+import { ModifyRoomDialog2Component } from '../modify-room-dialog2/modify-room-dialog2.component';
+
 @Component({
   selector: 'app-room-detail',
   templateUrl: './room-detail.component.html',
@@ -64,6 +66,28 @@ export class
     let reqObsv = this.roomService.book3(this.room, UnixTimestampStart, UnixTimestampEnd);
     if (reqObsv)
       reqObsv.subscribe();
+  }
+
+  openDialog2() {
+    if (!this.room)
+      return;
+
+    const dRef = this.dialog.open(ModifyRoomDialog2Component, {
+      height: '400px',
+      width: '600px',
+      data: {
+        id: this.room.id,
+        name: this.room.name,
+        capacity: this.room.capacity,
+        display: this.room.display,
+        whiteboard: this.room.whiteboard,
+        airConditioning: this.room.airConditioning,
+        bookings: this.room.bookings,
+      },
+    });
+    dRef.afterClosed().subscribe(v => {
+      console.log('closed');
+    })
   }
 
   openDialog() {

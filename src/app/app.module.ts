@@ -35,6 +35,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { ModifyRoomDialogComponent } from './modify-room-dialog/modify-room-dialog.component';
 import { CreateRoomDialogComponent } from './create-room-dialog/create-room-dialog.component';
 import { DeleteRoomDialogComponent } from './delete-room-dialog/delete-room-dialog.component';
+import { ModifyRoomDialog2Component } from './modify-room-dialog2/modify-room-dialog2.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { DeleteRoomDialogComponent } from './delete-room-dialog/delete-room-dial
     ModifyRoomDialogComponent,
     CreateRoomDialogComponent,
     DeleteRoomDialogComponent,
+    ModifyRoomDialog2Component,
   ],
   imports: [
     BrowserModule,
