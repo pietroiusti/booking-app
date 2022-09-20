@@ -76,7 +76,7 @@ export class ModifyRoomDialog2Component implements OnInit {
   fgSubmit() {
     if (!this.fg.valid) {
       this.errorGeneralMessage = true;
-      setTimeout(()=>this.errorGeneralMessage = false, 2000)
+      setTimeout(()=>this.errorGeneralMessage = false, 2000);
       return;
     }
 

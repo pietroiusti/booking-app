@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>Create New Room</h1>
+
+<mat-dialog-content>
+
+  <form [formGroup]="fg" (ngSubmit)="fgSubmit()">
+    <div>
+      <span class="field">Name:</span>
+      <mat-form-field appearance="fill">
+        <input formControlName="name" type="text" matInput>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <span class="field">Capacity:</span>
+      <mat-form-field appearance="fill">
+        <input formControlName="capacity" type="number" matInput>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <span class="field">Display:</span>
+      <mat-checkbox formControlName="display"></mat-checkbox>
+    </div>
+
+    <div>
+      <span class="field">Whiteboard:</span>
+      <mat-checkbox formControlName="whiteboard"></mat-checkbox>
+    </div>
+
+    <div>
+      <span class="field">Air Conditioning::</span>
+      <mat-checkbox formControlName="airConditioning"></mat-checkbox>
+    </div>
+
+    <mat-dialog-actions align="center">
+      <button mat-button mat-stroked-button type="submit">Modify Room</button>
+      <button mat-button mat-stroked-button mat-dialog-close>Exit</button>
+    </mat-dialog-actions>
+    <!-- <div *ngIf="errorGeneralMessage" id="errorGeneralMessageDiv"> -->
+    <!--   <span>Something is wrong with your input. Look for errors above!</span> -->
+    <!-- </div> -->
+  </form>
+
+
+
+</mat-dialog-content>
