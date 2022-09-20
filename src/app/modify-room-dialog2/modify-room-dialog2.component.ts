@@ -3,7 +3,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RoomService } from '../room.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Room } from '../models/room';
-import { Booking } from '../models/booking';
 
 @Component({
   selector: 'app-modify-room-dialog2',
@@ -14,16 +13,21 @@ export class ModifyRoomDialog2Component implements OnInit {
   id: number | null = null;
 
   fg = new FormGroup({
-    nameControl: new FormControl<string|null>(''),
+    nameControl: new FormControl<string>('', {nonNullable: true}),
+
     capacityControl: new FormControl<number|null>(null),
-    displayControl: new FormControl<boolean|null>(null),
-    whiteBoardControl: new FormControl<boolean|null>(null),
-    airConditioningControl: new FormControl<boolean|null>(null),
-    bookingsControl: new FormControl<string|null>(''),
+
+    displayControl: new FormControl<boolean>(false, {nonNullable: true}),
+
+    whiteBoardControl: new FormControl<boolean>(false, {nonNullable: true}),
+
+    airConditioningControl: new FormControl<boolean>(false, {nonNullable: true}),
+
+    bookingsControl: new FormControl<string>('', {nonNullable: true}),
   });
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { [k: string]: any },
+    @Inject(MAT_DIALOG_DATA) public data: Room,
     private roomService: RoomService,
   ) {
     this.id = data['id'];
@@ -35,6 +39,7 @@ export class ModifyRoomDialog2Component implements OnInit {
       airConditioningControl: data['airConditioning'],
       bookingsControl: JSON.stringify(data['bookings']),
     });
+    //this.fg.setValue(data)
   }
 
   ngOnInit(): void {
@@ -42,23 +47,15 @@ export class ModifyRoomDialog2Component implements OnInit {
   }
 
   fgSubmit() {
-    //debugger
-    console.log(this.fg.value);
-
-    if (this.id === null || this.id === undefined)
+    if (this.id === null                                 ||
+      this.fg.value.nameControl === undefined            ||
+      this.fg.value.capacityControl === null             ||
+      this.fg.value.capacityControl === undefined        ||
+      this.fg.value.displayControl === undefined         ||
+      this.fg.value.whiteBoardControl === undefined      ||
+      this.fg.value.airConditioningControl === undefined ||
+      this.fg.value.bookingsControl === undefined )
       return
-    if (this.fg.value.nameControl === null || this.fg.value.nameControl === undefined)
-      return;
-    if (this.fg.value.capacityControl === null || this.fg.value.capacityControl === undefined)
-      return;
-    if (this.fg.value.displayControl === null || this.fg.value.displayControl === undefined)
-      return;
-    if (this.fg.value.whiteBoardControl === null || this.fg.value.whiteBoardControl === undefined)
-      return;
-    if (this.fg.value.airConditioningControl === null || this.fg.value.airConditioningControl === undefined)
-      return;
-    if (this.fg.value.bookingsControl === null || this.fg.value.bookingsControl === undefined)
-      return;
 
     let updatedRoom: Room = {
       id: this.id,
@@ -69,8 +66,6 @@ export class ModifyRoomDialog2Component implements OnInit {
       airConditioning: this.fg.value.airConditioningControl,
       bookings: JSON.parse(this.fg.value.bookingsControl),
     }
-
-    console.log(updatedRoom);
 
     this.roomService.modifyRoom(updatedRoom);
   }
