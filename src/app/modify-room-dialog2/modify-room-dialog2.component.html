@@ -20,6 +20,7 @@
       <mat-form-field appearance="fill">
         <input type="number" formControlName="capacityControl" matInput>
       </mat-form-field>
+      <span class="sideFeedback" *ngIf="fg.controls['capacityControl'].errors?.['max']">Num is too big...</span>
     </div>
 
     <div>

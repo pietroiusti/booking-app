@@ -22,7 +22,10 @@ export class ModifyRoomDialog2Component implements OnInit {
     }),
 
     capacityControl: new FormControl<number|null>(null, {
-      validators: [Validators.required],
+      validators: [
+        Validators.required,
+        Validators.max(50)
+      ],
       nonNullable: true
     }),
 
