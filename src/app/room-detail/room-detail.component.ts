@@ -128,4 +128,8 @@ export class
   goBack(): void {
     this.location.back();
   }
+
+  test() {
+    this.dialog.closeAll();
+  }
 }

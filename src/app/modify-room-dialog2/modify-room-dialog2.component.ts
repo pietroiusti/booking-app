@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RoomService } from '../room.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Room } from '../models/room';
 
 @Component({
@@ -13,21 +13,43 @@ export class ModifyRoomDialog2Component implements OnInit {
   id: number | null = null;
 
   fg = new FormGroup({
-    nameControl: new FormControl<string>('', {nonNullable: true}),
+    nameControl: new FormControl<string>('', {
+      validators: [
+        Validators.required,
+        Validators.minLength(5),// does not work?
+      ],
+      nonNullable: true
+    }),
 
-    capacityControl: new FormControl<number|null>(null),
+    capacityControl: new FormControl<number|null>(null, {
+      validators: [Validators.required],
+      nonNullable: true
+    }),
 
-    displayControl: new FormControl<boolean>(false, {nonNullable: true}),
+    displayControl: new FormControl<boolean>(false, {
+      validators: [Validators.required],
+      nonNullable: true,
+    }),
 
-    whiteBoardControl: new FormControl<boolean>(false, {nonNullable: true}),
+    whiteBoardControl: new FormControl<boolean>(false, {
+      validators: [Validators.required],
+      nonNullable: true,
+    }),
 
-    airConditioningControl: new FormControl<boolean>(false, {nonNullable: true}),
+    airConditioningControl: new FormControl<boolean>(false, {
+      validators: [Validators.required],
+      nonNullable: true
+    }),
 
-    bookingsControl: new FormControl<string>('', {nonNullable: true}),
+    bookingsControl: new FormControl<string>('', {
+      validators: [Validators.required],
+      nonNullable: true
+    }),
   });
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Room,
+    private dialogRef: MatDialogRef<ModifyRoomDialog2Component>,
     private roomService: RoomService,
   ) {
     this.id = data['id'];
@@ -39,7 +61,6 @@ export class ModifyRoomDialog2Component implements OnInit {
       airConditioningControl: data['airConditioning'],
       bookingsControl: JSON.stringify(data['bookings']),
     });
-    //this.fg.setValue(data)
   }
 
   ngOnInit(): void {
@@ -47,6 +68,9 @@ export class ModifyRoomDialog2Component implements OnInit {
   }
 
   fgSubmit() {
+    if (!this.fg.valid)
+      return;
+
     if (this.id === null                                 ||
       this.fg.value.nameControl === undefined            ||
       this.fg.value.capacityControl === null             ||
@@ -68,6 +92,8 @@ export class ModifyRoomDialog2Component implements OnInit {
     }
 
     this.roomService.modifyRoom(updatedRoom);
+
+    this.dialogRef.close();
   }
 
 }

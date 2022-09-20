@@ -11,6 +11,8 @@
       <mat-form-field appearance="fill">
         <input formControlName="nameControl" matInput>
       </mat-form-field>
+      <span class="sideFeedback" *ngIf="fg.controls['nameControl'].errors?.['minlength']">Name is too short</span>
+
     </div>
 
     <div>
@@ -43,11 +45,15 @@
     </div>
 
     <mat-dialog-actions>
-      <button mat-button mat-stroked-button mat-dialog-close
+      <button mat-button mat-stroked-button
               type="submit">Modify Room</button>
       <button mat-button mat-stroked-button mat-dialog-close>Exit</button>
     </mat-dialog-actions>
   </form>
+
+  <div>
+
+  </div>
 
 </div>
 
