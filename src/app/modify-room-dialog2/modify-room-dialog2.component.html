@@ -21,6 +21,7 @@
         <input type="number" formControlName="capacityControl" matInput>
       </mat-form-field>
       <span class="sideFeedback" *ngIf="fg.controls['capacityControl'].errors?.['max']">Num is too big...</span>
+      <span class="sideFeedback" *ngIf="fg.controls['capacityControl'].errors?.['min']">Num is too low...</span>
     </div>
 
     <div>
@@ -45,11 +46,15 @@
       </div>
     </div>
 
-    <mat-dialog-actions>
+    <mat-dialog-actions align="center">
       <button mat-button mat-stroked-button
               type="submit">Modify Room</button>
       <button mat-button mat-stroked-button mat-dialog-close>Exit</button>
     </mat-dialog-actions>
+    <div *ngIf="errorGeneralMessage" id="errorGeneralMessageDiv">
+      <span>Something is wrong with your input. Look for errors above!</span>
+    </div>
+
   </form>
 
   <div>

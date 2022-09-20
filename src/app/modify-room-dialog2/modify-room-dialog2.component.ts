@@ -10,6 +10,8 @@ import { Room } from '../models/room';
   styleUrls: ['./modify-room-dialog2.component.css']
 })
 export class ModifyRoomDialog2Component implements OnInit {
+  errorGeneralMessage: boolean = false;
+
   id: number | null = null;
 
   fg = new FormGroup({
@@ -24,7 +26,8 @@ export class ModifyRoomDialog2Component implements OnInit {
     capacityControl: new FormControl<number|null>(null, {
       validators: [
         Validators.required,
-        Validators.max(50)
+        Validators.max(50),
+        Validators.min(1),
       ],
       nonNullable: true
     }),
@@ -71,8 +74,11 @@ export class ModifyRoomDialog2Component implements OnInit {
   }
 
   fgSubmit() {
-    if (!this.fg.valid)
+    if (!this.fg.valid) {
+      this.errorGeneralMessage = true;
+      setTimeout(()=>this.errorGeneralMessage = false, 2000)
       return;
+    }
 
     if (this.id === null                                 ||
       this.fg.value.nameControl === undefined            ||
