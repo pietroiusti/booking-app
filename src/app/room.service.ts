@@ -242,6 +242,81 @@ export class RoomService {
     return true;
   }
 
+  createModifyRoom(obj: {type: string, room: Room|undefined}) {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'observe': 'response',
+      })
+    };
+
+    if (obj.type==='create') {
+      const reqObj = {
+        type: 'create2',
+        val: obj.room,
+      }
+      this.http.post<any>(this.roomsUrl, reqObj, httpOptions)
+        .subscribe(res => {
+          console.log(res);
+
+          if (res.result == 'All good') {
+            let newRoom: Room = res.room;
+
+            this.actionHandler.create(newRoom);
+
+            this._snackBar.open('Room successfully created!', 'Okay');
+          } else {
+            console.log('something wrong...');
+          }
+        })
+    } else if (obj.type==='modify') {
+      if (!obj.room)
+        return
+
+      const currentRooms: ReadonlyArray<Room> = this.store.value.rooms;
+      const roomIndex = obj.room['id'] - 1;
+      const currentRoom = currentRooms[roomIndex];
+
+      if (currentRoom.name === obj.room.name &&
+        currentRoom.capacity === obj.room.capacity &&
+        currentRoom.display === obj.room.display &&
+        currentRoom.whiteboard === obj.room.whiteboard &&
+        currentRoom.airConditioning === obj.room.airConditioning &&
+        JSON.stringify(currentRoom.bookings) === JSON.stringify(obj.room.bookings)
+      ) {
+        this._snackBar.open('Nothing to update!', 'okay');
+        return;
+      }
+
+      const updatedRooms = produce(currentRooms, draft => {
+        if (!obj.room)
+          return
+        const room = draft[roomIndex];
+        room.name = obj.room.name;
+        room.capacity = obj.room.capacity;
+        room.display = obj.room.display;
+        room.whiteboard = obj.room.whiteboard;
+        room.airConditioning = obj.room.airConditioning;
+        room.bookings = obj.room.bookings;
+      });
+
+      this.http.put<{ result: string }>(this.roomsUrl, updatedRooms[roomIndex], httpOptions)
+        .subscribe(v => {
+          console.log(v);
+          if (v.result === 'All good') {
+            console.log('All good :)');
+            this._snackBar.open('Room successfully modified :)', 'Got it');
+            this.actionHandler.setRooms(updatedRooms);
+          } else {
+            console.log('Something went wrong :(');
+            this._snackBar.open('Something went wrong :(', 'Got it');
+          }
+        });
+
+    } else {
+      console.log('???');
+    }
+  }
+
   modifyRoom(updatedRoom: Room) {
     const currentRooms: ReadonlyArray<Room> = this.store.value.rooms;
     const roomIndex = updatedRoom['id'] - 1;

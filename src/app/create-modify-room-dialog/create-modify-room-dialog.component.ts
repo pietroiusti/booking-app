@@ -60,7 +60,7 @@ export class CreateModifyRoomDialogComponent implements OnInit {
   }
 
   fgSubmit() {
-    debugger
+    //debugger
     if (!this.fg.valid) {
       this.errorGeneralMessage = true;
       setTimeout(()=>this.errorGeneralMessage = false, 2000);
@@ -77,29 +77,45 @@ export class CreateModifyRoomDialogComponent implements OnInit {
       this.fg.value.bookings === undefined )
       return;
 
-    if (this.data.type === 'modify') {
-      let updatedRoom: Room = {
-        id: this.fg.value.id,
-        name: this.fg.value.name,
-        capacity: this.fg.value.capacity,
-        display: this.fg.value.display,
-        whiteboard: this.fg.value.whiteboard,
-        airConditioning: this.fg.value.airConditioning,
-        bookings: JSON.parse(this.fg.value.bookings),
-      }
+    // if (this.data.type === 'modify') {
+    //   let updatedRoom: Room = {
+    //     id: this.fg.value.id,
+    //     name: this.fg.value.name,
+    //     capacity: this.fg.value.capacity,
+    //     display: this.fg.value.display,
+    //     whiteboard: this.fg.value.whiteboard,
+    //     airConditioning: this.fg.value.airConditioning,
+    //     bookings: JSON.parse(this.fg.value.bookings),
+    //   }
 
-      this.roomService.modifyRoom(updatedRoom);
-    } else if (this.data.type === 'create') {
-      this.roomService.createRoom2({
-        id: this.fg.value.id,
-        name: this.fg.value.name,
-        display: this.fg.value.display,
-        whiteboard: this.fg.value.whiteboard,
-        airConditioning: this.fg.value.airConditioning,
-        capacity: this.fg.value.capacity,
-        bookings: [],
+    //   this.roomService.modifyRoom(updatedRoom);
+
+    // } else if (this.data.type === 'create') {
+
+    //   this.roomService.createRoom2({
+    //     id: this.fg.value.id,
+    //     name: this.fg.value.name,
+    //     display: this.fg.value.display,
+    //     whiteboard: this.fg.value.whiteboard,
+    //     airConditioning: this.fg.value.airConditioning,
+    //     capacity: this.fg.value.capacity,
+    //     bookings: [],
+    //   });
+    // }
+
+    this.roomService.createModifyRoom(
+      {
+        type: this.data.type==='create'?'create':'modify',
+        room: {
+          id: this.fg.value.id,
+          name: this.fg.value.name,
+          display: this.fg.value.display,
+          whiteboard: this.fg.value.whiteboard,
+          airConditioning: this.fg.value.airConditioning,
+          capacity: this.fg.value.capacity,
+          bookings: JSON.parse(this.fg.value.bookings),
+        }
       });
-    }
 
     this.dialogRef.close();
   }
