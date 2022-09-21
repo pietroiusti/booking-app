@@ -23,7 +23,7 @@ export class CreateModifyRoomDialogComponent implements OnInit {
     display: [false],
     whiteboard: [false],
     airConditioning: [false],
-    bookings: [''],
+    bookings: ['[]'],
   });
 
   constructor(
@@ -47,12 +47,13 @@ export class CreateModifyRoomDialogComponent implements OnInit {
         return;
 
       this.fg.setValue({
-        id: this.data.room.id,
-        name: this.data.room.name,
-        capacity: this.data.room.capacity,
-        display: this.data.room.display,
-        whiteboard: this.data.room.whiteboard,
-        airConditioning: this.data.room.airConditioning,
+        // id: this.data.room.id,
+        // name: this.data.room.name,
+        // capacity: this.data.room.capacity,
+        // display: this.data.room.display,
+        // whiteboard: this.data.room.whiteboard,
+        // airConditioning: this.data.room.airConditioning,
+        ...this.data.room,
         bookings: JSON.stringify(this.data.room.bookings),
       });
 
@@ -76,6 +77,11 @@ export class CreateModifyRoomDialogComponent implements OnInit {
       this.fg.value.capacity === undefined ||
       this.fg.value.bookings === undefined )
       return;
+
+    //YOU CAN BE SHORTER
+    // if (Object.values( this.fg.value ).some( (v) => v === undefined ))
+    //   return;
+
 
     // if (this.data.type === 'modify') {
     //   let updatedRoom: Room = {

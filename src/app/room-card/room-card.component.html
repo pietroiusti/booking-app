@@ -1,0 +1,46 @@
+<mat-card>
+
+    <div class="matHeader">
+      <!-- <mat-checkbox align="end" [checked]="selected &&selected.includes(r.id)" (click)="stopProp($event)"
+           (change)="handleCheckBoxChange($event, r.id)"></mat-checkbox> -->
+      <mat-checkbox align="end" [checked]="room && selected && selected.includes(room.id)"
+                    (click)="test($event)"
+
+                    ></mat-checkbox>
+    </div>
+
+  <mat-card-title>
+    Room {{ room?.id }} -- {{ room?.name }}
+  </mat-card-title>
+
+  <mat-card-subtitle *ngIf="room">
+    <span *ngIf="room.capacity<=4" class="room-feature-icon">
+        <i class="bi bi-person"></i>
+    </span>
+    
+    <span *ngIf="room.capacity > 4 && room.capacity < 10" class="room-feature-icon">
+        <i class="bi bi-person"></i>
+        <i class="bi bi-person"></i>
+    </span>
+    <span *ngIf="room.capacity >= 10" class="room-feature-icon">
+        <i class="bi bi-person"></i>
+        <i class="bi bi-person"></i>
+        <i class="bi bi-person"></i>
+    </span>
+    
+    <span class="room-feature-icon" *ngIf="room.airConditioning">
+        <i class="bi bi-snow"></i>
+    </span>
+    <span class="room-feature-icon" *ngIf="room.whiteboard">
+        <i class="bi bi-easel"></i>
+    </span>
+    <span class="room-feature-icon" *ngIf="room.display">
+        <i class="bi bi-display"></i>
+    </span>
+  </mat-card-subtitle>
+
+  <mat-card-actions align="end">
+    <!-- <button mat-stroked-button color="primary" (click)="modifyRoom($event, r.id)">Modify room</button> -->
+  </mat-card-actions>
+
+</mat-card>

@@ -1,14 +1,9 @@
-#roomsDiv {
-  width: 90%;
-  margin: auto;
-  text-align: center;
-}
-
 mat-card {
   margin: 20px auto;
   width: 60%;
   min-width: 230px;
   text-align: center;
+  color: red;      
 }
 
 .matHeader {
@@ -21,9 +16,4 @@ mat-card:hover {
   background-color: #42545C;
 
   cursor: pointer;
-}
-
-.room-feature-icon {
-  margin-left: 10px;
-  margin-right: 10px;
 }

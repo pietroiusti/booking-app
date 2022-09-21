@@ -276,17 +276,21 @@ export class RoomService {
       const roomIndex = obj.room['id'] - 1;
       const currentRoom = currentRooms[roomIndex];
 
+      // ANYTHING NICER THAN THIS? IMMER?
       if (currentRoom.name === obj.room.name &&
         currentRoom.capacity === obj.room.capacity &&
         currentRoom.display === obj.room.display &&
         currentRoom.whiteboard === obj.room.whiteboard &&
         currentRoom.airConditioning === obj.room.airConditioning &&
-        JSON.stringify(currentRoom.bookings) === JSON.stringify(obj.room.bookings)
+        JSON.stringify(currentRoom.bookings) === JSON.stringify(obj.room.bookings)// lodash has a isEqual (for the all thing)
       ) {
         this._snackBar.open('Nothing to update!', 'okay');
         return;
       }
 
+      // DO YOU NEED THIS?
+      // pass obj
+      // and then use action.handler modify
       const updatedRooms = produce(currentRooms, draft => {
         if (!obj.room)
           return
