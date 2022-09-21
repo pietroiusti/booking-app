@@ -3,7 +3,8 @@
   <p class="backLink" (click)="goBack()">← go back to bookable items</p>
 
   <button mat-button mat-stroked-button color="primary" (click)="handleCreateRoomClick()">Create room</button>
-    <button mat-button mat-stroked-button color="primary" (click)="handleCreateRoomClick2()">Create room 2</button>
+  <button mat-button mat-stroked-button color="primary" (click)="handleCreateRoomClick2()">Create room 2</button>
+  <button mat-button mat-stroked-button color="primary" (click)="handleCreateRoomClick3()">Create room 3</button>
   <button *ngIf="this.selected && this.selected.length > 1" mat-stroked-button color="primary"
     (click)="logStore()">Multi-Action</button>
   <button *ngIf="this.selected && this.selected.length > 1" mat-stroked-button color="primary"

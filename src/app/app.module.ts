@@ -37,6 +37,7 @@ import { CreateRoomDialogComponent } from './create-room-dialog/create-room-dial
 import { DeleteRoomDialogComponent } from './delete-room-dialog/delete-room-dialog.component';
 import { ModifyRoomDialog2Component } from './modify-room-dialog2/modify-room-dialog2.component';
 import { CreateRoomDialog2Component } from './create-room-dialog2/create-room-dialog2.component';
+import { CreateModifyRoomDialogComponent } from './create-modify-room-dialog/create-modify-room-dialog.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { CreateRoomDialog2Component } from './create-room-dialog2/create-room-di
     DeleteRoomDialogComponent,
     ModifyRoomDialog2Component,
     CreateRoomDialog2Component,
+    CreateModifyRoomDialogComponent,
   ],
   imports: [
     BrowserModule,

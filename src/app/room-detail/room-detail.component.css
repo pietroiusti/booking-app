@@ -26,7 +26,7 @@
   text-align: center;
 }
 
-#modifyButton {
+.modifyButton {
   display: inline;
   margin: 10px;
 }
