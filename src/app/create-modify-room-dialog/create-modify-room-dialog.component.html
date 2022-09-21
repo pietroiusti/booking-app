@@ -16,6 +16,8 @@
       <mat-form-field appearance="fill">
         <input formControlName="name" type="text" matInput>
       </mat-form-field>
+      <span class="sideFeedback" *ngIf="fg.controls['name'].errors?.['minlength']">Name is too short</span>
+      <span class="sideFeedback" *ngIf="fg.controls['name'].errors?.['maxlength']">Name is too long</span>
     </div>
 
     <div>
@@ -23,6 +25,8 @@
       <mat-form-field appearance="fill">
         <input formControlName="capacity" type="number" matInput>
       </mat-form-field>
+      <span class="sideFeedback" *ngIf="fg.controls['capacity'].errors?.['max']">Num is too big...</span>
+      <span class="sideFeedback" *ngIf="fg.controls['capacity'].errors?.['min']">Num is too low...</span>
     </div>
 
     <div>
@@ -52,6 +56,10 @@
       <button *ngIf="data.type==='modify'" mat-button mat-stroked-button type="submit">Modify Room</button>
       <button mat-button mat-stroked-button mat-dialog-close>Exit</button>
     </mat-dialog-actions>
+    <div *ngIf="errorGeneralMessage" id="errorGeneralMessageDiv">
+      <span>Something is wrong with your input. Look for errors above!</span>
+    </div>
+
     <!-- <div *ngIf="errorGeneralMessage" id="errorGeneralMessageDiv"> -->
     <!--   <span>Something is wrong with your input. Look for errors above!</span> -->
     <!-- </div> -->

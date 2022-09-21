@@ -12,12 +12,14 @@ import { Store } from '../store';
   styleUrls: ['./create-modify-room-dialog.component.css']
 })
 export class CreateModifyRoomDialogComponent implements OnInit {
+  errorGeneralMessage: boolean = false;
+
   rooms$: Observable<Room[]> = this.store.select<Room[]>('rooms');
 
   fg = this.fb.nonNullable.group({
     id: [-1],
-    name: ['', [Validators.required, Validators.minLength(5)]],
-    capacity: [-1, [Validators.required, Validators.max(50), Validators.min(1)]],
+    name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
+    capacity: [-1, [Validators.required, Validators.max(40), Validators.min(1)]],
     display: [false],
     whiteboard: [false],
     airConditioning: [false],
@@ -37,7 +39,7 @@ export class CreateModifyRoomDialogComponent implements OnInit {
       this.rooms$.subscribe((rooms)=>{
         this.fg.patchValue({
           id: rooms.length+1,
-          capacity: 0,
+          capacity: 1,
         });
       });
     } else if (this.data.type === 'modify') {
@@ -58,7 +60,10 @@ export class CreateModifyRoomDialogComponent implements OnInit {
   }
 
   fgSubmit() {
+    debugger
     if (!this.fg.valid) {
+      this.errorGeneralMessage = true;
+      setTimeout(()=>this.errorGeneralMessage = false, 2000);
       return;
     }
 
