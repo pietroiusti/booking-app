@@ -18,7 +18,7 @@ export class ModifyRoomDialog2Component implements OnInit {
     nameControl: new FormControl<string>('', {
       validators: [
         Validators.required,
-        Validators.minLength(5),// does not work?
+        Validators.minLength(5),
       ],
       nonNullable: true
     }),

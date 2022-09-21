@@ -4,6 +4,13 @@
 
   <form [formGroup]="fg" (ngSubmit)="fgSubmit()">
     <div>
+      <span class="field">id:</span>
+      <mat-form-field appearance="fill">
+        <input formControlName="id"  type="number" readonly matInput>
+      </mat-form-field>
+    </div>
+
+    <div>
       <span class="field">Name:</span>
       <mat-form-field appearance="fill">
         <input formControlName="name" type="text" matInput>
@@ -33,7 +40,7 @@
     </div>
 
     <mat-dialog-actions align="center">
-      <button mat-button mat-stroked-button type="submit">Modify Room</button>
+      <button mat-button mat-stroked-button type="submit">Create Room</button>
       <button mat-button mat-stroked-button mat-dialog-close>Exit</button>
     </mat-dialog-actions>
     <!-- <div *ngIf="errorGeneralMessage" id="errorGeneralMessageDiv"> -->
