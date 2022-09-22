@@ -242,6 +242,71 @@ export class RoomService {
     return true;
   }
 
+  createModifyRoom2(room: Room) {
+
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'observe': 'response',
+      })
+    };
+
+    if (this.store.value.rooms.find(r=>r.id===room.id)) { // MODIFY/PUT
+
+      // *****************************
+      // return if nothing changed
+      const currentRooms: ReadonlyArray<Room> = this.store.value.rooms;
+      const roomIndex = room['id'] - 1;
+      const currentRoom = currentRooms[roomIndex];
+      // ANYTHING NICER THAN THIS? IMMER?
+      if (currentRoom.name === room.name &&
+        currentRoom.capacity === room.capacity &&
+        currentRoom.display === room.display &&
+        currentRoom.whiteboard === room.whiteboard &&
+        currentRoom.airConditioning === room.airConditioning &&
+        JSON.stringify(currentRoom.bookings) === JSON.stringify(room.bookings)// lodash has a isEqual (for the all thing)
+      ) {
+        this._snackBar.open('Nothing to update!', 'okay');
+        return;
+      }
+      // *****************************
+
+      this.http.put<{ result: string }>(this.roomsUrl, room, httpOptions)
+        .subscribe(v => {
+          console.log(v);
+          if (v.result === 'All good') {
+            console.log('All good :)');
+            this._snackBar.open('Room successfully modified :)', 'Got it');
+            this.actionHandler.modify(room);
+          } else {
+            console.log('Something went wrong :(');
+            this._snackBar.open('Something went wrong :(', 'Got it');
+          }
+        });
+
+
+    } else { // CREATE/POST
+      const reqObj = {
+        type: 'create2',
+        val: room,
+      };
+
+      this.http.post<any>(this.roomsUrl, reqObj, httpOptions)
+        .subscribe(res => {
+          console.log(res);
+
+          if (res.result == 'All good') {
+            let newRoom: Room = res.room;
+
+            this.actionHandler.create(newRoom);
+
+            this._snackBar.open('Room successfully created!', 'Okay');
+          } else {
+            console.log('something wrong...');
+          }
+        });
+    }
+  }
+
   createModifyRoom(obj: {type: string, room: Room|undefined}) {
     let httpOptions = {
       headers: new HttpHeaders({

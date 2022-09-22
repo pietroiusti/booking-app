@@ -112,6 +112,8 @@ export class CreateModifyRoomDialogComponent implements OnInit {
     //   });
     // }
 
+
+    /*
     this.roomService.createModifyRoom(
       {
         //type: this.data.type==='create'?'create':'modify',
@@ -126,6 +128,17 @@ export class CreateModifyRoomDialogComponent implements OnInit {
           bookings: JSON.parse(this.fg.value.bookings),
         }
       });
+    */
+
+    this.roomService.createModifyRoom2({
+      id: this.fg.value.id,
+      name: this.fg.value.name,
+      display: this.fg.value.display,
+      whiteboard: this.fg.value.whiteboard,
+      airConditioning: this.fg.value.airConditioning,
+      capacity: this.fg.value.capacity,
+      bookings: JSON.parse(this.fg.value.bookings),
+    });
 
     this.dialogRef.close();
   }
