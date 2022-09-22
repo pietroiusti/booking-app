@@ -37,8 +37,13 @@ export class RoomCardComponent implements OnInit {
     event.stopPropagation();
   }
 
-  handleCheckBoxChange(obj: MatCheckboxChange, roomId: number|null){
+  handleCheckBoxChange(obj: MatCheckboxChange, roomId: number|null) {
     this.checkboxEvent.emit({roomId, checked: obj.checked});
   };
+
+  handleModifyButtonClick(e: Event) {
+    e.stopPropagation()
+    console.log(`hello world, ${this.room?.id}`);
+  }
 
 }
