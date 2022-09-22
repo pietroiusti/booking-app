@@ -345,37 +345,6 @@ export class RoomService {
       });
   }
 
-  createRoom(obj: { [k: string]: string }) {
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'observe': 'response',
-      })
-    };
-
-    const reqObj = {
-      type: 'create',
-      val: obj,
-    }
-
-    //debugger
-
-    //this.http.post<any>(this.roomsUrl, obj, httpOptions)
-    this.http.post<any>(this.roomsUrl, reqObj, httpOptions)
-      .subscribe(res => {
-        console.log(res);
-
-        if (res.result == 'All good') {
-          let newRoom: Room = res.room;
-
-          this.actionHandler.create(newRoom);
-
-          this._snackBar.open('Room successfully created!', 'Okay');
-        } else {
-          console.log('something wrong...');
-        }
-      })
-  }
-
   createRoom2(room: Room): void {
     let httpOptions = {
       headers: new HttpHeaders({
