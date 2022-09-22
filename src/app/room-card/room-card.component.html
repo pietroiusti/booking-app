@@ -1,8 +1,6 @@
-<mat-card>
+<mat-card routerLink="/rooms/{{room?room.id:null}}">
 
     <div class="matHeader">
-      <!-- <mat-checkbox align="end" [checked]="selected &&selected.includes(r.id)" (click)="stopProp($event)"
-           (change)="handleCheckBoxChange($event, r.id)"></mat-checkbox> -->
       <mat-checkbox align="end" [checked]="room && selected && selected.includes(room.id)"
                     (change)="handleCheckBoxChange($event, room?room.id:null)" (click)="stopProp($event)"></mat-checkbox>
     </div>
