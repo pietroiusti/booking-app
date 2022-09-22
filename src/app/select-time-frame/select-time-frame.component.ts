@@ -29,10 +29,15 @@ export class SelectTimeFrameComponent implements OnInit {
                                        && this.selectedTimeEndControl.value) {
       let input: TimeFrameInput = {
         selectedDate: this.selectedDateControl.value,
-          selectedTimeStart: this.selectedTimeStartControl.value,
-          selectedTimeEnd: this.selectedTimeEndControl.value,
-        };
-        this.newBookingEvent.emit(input);
+        selectedTimeStart: this.selectedTimeStartControl.value,
+        selectedTimeEnd: this.selectedTimeEndControl.value,
+      };
+
+      this.newBookingEvent.emit(input);
+
+      this.selectedDateControl.setValue('');
+      this.selectedTimeStartControl.setValue('');
+      this.selectedTimeEndControl.setValue('');
     }
   }
 }
