@@ -145,19 +145,24 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
   }
 
   handleCheckBoxEvent(obj: {roomId: number, checked: boolean}) {
-    if (!this.selected)
+    if (!this.selected) {
+      console.log('???')
       return;
+    }
 
-    let selectedUpdated = produce(this.selected, draft => {
+    //TODO: move this logic into the selected service?
+    let selected;
+    selected = this.selected.map(x => x); // shallow copy
 
-      if (!draft.includes(obj.roomId)) {
-        draft.push(obj.roomId);
-      } else {
-        draft = draft.filter(id => id !== obj.roomId);
-      }
-    });
+    if (obj.checked === true) {
+      if (!selected.includes(obj.roomId))
+        selected.push(obj.roomId);
+    } else if (obj.checked === false) {
+      if (selected.includes(obj.roomId))
+        selected = selected.filter(id => id !== obj.roomId);
+    }
+    this.selectedService.updateSelected(selected);
 
-    this.selectedService.updateSelected(selectedUpdated);
   }
 
   multipleBook3(): void {
