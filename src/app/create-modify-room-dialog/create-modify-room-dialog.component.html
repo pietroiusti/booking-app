@@ -1,5 +1,5 @@
-<h1 *ngIf="data.type==='create'" mat-dialog-title>Create New Room</h1>
-<h1 *ngIf="data.type==='modify'" mat-dialog-title>Modify New Room</h1>
+<h1 *ngIf="!data" mat-dialog-title>Create New Room</h1>
+<h1 *ngIf="data" mat-dialog-title>Modify New Room</h1>
 
 <mat-dialog-content>
 
@@ -44,7 +44,7 @@
       <mat-checkbox formControlName="airConditioning"></mat-checkbox>
     </div>
 
-    <div *ngIf="data.type==='modify'" id="bookingsDiv">
+    <div *ngIf="data" id="bookingsDiv">
       <span class="field">Bookings:</span>
       <div id="bookingsTextAreaDiv">
         <textarea formControlName="bookings" name="bookingsInput" id="" cols="30" rows="10"></textarea>
@@ -52,8 +52,8 @@
     </div>
 
     <mat-dialog-actions align="center">
-      <button *ngIf="data.type==='create'" mat-button mat-stroked-button type="submit">Create Room</button>
-      <button *ngIf="data.type==='modify'" mat-button mat-stroked-button type="submit">Modify Room</button>
+      <button *ngIf="!data" mat-button mat-stroked-button type="submit">Create Room</button>
+      <button *ngIf="data" mat-button mat-stroked-button type="submit">Modify Room</button>
       <button mat-button mat-stroked-button mat-dialog-close>Exit</button>
     </mat-dialog-actions>
     <div *ngIf="errorGeneralMessage" id="errorGeneralMessageDiv">

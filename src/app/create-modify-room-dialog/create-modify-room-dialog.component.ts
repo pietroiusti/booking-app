@@ -35,15 +35,10 @@ export class CreateModifyRoomDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.data.type === 'create') {
-      this.rooms$.subscribe((rooms)=>{
-        this.fg.patchValue({
-          id: rooms.length+1,
-          capacity: 1,
-        });
-      });
-    } else if (this.data.type === 'modify') {
-      if(!this.data.room)
+
+
+    if (this.data) { // modify
+      if (!this.data.room)
         return;
 
       this.fg.setValue({
@@ -57,7 +52,15 @@ export class CreateModifyRoomDialogComponent implements OnInit {
         bookings: JSON.stringify(this.data.room.bookings),
       });
 
+    } else { // create
+      this.rooms$.subscribe((rooms) => {
+        this.fg.patchValue({
+          id: rooms.length + 1,
+          capacity: 1,
+        });
+      });
     }
+
   }
 
   fgSubmit() {
@@ -111,7 +114,8 @@ export class CreateModifyRoomDialogComponent implements OnInit {
 
     this.roomService.createModifyRoom(
       {
-        type: this.data.type==='create'?'create':'modify',
+        //type: this.data.type==='create'?'create':'modify',
+        type: this.data?'modify':'create',
         room: {
           id: this.fg.value.id,
           name: this.fg.value.name,

@@ -82,9 +82,6 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     const dRef = this.dialog.open(CreateModifyRoomDialogComponent, {
       height: '400px',
       width: '600px',
-      data: {
-        type: 'create',
-      }
     });
     dRef.afterClosed().subscribe(v => {
       console.log('closed');
