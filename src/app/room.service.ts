@@ -397,6 +397,32 @@ export class RoomService {
       });
   }
 
+  deleteRoom2(id: number) {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'observe': 'response',
+      })
+    };
+
+    const reqObj = {
+      val: id,
+    }
+
+    let url = this.roomsUrl + '/' + id.toString();
+    debugger
+
+    this.http.delete<any>(url, httpOptions)
+      .subscribe(res => {
+        if (res.result === 'All good') {
+          this.actionHandler.delete(id);
+          this._snackBar.open('Room Successfully Deleted!', 'Got it');
+          this.router.navigate(['/rooms']);
+        } else {
+          this._snackBar.open('Something went wrong :(', 'Okay');
+        }
+      });
+  }
+
   //todo?
   deleteRooms(arr: Number[]) {
     console.log(arr);

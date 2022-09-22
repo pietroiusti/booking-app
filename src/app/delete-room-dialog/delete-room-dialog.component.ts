@@ -20,7 +20,8 @@ export class DeleteRoomDialogComponent implements OnInit {
 
   applyChanges() {
     console.log('hello world');
-    this.roomService.deleteRoom(this.data['id']);
+    //this.roomService.deleteRoom(this.data['id']);
+    this.roomService.deleteRoom2(this.data['id']);
   }
 
 }
