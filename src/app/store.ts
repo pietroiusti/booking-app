@@ -17,7 +17,7 @@ const state: State = {
     to: '',
     capacity: '',
   },
-  selected: [],
+  selected: [], // holds the ids of the selected rooms
   lastBooking: undefined,
 };
 
