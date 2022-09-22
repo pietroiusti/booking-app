@@ -23,7 +23,7 @@
 
 
 
-  <app-room-card *ngFor="let r of filteredRooms" [room]="r"
+  <app-room-card *ngFor="let r of filteredRooms" routerLink="/rooms/{{r.id}}" [room]="r"
                  [selected]="selected" (checkboxEvent)="handleCheckBoxEvent($event)"></app-room-card>
 
 
