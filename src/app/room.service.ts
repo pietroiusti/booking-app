@@ -18,6 +18,8 @@ import { Router } from '@angular/router';
 
 import { ActionHandlerService } from './action-handler.service';
 
+import { isEqual } from 'lodash';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -252,23 +254,14 @@ export class RoomService {
 
     if (this.store.value.rooms.find(r=>r.id===room.id)) { // MODIFY/PUT
 
-      // *****************************
-      // return if nothing changed
       const currentRooms: ReadonlyArray<Room> = this.store.value.rooms;
       const roomIndex = room['id'] - 1;
       const currentRoom = currentRooms[roomIndex];
-      // ANYTHING NICER THAN THIS? IMMER?
-      if (currentRoom.name === room.name &&
-        currentRoom.capacity === room.capacity &&
-        currentRoom.display === room.display &&
-        currentRoom.whiteboard === room.whiteboard &&
-        currentRoom.airConditioning === room.airConditioning &&
-        JSON.stringify(currentRoom.bookings) === JSON.stringify(room.bookings)// lodash has a isEqual (for the all thing)
-      ) {
+
+      if (isEqual(currentRoom, room)) {
         this._snackBar.open('Nothing to update!', 'okay');
         return;
       }
-      // *****************************
 
       this.http.put<{ result: string }>(this.roomsUrl, room, httpOptions)
         .subscribe(v => {
@@ -282,7 +275,6 @@ export class RoomService {
             this._snackBar.open('Something went wrong :(', 'Got it');
           }
         });
-
 
     } else { // CREATE/POST
       const reqObj = {

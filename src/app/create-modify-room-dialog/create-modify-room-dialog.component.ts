@@ -42,12 +42,6 @@ export class CreateModifyRoomDialogComponent implements OnInit {
         return;
 
       this.fg.setValue({
-        // id: this.data.room.id,
-        // name: this.data.room.name,
-        // capacity: this.data.room.capacity,
-        // display: this.data.room.display,
-        // whiteboard: this.data.room.whiteboard,
-        // airConditioning: this.data.room.airConditioning,
         ...this.data.room,
         bookings: JSON.stringify(this.data.room.bookings),
       });
@@ -64,7 +58,6 @@ export class CreateModifyRoomDialogComponent implements OnInit {
   }
 
   fgSubmit() {
-    //debugger
     if (!this.fg.valid) {
       this.errorGeneralMessage = true;
       setTimeout(()=>this.errorGeneralMessage = false, 2000);
@@ -81,8 +74,10 @@ export class CreateModifyRoomDialogComponent implements OnInit {
       this.fg.value.bookings === undefined )
       return;
 
-    //YOU CAN BE SHORTER
-    // if (Object.values( this.fg.value ).some( (v) => v === undefined ))
+    // //CAN YOU BE SHORTER ?
+    // if (this.fg.value.id === -1)
+    //   return;
+    // if (Object.values( this.fg.value ).some( v => v === undefined ))
     //   return;
 
     this.roomService.createModifyRoom2({
