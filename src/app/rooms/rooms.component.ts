@@ -20,6 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateRoomDialogComponent } from '../create-room-dialog/create-room-dialog.component';
 import { CreateRoomDialog2Component } from '../create-room-dialog2/create-room-dialog2.component';
 import { CreateModifyRoomDialogComponent } from '../create-modify-room-dialog/create-modify-room-dialog.component';
+import produce from 'immer';
 
 @Component({
   selector: 'app-rooms',
@@ -130,15 +131,33 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
       selected = this.selected.map(x => x); // shallow copy
 
       if (obj.checked === true) {
-        if (!selected.includes(roomId)) selected.push(roomId);
+        if (!selected.includes(roomId))
+          selected.push(roomId);
       } else if (obj.checked === false) {
-        if (selected.includes(roomId)) selected = selected.filter(id => id !== roomId);
+        if (selected.includes(roomId))
+          selected = selected.filter(id => id !== roomId);
       }
       this.selectedService.updateSelected(selected);
 
     } else {
       console.log('???');
     }
+  }
+
+  handleCheckBoxEvent(obj: {roomId: number, checked: boolean}) {
+    if (!this.selected)
+      return;
+
+    let selectedUpdated = produce(this.selected, draft => {
+
+      if (!draft.includes(obj.roomId)) {
+        draft.push(obj.roomId);
+      } else {
+        draft = draft.filter(id => id !== obj.roomId);
+      }
+    });
+
+    this.selectedService.updateSelected(selectedUpdated);
   }
 
   multipleBook3(): void {

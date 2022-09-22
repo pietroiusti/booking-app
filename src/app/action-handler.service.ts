@@ -52,6 +52,7 @@ export class ActionHandlerService {
 
   setSelected(selected: number[]) {
     this.store.set('selected', selected);
+    console.log(this.store.value);
   }
 
   updateFilter(filter: Filter) {

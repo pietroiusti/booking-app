@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Room } from '../models/room';
 import { Store } from '../store';
 
@@ -13,6 +14,8 @@ export class RoomCardComponent implements OnInit {
   @Input() room: Room | null = null;
 
   @Input() selected: number[] = [];
+
+  @Output() checkboxEvent: EventEmitter<any> = new EventEmitter();
 
   test(ev: Event) {
     console.log(ev);
@@ -30,6 +33,12 @@ export class RoomCardComponent implements OnInit {
     
   }
 
-  //handleCheckBoxChange();
+  stopProp(event: Event) {
+    event.stopPropagation();
+  }
+
+  handleCheckBoxChange(obj: MatCheckboxChange, roomId: number|null){
+    this.checkboxEvent.emit({roomId, checked: obj.checked});
+  };
 
 }

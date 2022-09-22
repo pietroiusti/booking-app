@@ -24,7 +24,7 @@
 
 
   <app-room-card *ngFor="let r of filteredRooms" [room]="r"
-                 [selected]="selected"></app-room-card>
+                 [selected]="selected" (checkboxEvent)="handleCheckBoxEvent($event)"></app-room-card>
 
 
 
