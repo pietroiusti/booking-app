@@ -11,10 +11,8 @@ import { Observable, Subscription } from 'rxjs';
 import { TimeFrameInput } from '../models/time-frame-input';
 import { MatDialog } from '@angular/material/dialog';
 
-import { ModifyRoomDialogComponent } from '../modify-room-dialog/modify-room-dialog.component';
 import { DeleteRoomDialogComponent } from '../delete-room-dialog/delete-room-dialog.component';
 
-import { ModifyRoomDialog2Component } from '../modify-room-dialog2/modify-room-dialog2.component';
 import { CreateModifyRoomDialogComponent } from '../create-modify-room-dialog/create-modify-room-dialog.component';
 
 @Component({
@@ -87,51 +85,6 @@ export class
           airConditioning: this.room.airConditioning,
           bookings: this.room.bookings,
         }
-      },
-    });
-    dRef.afterClosed().subscribe(v => {
-      console.log('closed');
-    })
-  }
-
-  openDialog2() {
-    if (!this.room)
-      return;
-
-    const dRef = this.dialog.open(ModifyRoomDialog2Component, {
-      height: '400px',
-      width: '600px',
-      data: {
-        id: this.room.id,
-        name: this.room.name,
-        capacity: this.room.capacity,
-        display: this.room.display,
-        whiteboard: this.room.whiteboard,
-        airConditioning: this.room.airConditioning,
-        bookings: this.room.bookings,
-      },
-    });
-    dRef.afterClosed().subscribe(v => {
-      console.log('closed');
-    })
-  }
-
-  openDialog() {
-
-    if (!this.room)
-      return;
-
-    const dRef = this.dialog.open(ModifyRoomDialogComponent, {
-      height: '400px',
-      width: '600px',
-      data: {
-        id: this.room.id,
-        name: this.room.name,
-        capacity: this.room.capacity,
-        display: this.room.display,
-        whiteboard: this.room.whiteboard,
-        airConditioning: this.room.airConditioning,
-        bookings: this.room.bookings,
       },
     });
     dRef.afterClosed().subscribe(v => {

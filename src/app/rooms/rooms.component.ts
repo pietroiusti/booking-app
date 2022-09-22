@@ -16,8 +16,6 @@ import { Filter } from '../models/filter';
 import { RoomService } from '../room.service';
 
 import { MatDialog } from '@angular/material/dialog';
-import { CreateRoomDialogComponent } from '../create-room-dialog/create-room-dialog.component';
-import { CreateRoomDialog2Component } from '../create-room-dialog2/create-room-dialog2.component';
 import { CreateModifyRoomDialogComponent } from '../create-modify-room-dialog/create-modify-room-dialog.component';
 
 @Component({
@@ -80,19 +78,6 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     this.selectedService.reset();
   }
 
-  handleCreateRoomClick() {
-    console.log('hello world');
-
-    const dRef = this.dialog.open(CreateRoomDialogComponent, {
-      height: '400px',
-      width: '600px',
-    });
-    dRef.afterClosed().subscribe(v => {
-      console.log('closed');
-    })
-
-  }
-
   handleCreateRoomClick3() {
     const dRef = this.dialog.open(CreateModifyRoomDialogComponent, {
       height: '400px',
@@ -100,17 +85,6 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
       data: {
         type: 'create',
       }
-    });
-    dRef.afterClosed().subscribe(v => {
-      console.log('closed');
-    })
-
-  }
-
-  handleCreateRoomClick2() {
-    const dRef = this.dialog.open(CreateRoomDialog2Component, {
-      height: '400px',
-      width: '600px',
     });
     dRef.afterClosed().subscribe(v => {
       console.log('closed');

@@ -32,11 +32,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDialogModule} from '@angular/material/dialog';
-import { ModifyRoomDialogComponent } from './modify-room-dialog/modify-room-dialog.component';
-import { CreateRoomDialogComponent } from './create-room-dialog/create-room-dialog.component';
 import { DeleteRoomDialogComponent } from './delete-room-dialog/delete-room-dialog.component';
-import { ModifyRoomDialog2Component } from './modify-room-dialog2/modify-room-dialog2.component';
-import { CreateRoomDialog2Component } from './create-room-dialog2/create-room-dialog2.component';
 import { CreateModifyRoomDialogComponent } from './create-modify-room-dialog/create-modify-room-dialog.component';
 import { RoomCardComponent } from './room-card/room-card.component';
 
@@ -50,11 +46,7 @@ import { RoomCardComponent } from './room-card/room-card.component';
     RoomCurrentBookingsComponent,
     SelectTimeFrameComponent,
     RoomFilterComponent,
-    ModifyRoomDialogComponent,
-    CreateRoomDialogComponent,
     DeleteRoomDialogComponent,
-    ModifyRoomDialog2Component,
-    CreateRoomDialog2Component,
     CreateModifyRoomDialogComponent,
     RoomCardComponent,
   ],
