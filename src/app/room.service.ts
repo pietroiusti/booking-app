@@ -409,7 +409,6 @@ export class RoomService {
     }
 
     let url = this.roomsUrl + '/' + id.toString();
-    debugger
 
     this.http.delete<any>(url, httpOptions)
       .subscribe(res => {

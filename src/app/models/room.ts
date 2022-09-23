@@ -1,11 +1,11 @@
 import { Booking } from "./booking";
 
 export interface Room {
-  id: number;
-  name: string,
-  display: boolean,
-  whiteboard: boolean,
-  airConditioning: boolean,
-  capacity: number,
-  bookings: Booking[];
+  readonly id: number;
+  readonly name: string,
+  readonly display: boolean,
+  readonly whiteboard: boolean,
+  readonly airConditioning: boolean,
+  readonly capacity: number,
+  readonly bookings: Booking[];
 }
