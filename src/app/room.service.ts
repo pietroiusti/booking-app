@@ -253,7 +253,7 @@ export class RoomService {
     };
 
     const currentRoom = this.store.value.rooms.find(r => r.id === room.id);
-
+    //debugger
     if (currentRoom) {
 
       if (isEqual(currentRoom, room)) {

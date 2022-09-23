@@ -17,9 +17,9 @@ export class CreateModifyRoomDialogComponent implements OnInit {
   rooms$: Observable<Room[]> = this.store.select<Room[]>('rooms');
 
   fg = this.fb.nonNullable.group({
-    id: [-1],
-    name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
-    capacity: [-1, [Validators.required, Validators.max(40), Validators.min(1)]],
+    // id: [-1],
+    name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+    capacity: [1, [Validators.required, Validators.max(40), Validators.min(1)]],
     display: [false],
     whiteboard: [false],
     airConditioning: [false],
@@ -35,26 +35,19 @@ export class CreateModifyRoomDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-
-    if (this.data) { // modify
-      if (!this.data.room)
-        return;
-
+    if (this.data.room) { // we are receiving the current data of a
+                          // room to modify from the
+                          // room-detail.component
       this.fg.setValue({
-        ...this.data.room,
+        //...this.data.room,
+        name: this.data.room.name,
+        capacity: this.data.room.capacity,
+        display: this.data.room.display,
+        whiteboard: this.data.room.whiteboard,
+        airConditioning: this.data.room.airConditioning,
         bookings: JSON.stringify(this.data.room.bookings),
       });
-
-    } else { // create
-      this.rooms$.subscribe((rooms) => {
-        this.fg.patchValue({
-          id: rooms.length + 1,
-          capacity: 1,
-        });
-      });
     }
-
   }
 
   fgSubmit() {
@@ -64,8 +57,8 @@ export class CreateModifyRoomDialogComponent implements OnInit {
       return;
     }
 
-    if (this.fg.value.id === -1 ||
-      this.fg.value.id === undefined ||
+    if (//this.fg.value.id === -1 ||
+      //this.fg.value.id === undefined ||
       this.fg.value.name === undefined ||
       this.fg.value.display === undefined ||
       this.fg.value.whiteboard === undefined ||
@@ -81,7 +74,9 @@ export class CreateModifyRoomDialogComponent implements OnInit {
     //   return;
 
     this.roomService.createModifyRoom2({
-      id: this.fg.value.id,
+      //id: this.fg.value.id,
+      //id: -1,
+      id: this.data?.room?this.data.room.id:-1,
       name: this.fg.value.name,
       display: this.fg.value.display,
       whiteboard: this.fg.value.whiteboard,
