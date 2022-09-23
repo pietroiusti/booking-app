@@ -2,7 +2,6 @@
 <h1 *ngIf="data" mat-dialog-title>Modify New Room</h1>
 
 <mat-dialog-content>
-
   <form [formGroup]="fg" (ngSubmit)="fgSubmit()">
     <!-- <div> -->
     <!--   <span class="field">id:</span> -->
@@ -51,11 +50,10 @@
       </div>
     </div>
 
-    <mat-dialog-actions align="center">
+
       <button *ngIf="!data" mat-button mat-stroked-button type="submit">Create Room</button>
       <button *ngIf="data" mat-button mat-stroked-button type="submit">Modify Room</button>
       <button mat-button mat-stroked-button mat-dialog-close>Exit</button>
-    </mat-dialog-actions>
     <div *ngIf="errorGeneralMessage" id="errorGeneralMessageDiv">
       <span>Something is wrong with your input. Look for errors above!</span>
     </div>
@@ -64,7 +62,8 @@
     <!--   <span>Something is wrong with your input. Look for errors above!</span> -->
     <!-- </div> -->
   </form>
-
-
-
 </mat-dialog-content>
+
+<!-- <mat-dialog-actions align="center">
+  <button>test...</button>
+</mat-dialog-actions> -->
