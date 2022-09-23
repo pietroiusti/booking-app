@@ -50,10 +50,11 @@ export class Store {
   // ex: store.set('todos', [{...}, {...}])
   set(name: string, state: any): void {
 
-    let updated = produce(this.value, draft => {
-      draft[name] = state;
-    });
+    // let updated = produce(this.value, draft => {
+    //   draft[name] = state;
+    // });
+    // no need to use produce here, right?
 
-    this.subject.next(updated);
+    this.subject.next({...this.value, [name]: state});
   }
 }
