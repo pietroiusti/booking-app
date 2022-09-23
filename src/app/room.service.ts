@@ -254,10 +254,6 @@ export class RoomService {
 
     const currentRoom = this.store.value.rooms.find(r => r.id === room.id);
 
-    //if (this.store.value.rooms.find(r=>r.id===room.id)) { // MODIFY/PUT
-      // const currentRooms: ReadonlyArray<Room> = this.store.value.rooms;
-      // const roomIndex = room['id'] - 1;
-      // const currentRoom = currentRooms[roomIndex];
     if (currentRoom) {
 
       if (isEqual(currentRoom, room)) {
@@ -279,12 +275,13 @@ export class RoomService {
         });
 
     } else { // CREATE/POST
-      const reqObj = {
-        type: 'create2',
-        val: room,
-      };
 
-      this.http.post<any>(this.roomsUrl, reqObj, httpOptions)
+      // const reqObj = {
+      //   type: 'create2',
+      //   val: room,
+      // };
+
+      this.http.post<any>(this.roomsUrl, room, httpOptions)
         .subscribe(res => {
           console.log(res);
 
@@ -345,34 +342,6 @@ export class RoomService {
           this._snackBar.open('Something went wrong :(', 'Got it');
         }
       });
-  }
-
-  createRoom2(room: Room): void {
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'observe': 'response',
-      })
-    };
-
-    const reqObj = {
-      type: 'create2',
-      val: room,
-    }
-
-    this.http.post<any>(this.roomsUrl, reqObj, httpOptions)
-      .subscribe(res => {
-        console.log(res);
-
-        if (res.result == 'All good') {
-          let newRoom: Room = res.room;
-
-          this.actionHandler.create(newRoom);
-
-          this._snackBar.open('Room successfully created!', 'Okay');
-        } else {
-          console.log('something wrong...');
-        }
-      })
   }
 
   deleteRoom(id: number) {
