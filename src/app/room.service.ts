@@ -276,11 +276,6 @@ export class RoomService {
 
     } else { // CREATE/POST
 
-      // const reqObj = {
-      //   type: 'create2',
-      //   val: room,
-      // };
-
       this.http.post<any>(this.roomsUrl, room, httpOptions)
         .subscribe(res => {
           console.log(res);
@@ -296,76 +291,6 @@ export class RoomService {
           }
         });
     }
-  }
-
-  modifyRoom(updatedRoom: Room) {
-    const currentRooms: ReadonlyArray<Room> = this.store.value.rooms;
-    const roomIndex = updatedRoom['id'] - 1;
-    const currentRoom = currentRooms[roomIndex];
-
-    if ( currentRoom.name === updatedRoom.name &&
-      currentRoom.capacity === updatedRoom.capacity &&
-      currentRoom.display === updatedRoom.display &&
-      currentRoom.whiteboard === updatedRoom.whiteboard &&
-      currentRoom.airConditioning === updatedRoom.airConditioning &&
-      JSON.stringify(currentRoom.bookings) === JSON.stringify(updatedRoom.bookings)
-       )
-    {
-      this._snackBar.open('Nothing to update!', 'okay');
-      return;
-    }
-
-    const updatedRooms = produce(currentRooms, draft => {
-      const room = draft[roomIndex];
-      room.name = updatedRoom.name;
-      room.capacity = updatedRoom.capacity;
-      room.display = updatedRoom.display;
-      room.whiteboard = updatedRoom.whiteboard;
-      room.airConditioning = updatedRoom.airConditioning;
-      room.bookings = updatedRoom.bookings;
-    });
-
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'observe': 'response',
-      })
-    };
-    this.http.put<{ result: string }>(this.roomsUrl, updatedRooms[roomIndex], httpOptions)
-      .subscribe(v => {
-        console.log(v);
-        if (v.result === 'All good') {
-          console.log('All good :)');
-          this._snackBar.open('Room successfully modified :)', 'Got it');
-          this.actionHandler.setRooms(updatedRooms);
-        } else {
-          console.log('Something went wrong :(');
-          this._snackBar.open('Something went wrong :(', 'Got it');
-        }
-      });
-  }
-
-  deleteRoom(id: number) {
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'observe': 'response',
-      })
-    };
-
-    const reqObj = {
-      type: 'delete',
-      val: id,
-    }
-
-    this.http.post<any>(this.roomsUrl, reqObj, httpOptions)
-      .subscribe(res => {
-        if (res.result === 'All good') {
-          this.actionHandler.delete(id);
-          this._snackBar.open('Room Successfully Deleted!', 'Got it');
-          this.router.navigate(['/rooms']);
-        } else {
-          this._snackBar.open('Something went wrong :(', 'Okay');
-        }
-      });
   }
 
   deleteRoom2(id: number) {
