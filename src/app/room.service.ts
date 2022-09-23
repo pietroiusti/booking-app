@@ -252,11 +252,13 @@ export class RoomService {
       })
     };
 
-    if (this.store.value.rooms.find(r=>r.id===room.id)) { // MODIFY/PUT
+    const currentRoom = this.store.value.rooms.find(r => r.id === room.id);
 
-      const currentRooms: ReadonlyArray<Room> = this.store.value.rooms;
-      const roomIndex = room['id'] - 1;
-      const currentRoom = currentRooms[roomIndex];
+    //if (this.store.value.rooms.find(r=>r.id===room.id)) { // MODIFY/PUT
+      // const currentRooms: ReadonlyArray<Room> = this.store.value.rooms;
+      // const roomIndex = room['id'] - 1;
+      // const currentRoom = currentRooms[roomIndex];
+    if (currentRoom) {
 
       if (isEqual(currentRoom, room)) {
         this._snackBar.open('Nothing to update!', 'okay');
