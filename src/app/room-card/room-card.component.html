@@ -1,36 +1,36 @@
-<mat-card routerLink="/rooms/{{room?room.id:null}}">
+<mat-card routerLink="/rooms/{{_room?_room.id:null}}">
 
     <div class="matHeader">
-      <mat-checkbox align="end" [checked]="room && selected && selected.includes(room.id)"
-                    (change)="handleCheckBoxChange($event, room?room.id:null)" (click)="stopProp($event)"></mat-checkbox>
+      <mat-checkbox align="end" [checked]="_room && selected && selected.includes(_room.id)"
+                    (change)="handleCheckBoxChange($event, _room?_room.id:null)" (click)="stopProp($event)"></mat-checkbox>
     </div>
 
   <mat-card-title>
-    Room {{ room?.id }} -- {{ room?.name }}
+    Room {{ _room?.id }} -- {{ _room?.name }}
   </mat-card-title>
 
-  <mat-card-subtitle *ngIf="room">
-    <span *ngIf="room.capacity<=4" class="room-feature-icon">
+  <mat-card-subtitle *ngIf="_room">
+    <span *ngIf="_room.capacity<=4" class="_room-feature-icon">
         <i class="bi bi-person"></i>
     </span>
     
-    <span *ngIf="room.capacity > 4 && room.capacity < 10" class="room-feature-icon">
+    <span *ngIf="_room.capacity > 4 && _room.capacity < 10" class="room-feature-icon">
         <i class="bi bi-person"></i>
         <i class="bi bi-person"></i>
     </span>
-    <span *ngIf="room.capacity >= 10" class="room-feature-icon">
+    <span *ngIf="_room.capacity >= 10" class="room-feature-icon">
         <i class="bi bi-person"></i>
         <i class="bi bi-person"></i>
         <i class="bi bi-person"></i>
     </span>
     
-    <span class="room-feature-icon" *ngIf="room.airConditioning">
+    <span class="room-feature-icon" *ngIf="_room.airConditioning">
         <i class="bi bi-snow"></i>
     </span>
-    <span class="room-feature-icon" *ngIf="room.whiteboard">
+    <span class="room-feature-icon" *ngIf="_room.whiteboard">
         <i class="bi bi-easel"></i>
     </span>
-    <span class="room-feature-icon" *ngIf="room.display">
+    <span class="room-feature-icon" *ngIf="_room.display">
         <i class="bi bi-display"></i>
     </span>
   </mat-card-subtitle>

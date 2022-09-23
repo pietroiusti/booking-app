@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, EventEmitter, Output, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Room } from '../models/room';
 import { Store } from '../store';
@@ -9,9 +9,14 @@ import { Store } from '../store';
   styleUrls: ['./room-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoomCardComponent implements OnInit {
+export class RoomCardComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() room: Room | null = null;
+  _room: Room | null = null;
+
+  @Input() set room(value: Room){
+    this._room = value;
+    console.log('set room', this._room.id);
+  }
 
   @Input() selected: number[] = [];
 
@@ -31,6 +36,14 @@ export class RoomCardComponent implements OnInit {
 
   ngOnInit(): void {
     
+  }
+
+  ngOnDestroy(): void {
+    console.log('ngOnDestroy', this._room?.id);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+        console.log('ngOnChanges', this._room?.id);
   }
 
   stopProp(event: Event) {
