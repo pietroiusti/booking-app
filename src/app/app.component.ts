@@ -1,6 +1,8 @@
 import { Component, OnDestroy, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
+import { CounterStateService } from './test-store2.service'
+
 import { RoomService } from './room.service';
 
 @Component({
@@ -14,11 +16,17 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private roomService: RoomService,
+    private counterService: CounterStateService,
   ) { }
 
   ngAfterViewInit(): void {
     console.log('app component after init');
     this.subscription = this.roomService.getRooms$.subscribe();
+
+    this.counterService.increment();
+    this.counterService.increment();
+    this.counterService.increment();
+    this.counterService.log();
   }
 
   ngOnDestroy(): void {
