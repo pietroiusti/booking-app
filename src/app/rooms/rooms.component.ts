@@ -19,6 +19,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateModifyRoomDialogComponent } from '../create-modify-room-dialog/create-modify-room-dialog.component';
 import { ProtectedTestsService } from '../protected-tests.service';
 
+import { StateService4Service } from '../state-service4.service';
+
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -35,7 +37,8 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
   filteredRoomsSubscription: Subscription | null = null;
 
   selected: number[] = [];
-  selected$: Observable<number[]> = this.store.select<number[]>('selected');
+  //selected$: Observable<number[]> = this.store.select<number[]>('selected');
+  selected$: Observable<number[]> = this.stateService4Service.selected$;
   selectedSubscription: Subscription | null = null;
 
   constructor(
@@ -47,6 +50,7 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     private roomService: RoomService,
     private dialog: MatDialog,
     private protectedTestsService: ProtectedTestsService,
+    private stateService4Service: StateService4Service
   ) { }
 
   ngAfterViewInit(): void {
@@ -61,9 +65,11 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
 
     this.selectedSubscription = this.selected$.subscribe(selected => this.selected = selected);
 
-    this.filterSubscription = this.store.select<Filter>('filter').subscribe(filter => this.filter = filter);
-  
-    debugger;
+    //this.filterSubscription = this.store.select<Filter>('filter').subscribe(filter => this.filter = filter);
+    this.filterSubscription = this.stateService4Service.filter$.subscribe(filter => this.filter = filter);
+
+
+    //debugger;
     this.protectedTestsService.log();
     const filter3$: Observable<Filter> = this.protectedTestsService.filter3$;
     filter3$.subscribe(v => console.log(v));

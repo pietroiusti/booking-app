@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteRoomDialogComponent } from '../delete-room-dialog/delete-room-dialog.component';
 
 import { CreateModifyRoomDialogComponent } from '../create-modify-room-dialog/create-modify-room-dialog.component';
+import { StateService4Service } from '../state-service4.service';
 
 @Component({
   selector: 'app-room-detail',
@@ -35,12 +36,14 @@ export class
     private location: Location,
     private store: Store,
     public dialog: MatDialog,
+    private stateService4Service: StateService4Service,
   ) {}
 
   ngOnInit(): void {
     this.id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
 
-    this.room$ = this.store.select_room(this.id);
+    //this.room$ = this.store.select_room(this.id);
+    this.room$ = this.stateService4Service.select_room(this.id);
     this.subscription = this.room$.subscribe(room => {
       console.log('room$ observer');
       this.room = room;

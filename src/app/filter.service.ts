@@ -11,20 +11,24 @@ import { Booking } from './models/booking';
 import produce from 'immer';
 
 import { ActionHandlerService } from './action-handler.service';
+import { StateService4Service } from './state-service4.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FilterService {
-  rooms$: Observable<Room[]> = this.store.select<Room[]>('rooms');
+  //rooms$: Observable<Room[]> = this.store.select<Room[]>('rooms');
+  rooms$: Observable<Room[]> = this.stateService4Service.rooms$;
 
   filter: Filter | null = null;
-  filter$: Observable<Filter> = this.store.select<Filter>('filter');
+  //filter$: Observable<Filter> = this.store.select<Filter>('filter');
+  filter$: Observable<Filter> = this.stateService4Service.filter$;
 
   constructor(
     private store: Store,
     private roomService: RoomService,
     private actionHandler: ActionHandlerService,
+    private stateService4Service: StateService4Service,
     ) {
 
       this.filter$.subscribe(filter => {
@@ -45,7 +49,8 @@ export class FilterService {
         to: '',
       };
 
-      this.actionHandler.updateFilter(filter);
+      //this.actionHandler.updateFilter(filter);
+      this.stateService4Service.updateFilter(filter);
     }
 
     filterRooms(rooms: Room[], filter: Filter): Room[] {
@@ -91,9 +96,11 @@ export class FilterService {
           draft[options.type] = options.value;
       });
 
-      this.actionHandler.resetSelected();
+      //this.actionHandler.resetSelected();
+      this.stateService4Service.resetSelected();
 
-      this.actionHandler.updateFilter(updatedFilter);
+      //this.actionHandler.updateFilter(updatedFilter);
+      this.stateService4Service.updateFilter(updatedFilter);
     }
 
     getFilteredRoomsObsv2(): Observable<Room[]> {

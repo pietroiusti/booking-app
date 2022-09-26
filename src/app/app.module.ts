@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 //import { InMemoryDataService } from './in-memory-data.service';
 
 import { Store } from './store';
+import { Store4 } from './store4';
 
 // components
 import { AppComponent } from './app.component';
@@ -74,6 +75,7 @@ import { RoomCardComponent } from './room-card/room-card.component';
   ],
   providers: [
     Store,
+    Store4,
   ],
   bootstrap: [AppComponent]
 })

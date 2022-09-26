@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { ActionHandlerService } from './action-handler.service';
 
 import { isEqual } from 'lodash';
+import { StateService4Service } from './state-service4.service';
 
 @Injectable({
   providedIn: 'root'
@@ -35,12 +36,14 @@ export class RoomService {
     private store: Store,
     private _snackBar: MatSnackBar,
     private router: Router,
-    private actionHandler: ActionHandlerService
+    private actionHandler: ActionHandlerService,
+    private stateService4Service: StateService4Service,
   ) {}
 
   getRooms$: Observable<Room[]> = this.http.get<Room[]>(this.roomsUrl)
     .pipe(
-      tap(next => this.actionHandler.setRooms(next))
+      //tap(next => this.actionHandler.setRooms(next))
+      tap(next => this.stateService4Service.setRooms(next))
     );
 
   book3(room: Room, start: number, end: number): Observable<any> | null {
@@ -69,7 +72,8 @@ export class RoomService {
             if (v.result === `All good`) {
               setTimeout(() => {
                 this._snackBar.open('Success! :)', 'Got it');
-                this.actionHandler.modify(updatedRoom);
+                //this.actionHandler.modify(updatedRoom);
+                this.stateService4Service.modify(updatedRoom);
               }, 2000);
             } else {
               setTimeout(() => {
@@ -129,7 +133,8 @@ export class RoomService {
         if (v.every(o => o.result === 'All good')) {
           this._snackBar.open('All good! :)', 'Got it');
           for (let r of updatedRooms) {
-            this.actionHandler.modify(r);
+            //this.actionHandler.modify(r);
+            this.stateService4Service.modify(r);
           }
         } else {
           const nonUpdatedRooms = v.filter(r => r.result !== 'All good');
@@ -252,7 +257,8 @@ export class RoomService {
       })
     };
 
-    const currentRoom = this.store.value.rooms.find(r => r.id === room.id);
+    //const currentRoom = this.store.value.rooms.find(r => r.id === room.id);
+    const currentRoom = this.stateService4Service.currentValue().rooms.find((r: Room) => r.id === room.id);
     //debugger
     if (currentRoom) {
 
@@ -267,7 +273,8 @@ export class RoomService {
           if (v.result === 'All good') {
             console.log('All good :)');
             this._snackBar.open('Room successfully modified :)', 'Got it');
-            this.actionHandler.modify(room);
+            //this.actionHandler.modify(room);
+            this.stateService4Service.modify(room);
           } else {
             console.log('Something went wrong :(');
             this._snackBar.open('Something went wrong :(', 'Got it');
@@ -283,7 +290,8 @@ export class RoomService {
           if (res.result == 'All good') {
             let newRoom: Room = res.room;
 
-            this.actionHandler.create(newRoom);
+            //this.actionHandler.create(newRoom);
+            this.stateService4Service.create(newRoom);
 
             this._snackBar.open('Room successfully created!', 'Okay');
           } else {
@@ -309,7 +317,8 @@ export class RoomService {
     this.http.delete<any>(url, httpOptions)
       .subscribe(res => {
         if (res.result === 'All good') {
-          this.actionHandler.delete(id);
+          //this.actionHandler.delete(id);
+          this.stateService4Service.delete(id);
           this._snackBar.open('Room Successfully Deleted!', 'Got it');
           this.router.navigate(['/rooms']);
         } else {
@@ -319,6 +328,7 @@ export class RoomService {
   }
 
   //todo?
+  
   deleteRooms(arr: Number[]) {
     console.log(arr);
 
@@ -332,5 +342,6 @@ export class RoomService {
 
     });
 
-  }
+    }
+  
 }
