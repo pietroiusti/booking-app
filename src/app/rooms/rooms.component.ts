@@ -17,6 +17,7 @@ import { RoomService } from '../room.service';
 
 import { MatDialog } from '@angular/material/dialog';
 import { CreateModifyRoomDialogComponent } from '../create-modify-room-dialog/create-modify-room-dialog.component';
+import { ProtectedTestsService } from '../protected-tests.service';
 
 @Component({
   selector: 'app-rooms',
@@ -45,6 +46,7 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     private selectedService: SelectedService,
     private roomService: RoomService,
     private dialog: MatDialog,
+    private protectedTestsService: ProtectedTestsService,
   ) { }
 
   ngAfterViewInit(): void {
@@ -60,6 +62,14 @@ export class RoomsComponent implements OnDestroy, AfterViewInit, OnInit {
     this.selectedSubscription = this.selected$.subscribe(selected => this.selected = selected);
 
     this.filterSubscription = this.store.select<Filter>('filter').subscribe(filter => this.filter = filter);
+  
+    debugger;
+    this.protectedTestsService.log();
+    const filter3$: Observable<Filter> = this.protectedTestsService.filter3$;
+    filter3$.subscribe(v => console.log(v));
+
+    const selected3$: Observable<number[]> = this.protectedTestsService.selected3$;
+    selected3$.subscribe(v => console.log(v));
   }
 
   ngOnDestroy(): void {

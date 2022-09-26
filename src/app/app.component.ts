@@ -2,6 +2,7 @@ import { Component, OnDestroy, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { CounterStateService } from './test-store2.service'
+import { ProtectedTestsService } from './protected-tests.service'
 
 import { RoomService } from './room.service';
 
@@ -17,6 +18,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   constructor(
     private roomService: RoomService,
     private counterService: CounterStateService,
+    private protectedTestService: ProtectedTestsService,
   ) { }
 
   ngAfterViewInit(): void {
@@ -27,6 +29,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     this.counterService.increment();
     this.counterService.increment();
     this.counterService.log();
+
+    this.protectedTestService.changeFilter();
+    this.protectedTestService.log();
   }
 
   ngOnDestroy(): void {
